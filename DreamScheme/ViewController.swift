@@ -13,6 +13,7 @@ import REFrostedViewController
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
+    @IBOutlet weak var myButton: UIButton!
     
     var hometitles:[String] = ["英語を勉強してナンパできるようになる"
         ,"PHPマスター"
@@ -25,11 +26,17 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //fontawesomeをボタンに使う
+        myButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
+        myButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
+        myButton.setTitleColor(UIColor.blue, for: .normal)
+        myButton.backgroundColor = UIColor.white
     }
+    //行数の決定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return hometitles.count;
     }
-    
+    //セルに表示する文字列の決定
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = homeTableView.dequeueReusableCell(withIdentifier: "homeCell", for: indexPath) as! HomeTableViewCell
         
