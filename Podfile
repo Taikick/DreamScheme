@@ -8,6 +8,8 @@ target 'DreamScheme' do
 
   pod 'FontAwesome.swift','~> 1.2.0'
   pod 'Charts','3.0.3'
+pod 'REFrostedViewController', '~> 2.4'
+
   # Pods for DreamScheme
 
   target 'DreamSchemeTests' do
