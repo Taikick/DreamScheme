@@ -11,13 +11,31 @@ import Charts
 import FontAwesome_swift
 import REFrostedViewController
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
     
+    var hometitles:[String] = ["英語を勉強してナンパできるようになる"
+        ,"PHPマスター"
+        ,"swiftマスター"]
+    var homeTime:[String] = [
+    "2017.12.24-2018.12.24"
+    ,"2017.12.24 - 2018.3.9"
+    ,"2017"]
+    @IBOutlet weak var homeTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return hometitles.count;
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = homeTableView.dequeueReusableCell(withIdentifier: "homeCell", for: indexPath) as! HomeTableViewCell
+        
+        cell.tasksLabel.text = hometitles[indexPath.row]
+        cell.dateLabel.text = homeTime[indexPath.row]
+        return cell
     }
 
     override func didReceiveMemoryWarning() {
