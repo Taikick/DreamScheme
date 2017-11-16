@@ -14,15 +14,18 @@ import REFrostedViewController
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
     @IBOutlet weak var myButton: UIButton!
-    
     var hometitles:[String] = ["英語を勉強してナンパできるようになる"
         ,"PHPマスター"
-        ,"swiftマスター"]
+        ,"swiftマスター"
+    ]
     var homeTime:[String] = [
-    "2017.12.24-2018.12.24"
-    ,"2017.12.24 - 2018.3.9"
-    ,"2017"]
+        "2017.12.24-2018.12.24"
+        ,"2017.12.24 - 2018.3.9"
+        ,"2017"
+    ]
     @IBOutlet weak var homeTableView: UITableView!
+    
+    @IBOutlet weak var myBarButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +34,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         myButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
         myButton.setTitleColor(UIColor.blue, for: .normal)
         myButton.backgroundColor = UIColor.white
+        //バーボタンの文字列決定
+        myBarButton.title = "タスク開始"
+        
     }
     //行数の決定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,6 +51,21 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         return cell
     }
 
+    //ぼたんが押された時の処理
+    @IBAction func tapButton(_ sender: UIButton) {
+        hometitles.append("hoge")
+        homeTime.append("hoge")
+    }
+    
+    //ストップウォッチボタンが押された時の処理
+    @IBAction func tapWatch(_ sender: Any) {
+        if myBarButton.title == "タスク開始" {
+           myBarButton.title = "タスク終了"
+        } else {
+           myBarButton.title = "タスク開始"
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
