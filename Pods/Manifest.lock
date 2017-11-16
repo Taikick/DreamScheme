@@ -1,0 +1,17 @@
+PODS:
+  - Charts (3.0.3):
+    - Charts/Core (= 3.0.3)
+  - Charts/Core (3.0.3)
+  - FontAwesome.swift (1.2.0)
+
+DEPENDENCIES:
+  - Charts (= 3.0.3)
+  - FontAwesome.swift (~> 1.2.0)
+
+SPEC CHECKSUMS:
+  Charts: bcde37724c161958c1438dd4883971fcb2d50c06
+  FontAwesome.swift: 60063e3f19ba4801155d4b0f2334ab7585763ab3
+
+PODFILE CHECKSUM: 32cca194076b0accedd8bca951470c86a51e68fd
+
+COCOAPODS: 1.3.1
