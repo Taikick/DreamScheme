@@ -13,7 +13,7 @@ import REFrostedViewController
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
-//    @IBOutlet weak var cellBarChart: UIView!
+    
     @IBOutlet weak var myButton: UIButton!
     
     var hometitles:[String] = ["英語を勉強してナンパできるようになる"
@@ -25,6 +25,11 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         "2017.12.24-2018.12.24"
         ,"2017.12.24 - 2018.3.9"
         ,"2017"
+    ]
+    //チャートのデータ
+    var homeChartData = ["hogehoge"
+        ,"fugafuga"
+        ,"mogemoge"
     ]
     @IBOutlet weak var homeTableView: UITableView!
     
@@ -40,16 +45,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         //バーボタンの文字列決定
         myBarButton.title = "タスク開始"
         
-//        var rect = view.bounds
-//        rect.origin.y += 2
-//        rect.size.height -= 2
-//        let chartView = HorizontalBarChartView(frame: rect)
-//        let entry = [
-//            BarChartDataEntry(x: 1, y: 2)
-//        ]
-//        let set = BarChartDataSet(values: entry, label: "Data")
-//        chartView.data = BarChartData(dataSet: set)
-//        view.addSubview(chartView)
+
     }
 
     
@@ -76,7 +72,6 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         cell.tasksLabel.text = hometitles[indexPath.row]
         cell.dateLabel.text = homeTime[indexPath.row]
         return cell
-        
     }
     
     //セルが押された時発動
@@ -124,4 +119,3 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 
 
 }
-

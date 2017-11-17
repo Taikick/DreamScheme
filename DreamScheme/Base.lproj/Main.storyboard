@@ -26,11 +26,11 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationLevel="21" indentationWidth="10" reuseIdentifier="homeCell" id="Q3y-Qz-Pdj" customClass="HomeTableViewCell" customModule="DreamScheme" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationLevel="38" indentationWidth="10" reuseIdentifier="homeCell" id="Q3y-Qz-Pdj" customClass="HomeTableViewCell" customModule="DreamScheme" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="92"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Q3y-Qz-Pdj" id="X2Z-ag-jBk">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="91"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="91.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ur6-gM-Oji">
@@ -47,16 +47,16 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r5r-qb-qKc">
-                                                    <rect key="frame" x="0.0" y="23" width="414" height="44"/>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XNM-Fx-PH0" customClass="BarChartView" customModule="Charts">
+                                                    <rect key="frame" x="20" y="73" width="386" height="55"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="BarChrats" destination="XNM-Fx-PH0" id="Vz1-d6-ocV"/>
                                             <outlet property="dateLabel" destination="Rfg-bB-1za" id="i24-Zi-T0j"/>
-                                            <outlet property="homeBarCharts" destination="r5r-qb-qKc" id="ifC-z3-s2t"/>
                                             <outlet property="tasksLabel" destination="Ur6-gM-Oji" id="wMU-sK-XpE"/>
                                         </connections>
                                     </tableViewCell>
@@ -103,7 +103,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1075.3623188405797" y="136.95652173913044"/>
+            <point key="canvasLocation" x="1421.7391304347827" y="-135.32608695652175"/>
         </scene>
     </scenes>
 </document>

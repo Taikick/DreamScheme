@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import Charts
 
 class HomeTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var homeBarCharts: UIView!
+    
+    
+    @IBOutlet weak var BarChrats: BarChartView!
     @IBOutlet weak var tasksLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
