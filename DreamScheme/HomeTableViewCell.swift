@@ -10,6 +10,7 @@ import UIKit
 
 class HomeTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var homeBarCharts: UIView!
     @IBOutlet weak var tasksLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
