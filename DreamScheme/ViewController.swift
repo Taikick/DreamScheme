@@ -16,7 +16,19 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     @IBOutlet weak var myButton: UIButton!
     
-    var hometitles:[String] = ["英語を勉強してナンパできるようになる"
+    var entry = [
+        [BarChartDataEntry(x: 1.0, y: 3.0)],
+        [BarChartDataEntry(x: 1.0, y: 3.0)],
+        [BarChartDataEntry(x: 1.0, y: 100.0)]
+    ]
+//    var entry = [
+//        BarChartDataEntry(x: 1, y: 30),
+//        BarChartDataEntry(x: 2, y: 20),
+//        BarChartDataEntry(x: 3, y: 40)
+//    ]
+//    
+    var hometitles:[String] = [
+        "英語を勉強してナンパできるようになる"
         ,"PHPマスター"
         ,"swiftマスター"
     ]
@@ -27,9 +39,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         ,"2017"
     ]
     //チャートのデータ
-    var homeChartData = ["hogehoge"
-        ,"fugafuga"
-        ,"mogemoge"
+    var homeChartData = ["hogehoge",
     ]
     @IBOutlet weak var homeTableView: UITableView!
     
@@ -71,6 +81,29 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         
         cell.tasksLabel.text = hometitles[indexPath.row]
         cell.dateLabel.text = homeTime[indexPath.row]
+        
+        
+        var rect = cell.BarChrats.bounds
+        rect.origin.y += 4
+        rect.size.height -= 4
+        let chartView = HorizontalBarChartView(frame: rect)
+        let set = BarChartDataSet(values: entry[indexPath.row], label: "タスク時間")
+        chartView.data = BarChartData(dataSet: set)
+        chartView.drawBordersEnabled = false
+        chartView.minOffset = CGFloat(10.0)
+        chartView.sizeToFit()
+        //x軸の設
+        chartView.xAxis.drawGridLinesEnabled = false
+        chartView.xAxis.forceLabelsEnabled = false
+        chartView.xAxis.drawLabelsEnabled = false
+//        chartView.xAxis.labelCount = 100
+//        chartView.xAxis.axisMinimum = 1
+        //y軸の設定
+        chartView.leftAxis.axisMinimum = 0
+        chartView.rightAxis.axisMaximum = 100
+        set.formLineWidth = 3
+        set.formSize = 10
+        cell.BarChrats.addSubview(chartView)
         return cell
     }
     
