@@ -13,6 +13,7 @@ import REFrostedViewController
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
+    var selectedIndex = -1
     
     @IBOutlet weak var myButton: UIButton!
     
@@ -111,26 +112,26 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(indexPath.row)が行目")
         //セグウェを使って移動する時に値を渡す
-//        selectedIndex = indexPath.row
+        selectedIndex = indexPath.row
         //選択された行番号をほぞん
         
         //セグエに名前を指定して画面遷移処理を発動
-//        performSegue(withIdentifier: "showDetail", sender: nil)
+        performSegue(withIdentifier: "showEdit", sender: nil)
     }
     
     
     //セグエを使って画面遷移している時発動
-    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //次の画面のインスタンス(オブジェクト)を取得
         //as!DetailViewControllerがダウンキャスト変換している箇所
-        let dvc: DetailViewController =
+        let toEdit: editViewController =
             segue.destination
-                as!DetailViewController
+                as!editViewController
         
         //次の画面のプロパティ（メンバ変数）passedIndexに選択された行番号を渡す
-        dvc.passedIndex = selectedIndex
+        toEdit.passedIndex = selectedIndex
         
-    }*/
+    }
 
     //ストップウォッチボタンが押された時の処理
     @IBAction func tapWatch(_ sender: Any) {
