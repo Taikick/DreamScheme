@@ -12,13 +12,16 @@ import SlideMenuControllerSwift
 class SlideViewController: SlideMenuController {
 
     override func awakeFromNib() {
-        let mainVC = storyboard?.instantiateViewController(withIdentifier: "Main")
-        let leftVC = storyboard?.instantiateViewController(withIdentifier: "Left")
-        //UIViewControllerにはNavigationBarは無いためUINavigationControllerを生成しています。
-        let navigationController = UINavigationController(rootViewController: mainVC!)
-        //ライブラリ特有のプロパティにセット
-        mainViewController = navigationController
-        leftViewController = leftVC
+        if let controller = self.storyboard?.instantiateViewController(withIdentifier: "Main") {
+            self.mainViewController = controller
+        }
+        if let controller = self.storyboard?.instantiateViewController(withIdentifier: "Left") {
+            self.leftViewController = controller
+        }
+        SlideMenuOptions.leftViewWidth = 50
+        SlideMenuOptions.contentViewScale = 0.50
+        self.slideMenuController()?.openLeft()
+        
         super.awakeFromNib()
     }
     
