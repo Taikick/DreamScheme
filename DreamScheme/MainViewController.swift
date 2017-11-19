@@ -159,9 +159,6 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         if segue.identifier == "moveCreate" {
             let moveCreate: CreateViewController = segue.destination as! CreateViewController
         }
-
-
-        
         
     }
 

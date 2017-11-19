@@ -11,25 +11,70 @@ import SlideMenuControllerSwift
 
 class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataSource{
 
-    var moveList = ["ダージリン","アールグレイ","アッサム","オレンジペコ"]
+    var moveList = ["プロフィール","達成済タスク","時間分析"]
     
     var selectedPage = -1
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        //NavigationBarが半透明かどうか
+        navigationController?.navigationBar.isTranslucent = false
+        //NavigationBarの色を変更します
+        navigationController?.navigationBar.barTintColor = UIColor(red: 129/255, green: 212/255, blue: 78/255, alpha: 1)
+        //NavigationBarに乗っている部品の色を変更します
+        navigationController?.navigationBar.tintColor = UIColor.white
 
-        // Do any additional setup after loading the view.
     }
     
     //行数の決定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4;
+        return moveList.count
     }
     
     //セルに表示する文字列の決定
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let pagesCell = tableView.dequeueReusableCell(withIdentifier: "pagesCell", for:indexPath)
+        pagesCell.textLabel?.textColor = UIColor.blue
+        pagesCell.textLabel?.text = moveList[indexPath.row]
         return pagesCell
+    }
+
+    //セルをタップしたら発動するメソッド
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("\(indexPath.row)が行目、\(moveList[indexPath.row])がタップされました")
+        //セグウェを使って移動する時に値を渡す
+        selectedPage = indexPath.row
+
+        if selectedPage == 0 {
+            performSegue(withIdentifier: "toProfile", sender: nil)
+        } else if selectedPage == 1{
+            
+            performSegue(withIdentifier: "toGoal", sender: nil)
+        } else {
+            
+            performSegue(withIdentifier: "toAnalize", sender: nil)
+        }
+    }
+    
+    //セグエを使って画面遷移している時発動
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //次の画面のインスタンス(オブジェクト)を取得
+        //as!DetailViewControllerがダウンキャスト変換している箇所
+        if segue.identifier == "toProfile"{
+            let dvc: ProfileViewController =
+                segue.destination
+                    as!ProfileViewController
+        } else if segue.identifier == "toGoal"{
+            let dvc: GoalViewController =
+                segue.destination
+                    as!GoalViewController
+        } else {
+            let dvc: AnalizeViewController =
+                segue.destination
+                    as!AnalizeViewController
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
