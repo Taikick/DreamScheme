@@ -9,7 +9,7 @@
 import UIKit
 import Charts
 import FontAwesome_swift
-//import SlideMenuControllerSwift
+import SlideMenuControllerSwift
 
 class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
@@ -65,13 +65,25 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         navigationController?.navigationBar.barTintColor = UIColor(red: 129/255, green: 212/255, blue: 78/255, alpha: 1)
         //NavigationBarに乗っている部品の色を変更します
         navigationController?.navigationBar.tintColor = UIColor.white
-        //バーの左側にボタンを配置します(ライブラリ特有)
+//        //バーの左側にボタンを配置します(ライブラリ特有)
         addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
+        
+//        self.navigationController?.navigationBar.isHidden = false
+//        self.navigationItem.title = "Main"
+//        addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
   
+//        let leftButton = UIBarButtonItem(title: "トップに戻る", style: UIBarButtonItemStyle.plain, target: self, action: #selector(MainViewController.goTop))
+//        self.navigationItem.leftBarButtonItem = leftButton
         
 
     }
+    //トップに戻るボタン押下時の呼び出しメソッド
+    func goTop() {
+        
+        //トップ画面に戻る。
+        self.slideMenuController()?.openLeft()
 
+    }
     
     //ぼたんが押された時の処理
     @IBAction func tapButton(_ sender: UIButton) {
