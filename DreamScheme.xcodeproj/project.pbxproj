@@ -145,14 +145,12 @@
 			children = (
 				6DAE849E1FC1D035001346A7 /* SideBars */,
 				6D3F38231FBFD6E000D6F37F /* Slide */,
-				6D321F981FBBE94600C22BA1 /* AppDelegate.swift */,
+				6DAE84A11FC1DE72001346A7 /* HOME */,
 				6D321F9C1FBBE94600C22BA1 /* Main.storyboard */,
+				6D321F981FBBE94600C22BA1 /* AppDelegate.swift */,
 				6D321F9F1FBBE94600C22BA1 /* Assets.xcassets */,
 				6D321FA11FBBE94700C22BA1 /* LaunchScreen.storyboard */,
 				6D321FA41FBBE94700C22BA1 /* Info.plist */,
-				6D64A7351FBD8745005CC476 /* HomeTableViewCell.swift */,
-				6D86A4761FBF5EA900072D7F /* editViewController.swift */,
-				6DAE84961FC1B3FE001346A7 /* CreateViewController.swift */,
 			);
 			path = DreamScheme;
 			sourceTree = "<group>";
@@ -178,7 +176,6 @@
 		6D3F38231FBFD6E000D6F37F /* Slide */ = {
 			isa = PBXGroup;
 			children = (
-				6DAE84941FC18624001346A7 /* MainViewController.swift */,
 				6D3F381F1FBF724900D6F37F /* SlideViewController.swift */,
 				6D3F38211FBF72B800D6F37F /* LeftViewController.swift */,
 			);
@@ -193,6 +190,17 @@
 				6DAE849C1FC1D030001346A7 /* AnalizeViewController.swift */,
 			);
 			name = SideBars;
+			sourceTree = "<group>";
+		};
+		6DAE84A11FC1DE72001346A7 /* HOME */ = {
+			isa = PBXGroup;
+			children = (
+				6DAE84941FC18624001346A7 /* MainViewController.swift */,
+				6D64A7351FBD8745005CC476 /* HomeTableViewCell.swift */,
+				6D86A4761FBF5EA900072D7F /* editViewController.swift */,
+				6DAE84961FC1B3FE001346A7 /* CreateViewController.swift */,
+			);
+			name = HOME;
 			sourceTree = "<group>";
 		};
 		8BC23502BBA934BDD8355D93 /* Frameworks */ = {

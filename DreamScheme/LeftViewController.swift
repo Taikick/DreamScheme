@@ -24,7 +24,6 @@ class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         navigationController?.navigationBar.barTintColor = UIColor(red: 129/255, green: 212/255, blue: 78/255, alpha: 1)
         //NavigationBarに乗っている部品の色を変更します
         navigationController?.navigationBar.tintColor = UIColor.white
-
     }
     
     //行数の決定

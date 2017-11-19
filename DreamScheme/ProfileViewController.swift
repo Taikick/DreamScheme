@@ -13,7 +13,8 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
     }
 
     override func didReceiveMemoryWarning() {
