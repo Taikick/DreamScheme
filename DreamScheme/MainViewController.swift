@@ -151,11 +151,10 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         //as!DetailViewControllerがダウンキャスト変換している箇所
         if segue.identifier == "showEdit"{
             let toEdit: editViewController = segue.destination as!editViewController
-            
-            
             //次の画面のプロパティ（メンバ変数）passedIndexに選択された行番号を渡す
             toEdit.passedIndex = selectedIndex
         }
+        
         if segue.identifier == "moveCreate" {
             let moveCreate: CreateViewController = segue.destination as! CreateViewController
         }
