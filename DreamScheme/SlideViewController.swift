@@ -18,13 +18,8 @@ class SlideViewController: SlideMenuController {
         if let controller = self.storyboard?.instantiateViewController(withIdentifier: "Left") {
             self.leftViewController = controller
         }
-        SlideMenuOptions.leftViewWidth = 50
-        SlideMenuOptions.contentViewScale = 0.50
-        self.slideMenuController()?.openLeft()
-        
         super.awakeFromNib()
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
