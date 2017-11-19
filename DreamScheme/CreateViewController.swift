@@ -1,35 +1,19 @@
 //
-//  LeftViewController.swift
+//  CreateViewController.swift
 //  DreamScheme
 //
-//  Created by 加藤　大起 on 2017/11/18.
+//  Created by 加藤　大起 on 2017/11/19.
 //  Copyright © 2017年 Taiki Kato. All rights reserved.
 //
 
 import UIKit
-import SlideMenuControllerSwift
 
-class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataSource{
-
-    var moveList = ["ダージリン","アールグレイ","アッサム","オレンジペコ"]
-    
-    var selectedPage = -1
+class CreateViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-    }
-    
-    //行数の決定
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4;
-    }
-    
-    //セルに表示する文字列の決定
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let pagesCell = tableView.dequeueReusableCell(withIdentifier: "pagesCell", for:indexPath)
-        return pagesCell
     }
 
     override func didReceiveMemoryWarning() {

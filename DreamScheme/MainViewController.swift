@@ -13,23 +13,21 @@ import SlideMenuControllerSwift
 
 class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
-    
-    //editに飛ばす用
+    //
     var selectedIndex = -1
     
     @IBOutlet weak var myButton: UIButton!
     
+    
     var entry = [
+        
         [BarChartDataEntry(x: 1.0, y: 3.0)],
         [BarChartDataEntry(x: 1.0, y: 3.0)],
         [BarChartDataEntry(x: 1.0, y: 100.0)]
+        
     ]
-//    var entry = [
-//        BarChartDataEntry(x: 1, y: 30),
-//        BarChartDataEntry(x: 2, y: 20),
-//        BarChartDataEntry(x: 3, y: 40)
-//    ]
-//    
+
+    
     var hometitles:[String] = [
         "英語を勉強してナンパできるようになる"
         ,"PHPマスター"
@@ -77,6 +75,11 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
 
     }
+    override func viewWillAppear(_ animated: Bool) {
+        homeTableView.reloadData()
+    }
+    
+    
     //トップに戻るボタン押下時の呼び出しメソッド
     func goTop() {
         
@@ -85,13 +88,10 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     }
     
+    
     //ぼたんが押された時の処理
     @IBAction func tapButton(_ sender: UIButton) {
-        hometitles.append("hoge")
-        homeTime.append("hoge")
-        print(hometitles)
-        
-        homeTableView.reloadData()
+        performSegue(withIdentifier: "moveCreate", sender: nil)
     }
     
     
@@ -113,7 +113,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         rect.origin.y += 4
         rect.size.height -= 4
         let chartView = HorizontalBarChartView(frame: rect)
-        let set = BarChartDataSet(values: entry[indexPath.row], label: "タスク時間")
+        let set = BarChartDataSet(values: entry[1], label: "タスク時間")
         chartView.data = BarChartData(dataSet: set)
         chartView.drawBordersEnabled = false
         chartView.minOffset = CGFloat(10.0)
@@ -149,12 +149,19 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //次の画面のインスタンス(オブジェクト)を取得
         //as!DetailViewControllerがダウンキャスト変換している箇所
-        let toEdit: editViewController =
-            segue.destination
-                as!editViewController
+        if segue.identifier == "showEdit"{
+            let toEdit: editViewController = segue.destination as!editViewController
+            
+            
+            //次の画面のプロパティ（メンバ変数）passedIndexに選択された行番号を渡す
+            toEdit.passedIndex = selectedIndex
+        }
+        if segue.identifier == "moveCreate" {
+            let moveCreate: CreateViewController = segue.destination as! CreateViewController
+        }
+
+
         
-        //次の画面のプロパティ（メンバ変数）passedIndexに選択された行番号を渡す
-        toEdit.passedIndex = selectedIndex
         
     }
 
