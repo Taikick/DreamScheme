@@ -10,7 +10,7 @@ import UIKit
 import SlideMenuControllerSwift
 
 class SlideViewController: SlideMenuController {
-
+//
     override func awakeFromNib() {
         if let controller = self.storyboard?.instantiateViewController(withIdentifier: "Main") {
             self.mainViewController = controller

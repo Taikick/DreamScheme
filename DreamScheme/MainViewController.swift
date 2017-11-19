@@ -9,7 +9,7 @@
 import UIKit
 import Charts
 import FontAwesome_swift
-import SlideMenuControllerSwift
+//import SlideMenuControllerSwift
 
 class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
