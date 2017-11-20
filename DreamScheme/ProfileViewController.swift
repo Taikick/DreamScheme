@@ -34,7 +34,7 @@ class ProfileViewController: UIViewController {
         let userCell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell") as! ProfileTableViewCell
         
         // セルに値を設定
-        userCell.userInfoLabel.text = Settings[indexPath.row]
+        userCell.setCell(titleText: Settings[indexPath.row])
         
         
         return userCell

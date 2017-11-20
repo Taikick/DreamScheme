@@ -21,5 +21,10 @@ class ProfileTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    /// 画像・タイトル・説明文を設定するメソッド
+    func setCell(titleText: String) {
+        
+        userInfoLabel.text = titleText
+    }
 
 }

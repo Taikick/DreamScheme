@@ -22,5 +22,8 @@ class AnalizeTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    func setCell(titleText: String) {
+        AnaizeListLabel.text = titleText
+    }
 
 }
