@@ -19,6 +19,8 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     @IBOutlet weak var myButton: UIButton!
     
     
+    
+    
     var entry = [
         
         [BarChartDataEntry(x: 1.0, y: 3.0)],
