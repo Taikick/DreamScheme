@@ -10,6 +10,9 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
+    @IBOutlet weak var myImageView: UIImageView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        let  storyboard: UIStoryboard = UIStoryboard(name:"Main", bundle: Bundle.main)
