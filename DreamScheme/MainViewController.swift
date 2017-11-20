@@ -13,6 +13,8 @@ import SlideMenuControllerSwift
 
 class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
+    
+    
     //
     var selectedIndex = -1
     
@@ -28,7 +30,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         [BarChartDataEntry(x: 1.0, y: 100.0)]
         
     ]
-
+    
     
     var hometitles:[String] = [
         "英語を勉強してナンパできるようになる"
@@ -43,10 +45,76 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     ]
     //チャートのデータ
     var homeChartData = ["hogehoge",
-    ]
+                         ]
+    //時間のラベル
+    @IBOutlet weak var timeHour: UILabel!
+    
+    //分のラベル
+    @IBOutlet weak var timeMinute: UILabel!
+    
+    //秒のラベル
+    @IBOutlet weak var timeSecond: UILabel!
+    
+    
     @IBOutlet weak var homeTableView: UITableView!
     
     @IBOutlet weak var myBarButton: UIBarButtonItem!
+    
+    //timerの変数
+    var timer:Timer!
+    var startTime = Date()
+    //ストップウォッチボタンが押された時の処理
+    @IBAction func tapWatch(_ sender: Any) {
+        
+        if timer != nil{
+            // timerが起動中なら一旦破棄する
+            timer.invalidate()
+        }
+        if myBarButton.title == "タスク開始" {
+            
+            timer = Timer.scheduledTimer(
+                timeInterval: 1,
+                target: self,
+                selector: #selector(self.timerCounter),
+                userInfo: nil,
+                repeats: true)
+            startTime = Date()
+            myBarButton.title = "タスク終了"
+        } else {
+            if timer != nil{
+                timer.invalidate()
+                
+                timeHour.text = "00"
+                timeMinute.text = "00"
+                timeSecond.text = "00"
+            }
+            myBarButton.title = "タスク開始"
+        }
+    }
+    
+    
+    @objc func timerCounter() {
+        // タイマー開始からのインターバル時間
+        let currentTime = Date().timeIntervalSince(startTime)
+        //timeHourを計算
+        let hour = (Int)(fmod((currentTime/3600), 60))
+        
+        // fmod() 余りを計算
+        let minute = (Int)(fmod((currentTime/60), 60))
+        // currentTime/60 の余り
+        let second = (Int)(fmod(currentTime, 60))
+        
+        // %02d： ２桁表示、0で埋める
+        let sHour = String(format: "%02d", hour)
+        let sMin = String(format:"%02d", minute)
+        let sSecond = String(format:"%02d", second)
+        
+        timeHour.text = sHour
+        timeMinute.text = sMin
+        timeSecond.text = sSecond
+        
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,6 +147,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     override func viewWillAppear(_ animated: Bool) {
         homeTableView.reloadData()
+//        timer.invalidate()
     }
     
     
@@ -163,18 +232,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
     }
 
-    //ストップウォッチボタンが押された時の処理
-    @IBAction func tapWatch(_ sender: Any) {
-        if myBarButton.title == "タスク開始" {
-            
-           myBarButton.title = "タスク終了"
-            
-        } else {
-            
-           myBarButton.title = "タスク開始"
-            
-        }
-    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
