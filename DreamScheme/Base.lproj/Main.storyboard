@@ -126,18 +126,18 @@
                         <outlet property="timeHour" destination="gUg-CE-G5h" id="UWE-rV-SGz"/>
                         <outlet property="timeMinute" destination="MYz-cf-5OZ" id="NbT-jk-X1r"/>
                         <outlet property="timeSecond" destination="dyN-Wa-Drh" id="47K-8F-TqZ"/>
-                        <segue destination="fKd-Rq-cmA" kind="show" identifier="showEdit" id="eH3-mH-nfz"/>
-                        <segue destination="M4P-zI-hsf" kind="show" identifier="moveCreate" id="G3g-WO-XHh"/>
+                        <segue destination="fKd-Rq-cmA" kind="show" identifier="toEdit" id="eH3-mH-nfz"/>
+                        <segue destination="M4P-zI-hsf" kind="show" identifier="toCreate" id="G3g-WO-XHh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2724.6376811594205" y="-464.67391304347831"/>
         </scene>
-        <!--Create View Controller-->
+        <!--Edit View Controller-->
         <scene sceneID="Udf-kZ-x6A">
             <objects>
-                <viewController id="M4P-zI-hsf" customClass="CreateViewController" customModule="DreamScheme" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="M4P-zI-hsf" customClass="editViewController" customModule="DreamScheme" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Csk-tJ-VWT"/>
                         <viewControllerLayoutGuide type="bottom" id="cWp-9U-NcI"/>
@@ -152,10 +152,10 @@
             </objects>
             <point key="canvasLocation" x="3577" y="-466"/>
         </scene>
-        <!--Edit View Controller-->
+        <!--Create View Controller-->
         <scene sceneID="sgu-Vb-kkx">
             <objects>
-                <viewController id="fKd-Rq-cmA" customClass="editViewController" customModule="DreamScheme" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="fKd-Rq-cmA" customClass="CreateViewController" customModule="DreamScheme" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6om-O7-GGe"/>
                         <viewControllerLayoutGuide type="bottom" id="haU-Me-yTY"/>
@@ -224,14 +224,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="開始日" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tuh-8b-llh">
-                                <rect key="frame" x="19" y="139" width="156" height="38"/>
+                                <rect key="frame" x="19" y="125" width="156" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="終了日" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZsT-dh-Asv">
-                                <rect key="frame" x="216" y="138" width="156" height="38"/>
+                                <rect key="frame" x="216" y="125" width="156" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -260,14 +260,14 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="タスク名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YVC-Yh-PWj">
-                                <rect key="frame" x="10" y="69" width="156" height="38"/>
+                                <rect key="frame" x="10" y="53" width="156" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7bH-6k-k4w">
-                                <rect key="frame" x="17" y="107" width="374" height="30"/>
+                                <rect key="frame" x="17" y="87" width="374" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>

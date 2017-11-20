@@ -159,7 +159,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     //ぼたんが押された時の処理
     @IBAction func tapButton(_ sender: UIButton) {
-        performSegue(withIdentifier: "moveCreate", sender: nil)
+        performSegue(withIdentifier: "toEdit", sender: nil)
     }
     
     
@@ -209,7 +209,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         //選択された行番号をほぞん
         
         //セグエに名前を指定して画面遷移処理を発動
-        performSegue(withIdentifier: "showEdit", sender: nil)
+        performSegue(withIdentifier: "toCreate", sender: nil)
     }
     
     
@@ -217,14 +217,15 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //次の画面のインスタンス(オブジェクト)を取得
         //as!DetailViewControllerがダウンキャスト変換している箇所
-        if segue.identifier == "showEdit"{
-            let toEdit: editViewController = segue.destination as!editViewController
+        if segue.identifier == "toEdit"{
+            let toCreate: CreateViewController = segue.destination as! CreateViewController
             //次の画面のプロパティ（メンバ変数）passedIndexに選択された行番号を渡す
-            toEdit.passedIndex = selectedIndex
+//            toEdit.passedIndex = selectedIndex
         }
         
-        if segue.identifier == "moveCreate" {
-            let moveCreate: CreateViewController = segue.destination as! CreateViewController
+        if segue.identifier == "toCreate" {
+            
+            let toEdit: editViewController = segue.destination as! editViewController
         }
         
     }

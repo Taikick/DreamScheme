@@ -10,7 +10,7 @@ import UIKit
 
 class editViewController: UIViewController {
 
-    var passedIndex = -1
+//    var passedIndex = -1
     override func viewDidLoad() {
         super.viewDidLoad()
 
