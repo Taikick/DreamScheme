@@ -22,6 +22,23 @@ class ProfileViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 
+    
+    /// セルの個数を指定するデリゲートメソッド（必須）
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return Settings.count
+    }
+    
+    /// セルに値を設定するデータソースメソッド（必須）
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        // セルを取得
+        let userCell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell") as! ProfileTableViewCell
+        
+        // セルに値を設定
+        userCell.userInfoLabel.text = Settings[indexPath.row]
+        
+        
+        return userCell
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

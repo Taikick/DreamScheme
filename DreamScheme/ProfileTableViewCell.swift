@@ -9,7 +9,8 @@
 import UIKit
 
 class ProfileTableViewCell: UITableViewCell {
-
+    @IBOutlet weak var userInfoLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
