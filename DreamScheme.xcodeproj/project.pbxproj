@@ -24,6 +24,8 @@
 		6DAE84991FC1D00E001346A7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE84981FC1D00E001346A7 /* ProfileViewController.swift */; };
 		6DAE849B1FC1D01F001346A7 /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE849A1FC1D01F001346A7 /* GoalViewController.swift */; };
 		6DAE849D1FC1D030001346A7 /* AnalizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE849C1FC1D030001346A7 /* AnalizeViewController.swift */; };
+		6DFC2E201FC2886600D9687D /* TasksManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFC2E1F1FC2886600D9687D /* TasksManageViewController.swift */; };
+		6DFC2E241FC293F700D9687D /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFC2E231FC293F700D9687D /* ProfileTableViewController.swift */; };
 		8AD02832605B8B33426D2013 /* Pods_DreamScheme.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 489093269A491B869FDEA2BD /* Pods_DreamScheme.framework */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +72,8 @@
 		6DAE84981FC1D00E001346A7 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		6DAE849A1FC1D01F001346A7 /* GoalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
 		6DAE849C1FC1D030001346A7 /* AnalizeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalizeViewController.swift; sourceTree = "<group>"; };
+		6DFC2E1F1FC2886600D9687D /* TasksManageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksManageViewController.swift; sourceTree = "<group>"; };
+		6DFC2E231FC293F700D9687D /* ProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
 		8E9800BE7A8B641A364E57E5 /* Pods-DreamScheme.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamScheme.release.xcconfig"; path = "Pods/Target Support Files/Pods-DreamScheme/Pods-DreamScheme.release.xcconfig"; sourceTree = "<group>"; };
 		9A5809E5B309EB716787A6F7 /* Pods-DreamScheme.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamScheme.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DreamScheme/Pods-DreamScheme.debug.xcconfig"; sourceTree = "<group>"; };
 		A8078275E77CA4CE6901F453 /* Pods-DreamSchemeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamSchemeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DreamSchemeTests/Pods-DreamSchemeTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -185,8 +189,9 @@
 		6DAE849E1FC1D035001346A7 /* SideBars */ = {
 			isa = PBXGroup;
 			children = (
-				6DAE84981FC1D00E001346A7 /* ProfileViewController.swift */,
+				6DFC2E221FC293CA00D9687D /* profiles */,
 				6DAE849A1FC1D01F001346A7 /* GoalViewController.swift */,
+				6DFC2E1F1FC2886600D9687D /* TasksManageViewController.swift */,
 				6DAE849C1FC1D030001346A7 /* AnalizeViewController.swift */,
 			);
 			name = SideBars;
@@ -201,6 +206,15 @@
 				6DAE84961FC1B3FE001346A7 /* CreateViewController.swift */,
 			);
 			name = HOME;
+			sourceTree = "<group>";
+		};
+		6DFC2E221FC293CA00D9687D /* profiles */ = {
+			isa = PBXGroup;
+			children = (
+				6DAE84981FC1D00E001346A7 /* ProfileViewController.swift */,
+				6DFC2E231FC293F700D9687D /* ProfileTableViewController.swift */,
+			);
+			name = profiles;
 			sourceTree = "<group>";
 		};
 		8BC23502BBA934BDD8355D93 /* Frameworks */ = {
@@ -518,6 +532,8 @@
 				6D3F38201FBF724900D6F37F /* SlideViewController.swift in Sources */,
 				6D64A7361FBD8745005CC476 /* HomeTableViewCell.swift in Sources */,
 				6D3F38221FBF72B800D6F37F /* LeftViewController.swift in Sources */,
+				6DFC2E241FC293F700D9687D /* ProfileTableViewController.swift in Sources */,
+				6DFC2E201FC2886600D9687D /* TasksManageViewController.swift in Sources */,
 				6DAE849B1FC1D01F001346A7 /* GoalViewController.swift in Sources */,
 				6DAE849D1FC1D030001346A7 /* AnalizeViewController.swift in Sources */,
 				6DAE84991FC1D00E001346A7 /* ProfileViewController.swift in Sources */,

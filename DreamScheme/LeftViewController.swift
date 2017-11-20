@@ -10,12 +10,11 @@ import UIKit
 import SlideMenuControllerSwift
 
 class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataSource{
-
+    
     var moveList = ["プロフィール","達成済タスク","時間分析"]
     
     var selectedPage = -1
-
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //NavigationBarが半透明かどうか
@@ -24,6 +23,8 @@ class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         navigationController?.navigationBar.barTintColor = UIColor(red: 129/255, green: 212/255, blue: 78/255, alpha: 1)
         //NavigationBarに乗っている部品の色を変更します
         navigationController?.navigationBar.tintColor = UIColor.white
+        
+        
     }
     
     //行数の決定
@@ -38,7 +39,7 @@ class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         pagesCell.textLabel?.text = moveList[indexPath.row]
         return pagesCell
     }
-
+    
     //セルをタップしたら発動するメソッド
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(indexPath.row)が行目、\(moveList[indexPath.row])がタップされました")
@@ -47,64 +48,59 @@ class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         selectedPage = indexPath.row
         
         if selectedPage == 0 {
-            performSegue(withIdentifier: "toProfile", sender: nil)
-            
+            changeViewController("Profile")
+        
         } else if selectedPage == 1{
-            
-            performSegue(withIdentifier: "toGoal", sender: nil)
+            changeViewController("Goal")
         } else {
-            
-            performSegue(withIdentifier: "toAnalize", sender: nil)
+            changeViewController("Analize")
         }
         
+    }
+    
+    func changeViewController(_ code:String) {
+        switch code {
+        case "Profile":
+            let ProVCS = storyboard?.instantiateViewController(withIdentifier: "Profile")
+            
+            let ProVC = UINavigationController(rootViewController: ProVCS!)
+            self.slideMenuController()?.changeMainViewController(ProVC, close: true)
+            
+        case "Goal":
+            print("Goal")
+            let ProVCS = storyboard?.instantiateViewController(withIdentifier: "Goal")
+            
+            let ProVC = UINavigationController(rootViewController: ProVCS!)
+            self.slideMenuController()?.changeMainViewController(ProVC, close: true)
+
+        case "Analize":
+            print("Analize")
+            let ProVCS = storyboard?.instantiateViewController(withIdentifier: "Analize")
+            
+            let ProVC = UINavigationController(rootViewController: ProVCS!)
+            self.slideMenuController()?.changeMainViewController(ProVC, close: true)
+
+        default:
+            print("aaa")
+        }
     }
     
     //セグエを使って画面遷移している時発動
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //次の画面のインスタンス(オブジェクト)を取得
-        //as!DetailViewControllerがダウンキャスト変換している箇所
-        //ナビゲーションバーを作る。
-        let navBar = UINavigationBar()
         
-        navBar.frame.size.width = 300.0
-        
-        if segue.identifier == "toProfile"{
-            //ナビゲーションアイテムを作り、タイトルと左側ボタンを設定する。
-            let navItem: UINavigationItem = UINavigationItem(title: "ホゲホゲ")
-            //遷移先のビューにナビゲーションバーを追加する。
-            navItem.leftBarButtonItem = UIBarButtonItem(title: segue.destination.title, style:UIBarButtonItemStyle.plain, target:self, action:Selector(("action:")))
-            
-            navBar.pushItem(navItem, animated: true)
-            
-            segue.destination.view.addSubview(navBar)
-
-        } else if segue.identifier == "toGoal"{
-            
-            let dvc: GoalViewController =
-                segue.destination
-                    as!GoalViewController
-        } else {
-            let dvc: AnalizeViewController =
-                segue.destination
-                    as!AnalizeViewController
-        }
-
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 
+    
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

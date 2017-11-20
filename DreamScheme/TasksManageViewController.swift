@@ -1,25 +1,19 @@
 //
-//  ProfileViewController.swift
+//  TasksManageViewController.swift
 //  DreamScheme
 //
-//  Created by 加藤　大起 on 2017/11/19.
+//  Created by 加藤　大起 on 2017/11/20.
 //  Copyright © 2017年 Taiki Kato. All rights reserved.
 //
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class TasksManageViewController: UIViewController {
 
-    @IBOutlet weak var myImageView: UIImageView!
-    
-    @IBOutlet weak var userName: UILabel!
-    
-    @IBOutlet weak var profileSettings: UITableView!
-    let Settings:[String] = ["タイムゾーン","言語設定","未達成のやるべきこと","将来の夢"]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.dismiss(animated: true, completion: nil)
+
+        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
