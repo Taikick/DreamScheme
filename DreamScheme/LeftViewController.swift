@@ -43,10 +43,12 @@ class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(indexPath.row)が行目、\(moveList[indexPath.row])がタップされました")
         //セグウェを使って移動する時に値を渡す
+        
         selectedPage = indexPath.row
-
+        
         if selectedPage == 0 {
             performSegue(withIdentifier: "toProfile", sender: nil)
+            
         } else if selectedPage == 1{
             
             performSegue(withIdentifier: "toGoal", sender: nil)
@@ -54,17 +56,30 @@ class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataS
             
             performSegue(withIdentifier: "toAnalize", sender: nil)
         }
+        
     }
     
     //セグエを使って画面遷移している時発動
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //次の画面のインスタンス(オブジェクト)を取得
         //as!DetailViewControllerがダウンキャスト変換している箇所
+        //ナビゲーションバーを作る。
+        let navBar = UINavigationBar()
+        
+        navBar.frame.size.width = 300.0
+        
         if segue.identifier == "toProfile"{
-            let dvc: ProfileViewController =
-                segue.destination
-                    as!ProfileViewController
+            //ナビゲーションアイテムを作り、タイトルと左側ボタンを設定する。
+            let navItem: UINavigationItem = UINavigationItem(title: "ホゲホゲ")
+            //遷移先のビューにナビゲーションバーを追加する。
+            navItem.leftBarButtonItem = UIBarButtonItem(title: segue.destination.title, style:UIBarButtonItemStyle.plain, target:self, action:Selector(("action:")))
+            
+            navBar.pushItem(navItem, animated: true)
+            
+            segue.destination.view.addSubview(navBar)
+
         } else if segue.identifier == "toGoal"{
+            
             let dvc: GoalViewController =
                 segue.destination
                     as!GoalViewController
@@ -73,7 +88,7 @@ class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataS
                 segue.destination
                     as!AnalizeViewController
         }
-        
+
     }
 
     override func didReceiveMemoryWarning() {
