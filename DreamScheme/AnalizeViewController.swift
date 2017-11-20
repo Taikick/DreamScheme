@@ -26,7 +26,7 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
     /// セルに値を設定するデータソースメソッド（必須）
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tasksCell = tableView.dequeueReusableCell(withIdentifier: "AnalizeCell") as! AnalizeTableViewCell
-        tasksCell.AnaizeListLabel.text = userTasks[indexPath.row]
+        tasksCell.setCell(titleText: userTasks[indexPath.row])
         
         return tasksCell
     }

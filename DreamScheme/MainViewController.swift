@@ -43,9 +43,6 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         ,"2017.12.24 - 2018.3.9"
         ,"2017"
     ]
-    //チャートのデータ
-    var homeChartData = ["hogehoge",
-                         ]
     //時間のラベル
     @IBOutlet weak var timeHour: UILabel!
     
