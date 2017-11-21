@@ -673,16 +673,22 @@
                                     <outlet property="delegate" destination="V5e-Fc-fAu" id="HdD-dj-Z89"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ifp-Ic-BSR" customClass="RadarChartView" customModule="Charts">
+                                <rect key="frame" x="20" y="72" width="374" height="287"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
+                        <outlet property="radarChartView" destination="Ifp-Ic-BSR" id="PiK-6Z-ScJ"/>
                         <segue destination="6kS-YB-RbW" kind="show" identifier="toTasksManage" id="peW-qZ-cAP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bIb-5U-NPm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="492"/>
+            <point key="canvasLocation" x="-20.289855072463769" y="491.57608695652175"/>
         </scene>
         <!--Tasks Manage View Controller-->
         <scene sceneID="8Tc-gu-GgU">
