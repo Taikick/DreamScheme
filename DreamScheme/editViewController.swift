@@ -14,6 +14,7 @@ import FontAwesome_swift
 class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
     var passedIndex = -1
+    var selectedProcess = -1
     
     @IBOutlet weak var addProButton: UIButton!
     @IBOutlet weak var DtitleTableView: UITableView!
@@ -101,6 +102,21 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(indexPath.row)が行目")
+        //セグエに名前を指定して画面遷移処理を発動
+        performSegue(withIdentifier: "toDProcess", sender: nil)
+    }
+    
+    //セグエを使って画面遷移している時発動
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //次の画面のインスタンス(オブジェクト)を取得
+        //as!DetailViewControllerがダウンキャスト変換している箇所
+        if segue.identifier == "toDProcess" {
+            
+            let toProcess: ProcessViewController = segue.destination as! ProcessViewController
+            toProcess.passedProcess = selectedProcess
+        }
+        
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

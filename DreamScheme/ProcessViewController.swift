@@ -10,6 +10,7 @@ import UIKit
 
 class ProcessViewController: UIViewController {
 
+    var passedProcess = -1
     override func viewDidLoad() {
         super.viewDidLoad()
 
