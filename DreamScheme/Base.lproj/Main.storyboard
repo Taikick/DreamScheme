@@ -257,6 +257,7 @@
                         <outlet property="ProcessTableView" destination="AO3-CD-Jyz" id="Q9D-4f-lyv"/>
                         <outlet property="addProButton" destination="c7X-eg-my9" id="lnA-ab-nTd"/>
                         <segue destination="lLA-60-u6c" kind="show" identifier="toDProcess" id="UjD-n3-V15"/>
+                        <segue destination="fKd-Rq-cmA" kind="show" identifier="moveCreate" id="E9u-QH-RWN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iao-vd-Jpe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -621,6 +622,8 @@
                     </view>
                     <connections>
                         <outlet property="goalTableView" destination="sLI-KE-nhj" id="UkO-pd-Mxv"/>
+                        <segue destination="T8P-p5-k3B" kind="show" identifier="moveCreate" id="grm-ve-lJA"/>
+                        <segue destination="M4P-zI-hsf" kind="show" identifier="GoalToDetail" id="sMw-PW-TYe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CS3-5C-MR2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -783,4 +786,8 @@
             <point key="canvasLocation" x="1202" y="-1605"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="sMw-PW-TYe"/>
+        <segue reference="E9u-QH-RWN"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -14,6 +14,7 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
     @IBOutlet weak var goalTableView: UITableView!
     
     var selectedIndex = -1
+    var selectedProcess = -1
     var goalTitles:[String] = [
         "英語を勉強してナンパできるようになる"
         ,"PHPマスター"
@@ -89,14 +90,20 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         print("\(indexPath.row)が行目")
         //セグウェを使って移動する時に値を渡す
         selectedIndex = indexPath.row
+        selectedProcess = indexPath.row
         //選択された行番号をほぞん
-        
+        performSegue(withIdentifier: "GoalToDetail", sender: nil)
         //セグエに名前を指定して画面遷移処理を発動
 
     }
     //セグエを使って画面遷移している時発動
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        // GoalToDetail
+        if segue.identifier == "GoalToDetail" {
+            
+            let toEdit: editViewController = segue.destination as! editViewController
+            toEdit.passedIndex = selectedProcess
+        }
         
     }
 

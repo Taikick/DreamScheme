@@ -10,7 +10,7 @@ import UIKit
 
 class CreateViewController: UIViewController {
 
-    
+    var passedTitle = -1
     override func viewDidLoad() {
         super.viewDidLoad()
 

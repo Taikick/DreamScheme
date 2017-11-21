@@ -15,6 +15,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     var passedIndex = -1
     var selectedProcess = -1
+    var selectedTitle = -1
     
     @IBOutlet weak var addProButton: UIButton!
     @IBOutlet weak var DtitleTableView: UITableView!
@@ -101,9 +102,16 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("\(indexPath.row)が行目")
+        
+        if tableView.tag == 0 {
+            print("\(indexPath.row)が行目")
+            performSegue(withIdentifier: "moveCreate", sender: nil)
+        } else if tableView.tag == 1 {
+            print("\(indexPath.row)が行目")
+            performSegue(withIdentifier: "toDProcess", sender: nil)
+        }
         //セグエに名前を指定して画面遷移処理を発動
-        performSegue(withIdentifier: "toDProcess", sender: nil)
+
     }
     
     //セグエを使って画面遷移している時発動
@@ -114,6 +122,10 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             
             let toProcess: ProcessViewController = segue.destination as! ProcessViewController
             toProcess.passedProcess = selectedProcess
+        } else if segue.identifier == "moveCreate" {
+            
+            let moveCreate: CreateViewController = segue.destination as! CreateViewController
+            moveCreate.passedTitle = selectedTitle
         }
         
         
