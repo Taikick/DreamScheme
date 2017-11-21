@@ -1,0 +1,6 @@
+framework module Pods_DreamSchemeTests {
+  umbrella header "Pods-DreamSchemeTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
