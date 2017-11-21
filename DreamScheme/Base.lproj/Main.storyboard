@@ -219,14 +219,13 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Njd-Gn-mAF" customClass="BarChartView" customModule="Charts">
-                                                    <rect key="frame" x="-2" y="46.333333333333329" width="414" height="50"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </view>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.25549021440000003" green="0.48102149820000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <outlet property="ProLabel" destination="5We-9Z-XUf" id="nUr-Qn-PT1"/>
+                                            <outlet property="ProTimeLabel" destination="qaB-4W-nxQ" id="MSe-JO-xQO"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -239,6 +238,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="34"/>
                                 <state key="normal" title="◼️"/>
+                                <connections>
+                                    <action selector="tapButton:" destination="M4P-zI-hsf" eventType="touchUpInside" id="OLs-ab-Wj7"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="プロセス" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RZg-Jk-eS0">
                                 <rect key="frame" x="17" y="280" width="76" height="31"/>
@@ -252,7 +254,9 @@
                     </view>
                     <connections>
                         <outlet property="DtitleTableView" destination="kwb-le-xGj" id="HbS-1p-Jo3"/>
-                        <segue destination="lLA-60-u6c" kind="show" id="UjD-n3-V15"/>
+                        <outlet property="ProcessTableView" destination="AO3-CD-Jyz" id="Q9D-4f-lyv"/>
+                        <outlet property="addProButton" destination="c7X-eg-my9" id="lnA-ab-nTd"/>
+                        <segue destination="lLA-60-u6c" kind="show" identifier="toDProcess" id="UjD-n3-V15"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iao-vd-Jpe" userLabel="First Responder" sceneMemberID="firstResponder"/>

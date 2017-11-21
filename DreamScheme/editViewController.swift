@@ -8,13 +8,17 @@
 
 import UIKit
 import Charts
+import FontAwesome_swift
 
 
 class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
     var passedIndex = -1
     
+    @IBOutlet weak var addProButton: UIButton!
     @IBOutlet weak var DtitleTableView: UITableView!
+    
+    @IBOutlet weak var ProcessTableView: UITableView!
     var entry = [BarChartDataEntry(x: 1.0, y: 3.0)]
     
     
@@ -40,13 +44,23 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        //fontawesomeをボタンに使う
+        addProButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
+        addProButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
+        addProButton.setTitleColor(UIColor.blue, for: .normal)
+        addProButton.backgroundColor = UIColor.white
+    }
+    
+    //ボタンを押した時の処理
+    
+    @IBAction func tapButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "toDProcess", sender: nil)
     }
 
     //行数の決定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return DTitle.count;
+            return DTitle.count;
     }
     
     //セルに表示する文字列の決定
@@ -76,14 +90,18 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             set.formLineWidth = 3
             set.formSize = 10
             cell.DTitleChart.addSubview(chartView)
-            
-        }
-        if tableView.tag == 1{
-            
+            return cell
+        } else if tableView.tag == 1{
+            let cell = ProcessTableView.dequeueReusableCell(withIdentifier: "ProcessCell", for: indexPath) as! ProcessTableViewCell
+            cell.ProLabel.text = ProTitle[indexPath.row]
+            cell.ProTimeLabel.text = ProTime[indexPath.row]
         }
         return cell
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("\(indexPath.row)が行目")
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
