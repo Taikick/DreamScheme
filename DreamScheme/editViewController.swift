@@ -15,13 +15,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var passedIndex = -1
     
     @IBOutlet weak var DtitleTableView: UITableView!
-    var entry = [
-        
-        [BarChartDataEntry(x: 1.0, y: 3.0)],
-        [BarChartDataEntry(x: 1.0, y: 3.0)],
-        [BarChartDataEntry(x: 1.0, y: 100.0)]
-        
-    ]
+    var entry = [BarChartDataEntry(x: 1.0, y: 3.0)]
     
     
     var DTitle:[String] = [
@@ -34,11 +28,16 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     var ProTitle:[String] = [
         "英語を勉強してナンパできるようになる"
+        ,"PHPマスター"
+        ,"swiftマスター"
     ]
     
     var ProTime:[String] = [
         "2017.12.24-2018.12.24"
+        ,"2017.12.24 - 2018.3.9"
+        ,"2017"
     ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -60,7 +59,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             rect.origin.y += 4
             rect.size.height -= 4
             let chartView = HorizontalBarChartView(frame: rect)
-            let set = BarChartDataSet(values: entry[1], label: "タスク時間")
+            let set = BarChartDataSet(values: entry, label: "タスク時間")
             chartView.data = BarChartData(dataSet: set)
             chartView.drawBordersEnabled = false
             chartView.minOffset = CGFloat(10.0)
@@ -78,7 +77,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             set.formSize = 10
             cell.DTitleChart.addSubview(chartView)
             
-        } else {
+        }
+        if tableView.tag == 1{
             
         }
         return cell

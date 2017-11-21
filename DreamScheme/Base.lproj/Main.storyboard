@@ -189,8 +189,8 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="ZLb-Ab-iAm"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="r6g-if-Ujv"/>
+                                    <outlet property="dataSource" destination="M4P-zI-hsf" id="ut2-dm-f4h"/>
+                                    <outlet property="delegate" destination="M4P-zI-hsf" id="Cfw-r6-At8"/>
                                 </connections>
                             </tableView>
                             <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" minimumZoomScale="8" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="102" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AO3-CD-Jyz">
@@ -230,8 +230,8 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="X9U-Z4-EqL"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="Bmd-6C-I7d"/>
+                                    <outlet property="dataSource" destination="M4P-zI-hsf" id="u2C-9R-IO0"/>
+                                    <outlet property="delegate" destination="M4P-zI-hsf" id="Awy-x0-pf1"/>
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c7X-eg-my9">
