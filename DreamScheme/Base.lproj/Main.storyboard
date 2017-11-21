@@ -251,6 +251,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="DtitleTableView" destination="kwb-le-xGj" id="HbS-1p-Jo3"/>
                         <segue destination="lLA-60-u6c" kind="show" id="UjD-n3-V15"/>
                     </connections>
                 </viewController>
