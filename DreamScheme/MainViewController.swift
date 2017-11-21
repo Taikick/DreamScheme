@@ -43,6 +43,8 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         ,"2017.12.24 - 2018.3.9"
         ,"2017"
     ]
+    
+    
     //時間のラベル
     @IBOutlet weak var timeHour: UILabel!
     
@@ -220,12 +222,13 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         if segue.identifier == "toEdit"{
             let toCreate: CreateViewController = segue.destination as! CreateViewController
             //次の画面のプロパティ（メンバ変数）passedIndexに選択された行番号を渡す
-//            toEdit.passedIndex = selectedIndex
+
         }
         
         if segue.identifier == "toCreate" {
             
             let toEdit: editViewController = segue.destination as! editViewController
+            toEdit.passedIndex = selectedIndex
         }
         
     }

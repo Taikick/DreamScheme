@@ -1,16 +1,15 @@
 //
-//  editViewController.swift
+//  ProcessViewController.swift
 //  DreamScheme
 //
-//  Created by 加藤　大起 on 2017/11/18.
+//  Created by 加藤　大起 on 2017/11/21.
 //  Copyright © 2017年 Taiki Kato. All rights reserved.
 //
 
 import UIKit
 
-class editViewController: UIViewController {
+class ProcessViewController: UIViewController {
 
-    var passedIndex = -1
     override func viewDidLoad() {
         super.viewDidLoad()
 
