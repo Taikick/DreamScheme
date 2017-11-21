@@ -192,6 +192,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         chartView.xAxis.drawGridLinesEnabled = false
         chartView.xAxis.forceLabelsEnabled = false
         chartView.xAxis.drawLabelsEnabled = false
+        chartView.chartDescription?.text = ""
 //        chartView.xAxis.labelCount = 100
 //        chartView.xAxis.axisMinimum = 1
         //y軸の設定

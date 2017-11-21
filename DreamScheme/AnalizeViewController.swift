@@ -11,7 +11,6 @@ import Charts
 
 class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
-    var userTasks:[String] = ["英語でナンパ","プログラミング"]
     
     @IBOutlet weak var radarChartView: RadarChartView!
 
@@ -20,7 +19,7 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         "ナンパ", "金", "女", "XX", "プログラミング"
     ]
     //点数
-    let array = [10.0, 50.0, 80.0, 100.0, 100.0]
+    let array = [30.0, 50.0, 80.0, 100.0, 100.0]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,9 +44,17 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         radarChartView.descriptionText = ""
         
         //ここから軸の設定。表示範囲は0から100までとし、20刻みでグリッド線を入れる
-        radarChartView.yAxis.labelCount = 2
-        radarChartView.yAxis.axisMinValue = 0
-        radarChartView.yAxis.axisMaxValue = 100.0
+        radarChartView.yAxis.labelCount = 5
+        radarChartView.yAxis.axisMinimum = 0
+        radarChartView.yAxis.axisMaximum = 80.0
+        radarChartView.yAxis.drawZeroLineEnabled = true
+        radarChartView.yAxis.forceLabelsEnabled = false
+        radarChartView.yAxis.drawTopYLabelEntryEnabled = true;
+        radarChartView.xAxis.drawAxisLineEnabled = true
+        radarChartView.innerWebColor = UIColor.white
+        radarChartView.xAxis.axisLineColor = UIColor.white
+        radarChartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 7)
+        
         //ここまで軸の設定
         radarChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values:subjects)
         radarChartView.xAxis.granularity = 1
@@ -61,7 +68,7 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         //その他のオプション!
         radarChartView.legend.enabled = false
         radarChartView.yAxis.gridAntialiasEnabled = true
-        radarChartView.animate(yAxisDuration: 1.0)
+        radarChartView.animate(yAxisDuration: 2.0)
         radarChartView.data = chartData
     }
 
@@ -69,13 +76,13 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
 
     /// セルの個数を指定するデリゲートメソッド（必須）
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userTasks.count
+        return subjects.count
     }
     
     /// セルに値を設定するデータソースメソッド（必須）
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tasksCell = tableView.dequeueReusableCell(withIdentifier: "AnalizeCell") as! AnalizeTableViewCell
-        tasksCell.setCell(titleText: userTasks[indexPath.row])
+        tasksCell.setCell(titleText: subjects[indexPath.row])
         
         return tasksCell
     }
