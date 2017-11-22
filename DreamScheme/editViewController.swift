@@ -36,12 +36,14 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         "英語を勉強してナンパできるようになる"
         ,"PHPマスター"
         ,"swiftマスター"
+        ,"終わらないコード"
     ]
     
     var ProTime:[String] = [
         "2017.12.24-2018.12.24"
         ,"2017.12.24 - 2018.3.9"
         ,"2017"
+        ,"now"
     ]
     
     override func viewDidLoad() {
