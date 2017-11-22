@@ -36,8 +36,7 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
     ]
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
     }
 
     override func viewWillAppear(_ animated: Bool) {

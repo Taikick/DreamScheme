@@ -12,6 +12,7 @@ import Charts
 class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
     
+    @IBOutlet weak var AnalizeTableView: UITableView!
     @IBOutlet weak var radarChartView: RadarChartView!
 
 
@@ -23,9 +24,14 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
         setChart(dataPoints: subjects, values: array)
         print("array:")
         print(array)
+        AnalizeTableView.layer.cornerRadius = 10.0;
+        AnalizeTableView.clipsToBounds = true
+
+        
     }
     
     func setChart(dataPoints: [String], values: [Double]) {

@@ -121,7 +121,6 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         myButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
         myButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
         myButton.setTitleColor(UIColor.blue, for: .normal)
-        myButton.backgroundColor = UIColor.white
         //バーボタンの文字列決定
         myBarButton.title = "タスク開始"
         
@@ -131,16 +130,8 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         navigationController?.navigationBar.barTintColor = UIColor(red: 129/255, green: 212/255, blue: 78/255, alpha: 1)
         //NavigationBarに乗っている部品の色を変更します
         navigationController?.navigationBar.tintColor = UIColor.white
-//        //バーの左側にボタンを配置します(ライブラリ特有)
+        //バーの左側にボタンを配置します(ライブラリ特有)
         addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
-        
-//        self.navigationController?.navigationBar.isHidden = false
-//        self.navigationItem.title = "Main"
-//        addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
-  
-//        let leftButton = UIBarButtonItem(title: "トップに戻る", style: UIBarButtonItemStyle.plain, target: self, action: #selector(MainViewController.goTop))
-//        self.navigationItem.leftBarButtonItem = leftButton
-        
 
     }
     override func viewWillAppear(_ animated: Bool) {

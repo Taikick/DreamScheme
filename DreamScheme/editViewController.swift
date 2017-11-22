@@ -51,7 +51,6 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         addProButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
         addProButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
         addProButton.setTitleColor(UIColor.blue, for: .normal)
-        addProButton.backgroundColor = UIColor.white
     }
     
     //ボタンを押した時の処理
@@ -115,10 +114,10 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if tableView.tag == 0 {
+        if tableView.tag == 1 {
             print("\(indexPath.row)が行目")
             performSegue(withIdentifier: "moveCreate", sender: nil)
-        } else if tableView.tag == 1 {
+        } else if tableView.tag == 2 {
             print("\(indexPath.row)が行目")
             performSegue(withIdentifier: "toDProcess", sender: nil)
         }

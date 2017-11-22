@@ -11,19 +11,12 @@ import SlideMenuControllerSwift
 
 class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataSource{
     
-    var moveList = ["プロフィール","達成済タスク","時間分析"]
+    var moveList = ["ホーム","プロフィール","達成済タスク","時間分析"]
     
     var selectedPage = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //NavigationBarが半透明かどうか
-        navigationController?.navigationBar.isTranslucent = false
-        //NavigationBarの色を変更します
-        navigationController?.navigationBar.barTintColor = UIColor(red: 129/255, green: 212/255, blue: 78/255, alpha: 1)
-        //NavigationBarに乗っている部品の色を変更します
-        navigationController?.navigationBar.tintColor = UIColor.white
-        
         
     }
     
@@ -35,7 +28,7 @@ class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataS
     //セルに表示する文字列の決定
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let pagesCell = tableView.dequeueReusableCell(withIdentifier: "pagesCell", for:indexPath)
-        pagesCell.textLabel?.textColor = UIColor.blue
+        pagesCell.textLabel?.textColor = UIColor.white
         pagesCell.textLabel?.text = moveList[indexPath.row]
         return pagesCell
     }
@@ -46,11 +39,12 @@ class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataS
         //セグウェを使って移動する時に値を渡す
         
         selectedPage = indexPath.row
-        
         if selectedPage == 0 {
+            changeViewController("Main")
+        } else if selectedPage == 1 {
             changeViewController("Profile")
         
-        } else if selectedPage == 1{
+        } else if selectedPage == 2{
             changeViewController("Goal")
         } else {
             changeViewController("Analize")
@@ -60,6 +54,12 @@ class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataS
     
     func changeViewController(_ code:String) {
         switch code {
+        case "Main":
+            let ProVCS = storyboard?.instantiateViewController(withIdentifier: "Main")
+            
+            let ProVC = UINavigationController(rootViewController: ProVCS!)
+            self.slideMenuController()?.changeMainViewController(ProVC, close: true)
+        
         case "Profile":
             let ProVCS = storyboard?.instantiateViewController(withIdentifier: "Profile")
             

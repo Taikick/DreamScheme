@@ -8,8 +8,9 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
+    @IBOutlet weak var profileTableView: UITableView!
     @IBOutlet weak var myImageView: UIImageView!
     
     @IBOutlet weak var userName: UILabel!
@@ -20,16 +21,20 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.dismiss(animated: true, completion: nil)
+        addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
+        profileTableView.layer.cornerRadius = 10.0;
+        profileTableView.clipsToBounds = true
+        
     }
 
     
     /// セルの個数を指定するデリゲートメソッド（必須）
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Settings.count
     }
     
     /// セルに値を設定するデータソースメソッド（必須）
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを取得
         let userCell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell") as! ProfileTableViewCell
         

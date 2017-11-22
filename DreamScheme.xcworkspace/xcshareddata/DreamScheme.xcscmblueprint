@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "5A42D59CF16EE21F348748B6C75AB10D87C60924",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5A42D59CF16EE21F348748B6C75AB10D87C60924" : 9223372036854775807,
+    "98B686202D8FC0B4927EB053BE27627499897EFC" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C2D4CDCD-01E1-4682-8A26-09EA81BB6BD7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5A42D59CF16EE21F348748B6C75AB10D87C60924" : "DreamScheme\/",
+    "98B686202D8FC0B4927EB053BE27627499897EFC" : "..\/..\/..\/..\/Applications\/XAMPP\/xamppfiles\/htdocs\/atom"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "DreamScheme",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "DreamScheme.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Taikick\/DreamScheme.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5A42D59CF16EE21F348748B6C75AB10D87C60924"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/otomoyoshi\/atom.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "98B686202D8FC0B4927EB053BE27627499897EFC"
+    }
+  ]
+}
