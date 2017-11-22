@@ -62,13 +62,22 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     //行数の決定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView.tag == 1{
             return DTitle.count;
+        }else if tableView.tag == 2{
+            return ProTime.count
+        }else {
+            return 0
+        }
+    
     }
     
     //セルに表示する文字列の決定
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = DtitleTableView.dequeueReusableCell(withIdentifier: "DTitleCell", for: indexPath) as! DTitleTableViewCell
-        if tableView.tag == 0 {
+
+        
+        if tableView.tag == 1 {
+            let cell = DtitleTableView.dequeueReusableCell(withIdentifier: "DTitleCell", for: indexPath) as! DTitleTableViewCell
             cell.DTitleLabel.text = DTitle[indexPath.row]
             cell.DTitleDate.text = DTitleTime[indexPath.row]
             var rect = cell.DTitleChart.bounds
@@ -93,12 +102,15 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             set.formSize = 10
             cell.DTitleChart.addSubview(chartView)
             return cell
-        } else if tableView.tag == 1{
+        } else if tableView.tag == 2{
             let cell = ProcessTableView.dequeueReusableCell(withIdentifier: "ProcessCell", for: indexPath) as! ProcessTableViewCell
             cell.ProLabel.text = ProTitle[indexPath.row]
             cell.ProTimeLabel.text = ProTime[indexPath.row]
+            return cell
+        }else {
+            let cell = DTitleTableViewCell()
+            return cell
         }
-        return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

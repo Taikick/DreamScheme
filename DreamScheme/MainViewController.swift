@@ -82,7 +82,6 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         } else {
             if timer != nil{
                 timer.invalidate()
-                
                 timeHour.text = "00"
                 timeMinute.text = "00"
                 timeSecond.text = "00"
@@ -103,7 +102,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         // currentTime/60 の余り
         let second = (Int)(fmod(currentTime, 60))
         
-        // %02d： ２桁表示、0で埋める
+        // %02d：２桁表示、0で埋める
         let sHour = String(format: "%02d", hour)
         let sMin = String(format:"%02d", minute)
         let sSecond = String(format:"%02d", second)
