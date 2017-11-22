@@ -31,6 +31,7 @@
 		6DFC2E351FC37F5200D9687D /* ProcessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFC2E341FC37F5200D9687D /* ProcessViewController.swift */; };
 		6DFC2E371FC3954300D9687D /* DTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFC2E361FC3954300D9687D /* DTitleTableViewCell.swift */; };
 		6DFC2E3D1FC4351B00D9687D /* ProcessTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFC2E3C1FC4351B00D9687D /* ProcessTableViewCell.swift */; };
+		6DFC2E3F1FC501D200D9687D /* sinkan2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6DFC2E3E1FC501D200D9687D /* sinkan2.jpg */; };
 		8AD02832605B8B33426D2013 /* Pods_DreamScheme.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 489093269A491B869FDEA2BD /* Pods_DreamScheme.framework */; };
 /* End PBXBuildFile section */
 
@@ -84,6 +85,7 @@
 		6DFC2E341FC37F5200D9687D /* ProcessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessViewController.swift; sourceTree = "<group>"; };
 		6DFC2E361FC3954300D9687D /* DTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DTitleTableViewCell.swift; sourceTree = "<group>"; };
 		6DFC2E3C1FC4351B00D9687D /* ProcessTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessTableViewCell.swift; sourceTree = "<group>"; };
+		6DFC2E3E1FC501D200D9687D /* sinkan2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = sinkan2.jpg; path = ../../../../Desktop/Angels/sinkan2.jpg; sourceTree = "<group>"; };
 		8E9800BE7A8B641A364E57E5 /* Pods-DreamScheme.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamScheme.release.xcconfig"; path = "Pods/Target Support Files/Pods-DreamScheme/Pods-DreamScheme.release.xcconfig"; sourceTree = "<group>"; };
 		9A5809E5B309EB716787A6F7 /* Pods-DreamScheme.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamScheme.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DreamScheme/Pods-DreamScheme.debug.xcconfig"; sourceTree = "<group>"; };
 		A8078275E77CA4CE6901F453 /* Pods-DreamSchemeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DreamSchemeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DreamSchemeTests/Pods-DreamSchemeTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 		6DAE849E1FC1D035001346A7 /* SideBars */ = {
 			isa = PBXGroup;
 			children = (
+				6DFC2E3E1FC501D200D9687D /* sinkan2.jpg */,
 				6DFC2E221FC293CA00D9687D /* profiles */,
 				6DFC2E1F1FC2886600D9687D /* TasksManageViewController.swift */,
 				6DFC2E301FC363C100D9687D /* Goals */,
@@ -382,6 +385,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DFC2E3F1FC501D200D9687D /* sinkan2.jpg in Resources */,
 				6D321FA31FBBE94700C22BA1 /* LaunchScreen.storyboard in Resources */,
 				6D321FA01FBBE94600C22BA1 /* Assets.xcassets in Resources */,
 				6D321F9E1FBBE94600C22BA1 /* Main.storyboard in Resources */,
