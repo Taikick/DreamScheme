@@ -27,4 +27,15 @@ class ProfileTableViewCell: UITableViewCell {
         userInfoLabel.text = titleText
     }
 
+    override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        userInfoLabel = UILabel()
+        userInfoLabel.frame = CGRect(x:self.frame.width / 2,y:0,width:self.frame.width / 2,height:self.frame.height)
+        userInfoLabel.textAlignment = .center
+        self.accessoryView = userInfoLabel
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
