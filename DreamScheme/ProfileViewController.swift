@@ -39,8 +39,8 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UIPickerViewDa
     
     let language = ["日本語","English"]
     let unReachTask = "3個"
-    let totalTime = ""
-    let dream = ""
+    let totalTime = "hogehoge"
+    let dream = "hogehoge"
     
     var currentLang:String!
 
@@ -58,22 +58,105 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UIPickerViewDa
         myPickerView.dataSource = self
         //デリゲート（完治したイベントを委任する人、代理人（店長））
         myPickerView.delegate = self
+        profileTableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: "ProfileCell")
+        self.view.addSubview(profileTableView)
         
         //配列でピッカービュー使う要素だけ初期値設定
         currentLang = language[0]
         
+        let width = self.view.frame.width
+        let height = self.view.frame.height
+        
+        //pickerToolbar
+        pickerToolbar = UIToolbar(frame:CGRect(x:0,y:height,width:width,height:toolbarHeight))
+        let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let doneBtn = UIBarButtonItem(title: "完了", style: .plain, target: self, action: #selector(self.doneTapped))
+        pickerToolbar.items = [flexible,doneBtn]
+        self.view.addSubview(pickerToolbar)
+        
         
     }
+    func doneTapped(){
+        UIView.animate(withDuration: 0.2){
+            self.pickerToolbar.frame = CGRect(x:0,y:self.view.frame.height,
+                                              width:self.view.frame.width,height:self.toolbarHeight)
+            self.myPickerView.frame = CGRect(x:0,y:self.view.frame.height + self.toolbarHeight,
+                                           width:self.view.frame.width,height:self.pickerViewHeight)
+            self.profileTableView.contentOffset.y = 0
+        }
+        self.profileTableView.deselectRow(at: pickerIndexPath, animated: true)
+    }
+    
+    /// セルの個数を指定するデリゲートメソッド（必須）
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return Settings.count
+    }
+    
+    /// セルに値を設定するデータソースメソッド（必須）
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // セルを取得
+        let cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: pickerIndexPath) as! ProfileTableViewCell
+        //        let cell = profileTableView.cellForRow(at:pickerIndexPath) as! ProfileTableViewCell
+        cell.textLabel?.text = Settings[indexPath.row]
+        switch(pickerIndexPath.row){
+        case 0:
+            cell.userInfoLabel.text = language[indexPath.row]
+        case 1:
+            cell.userInfoLabel.text = unReachTask
+        case 2:
+            cell.userInfoLabel.text = totalTime
+        default:
+            cell.userInfoLabel.text = dream
+        }
+        return cell
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //ピッカービューとセルがかぶる時はスクロール
+        let cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: pickerIndexPath) as! ProfileTableViewCell
+        let cellLimit:CGFloat = cell.frame.origin.y + cell.frame.height
+        let pickerViewLimit:CGFloat = myPickerView.frame.height + toolbarHeight
+        if(cellLimit >= pickerViewLimit){
+            print("位置変えたい")
+            UIView.animate(withDuration: 0.2) {
+                tableView.contentOffset.y = cellLimit - pickerViewLimit
+            }
+        }
+        switch(indexPath.row){
+        case 0:
+            let index = language.findIndex{$0 == cell.userInfoLabel.text}
+            if(index.count != 0){
+                    myPickerView.selectRow(index[0],inComponent:0,animated:true)
+            }
+            case 1:
+                print("hoge")
+            case 2:
+                print("hoge")
+            default:
+                print("hoge")
+                
+        }
+        pickerIndexPath = indexPath
+        //ピッカービューをリロード
+        myPickerView.reloadAllComponents()
+        //ピッカービューを表示
+        UIView.animate(withDuration: 0.2) {
+            self.pickerToolbar.frame = CGRect(x:0,y:self.view.frame.height - self.pickerViewHeight - self.toolbarHeight,width:self.view.frame.width,height:self.toolbarHeight)
+            self.myPickerView.frame = CGRect(x:0,y:self.view.frame.height - self.pickerViewHeight,width:self.view.frame.width,height:self.pickerViewHeight)
+        }
+    }
+        
     //3.ピッカービューの列数を決定する
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        
-        
         return 1;
     }
+    
     
     //4.ピッカービューの行数を決定する
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         // ここでラベル上のテキストだけを返す
+        
         switch (pickerIndexPath.row){
         case 0:
             return language.count
@@ -107,33 +190,6 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UIPickerViewDa
     }
     
 
-
-    
-    /// セルの個数を指定するデリゲートメソッド（必須）
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Settings.count
-    }
-    
-    /// セルに値を設定するデータソースメソッド（必須）
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // セルを取得
-        let cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: pickerIndexPath) as! ProfileTableViewCell
-//        let cell = profileTableView.cellForRow(at:pickerIndexPath) as! ProfileTableViewCell
-        cell.textLabel?.text = Settings[indexPath.row]
-        switch(pickerIndexPath.row){
-        case 0:
-            cell.userInfoLabel.text = language[indexPath.row]
-        case 1:
-            cell.userInfoLabel.text = unReachTask
-        case 2:
-            cell.userInfoLabel.text = totalTime
-        default:
-            cell.userInfoLabel.text = dream
-        }
-        
-        
-        return cell
-    }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let cell = profileTableView.cellForRow(at:pickerIndexPath) as! ProfileTableViewCell
         switch(pickerIndexPath.row){
@@ -148,54 +204,7 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UIPickerViewDa
             cell.userInfoLabel.text = dream
         }
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //ピッカービューとセルがかぶる時はスクロール
-        let cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: pickerIndexPath) as! ProfileTableViewCell
-        let cellLimit:CGFloat = cell.frame.origin.y + cell.frame.height
-        let pickerViewLimit:CGFloat = myPickerView.frame.height + toolbarHeight
-        if(cellLimit >= pickerViewLimit){
-            print("位置変えたい")
-            UIView.animate(withDuration: 0.2) {
-                tableView.contentOffset.y = cellLimit - pickerViewLimit
-            }
-        
-        switch(indexPath.row){
-        case 0:
-            let index = language.findIndex{$0 == cell.userInfoLabel.text}
-            if(index.count != 0){
-                myPickerView.selectRow(index[0],inComponent:0,animated:true)
-            }
-        case 1:
-            print("hoge")
-        case 2:
-            print("hoge")
-        default:
-            print("hoge")
-            
-        }
-        
-        pickerIndexPath = indexPath
-        //ピッカービューをリロード
-        myPickerView.reloadAllComponents()
-        //ピッカービューを表示
-        UIView.animate(withDuration: 0.2) {
-            self.pickerToolbar.frame = CGRect(x:0,y:self.view.frame.height - self.pickerViewHeight - self.toolbarHeight,
-                                              width:self.view.frame.width,height:self.toolbarHeight)
-            self.myPickerView.frame = CGRect(x:0,y:self.view.frame.height - self.pickerViewHeight,
-                                           width:self.view.frame.width,height:self.pickerViewHeight)
-        }
-    }
-    func doneTapped(){
-        UIView.animate(withDuration: 0.2){
-            self.pickerToolbar.frame = CGRect(x:0,y:self.view.frame.height,
-                                              width:self.view.frame.width,height:self.toolbarHeight)
-            self.myPickerView.frame = CGRect(x:0,y:self.view.frame.height + self.toolbarHeight,
-                                           width:self.view.frame.width,height:self.pickerViewHeight)
-        }
-        //選択を解除する
-        self.profileTableView.deselectRow(at: pickerIndexPath, animated: true)
-    }
+
     
 
     /*
@@ -208,5 +217,5 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UIPickerViewDa
     }
     */
 
-}
+
 }
