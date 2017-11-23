@@ -20,14 +20,16 @@ extension Array {
     }
 }
 
-class ProfileViewController: UIViewController,UITableViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate {
+class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIPickerViewDataSource,UIPickerViewDelegate {
 
+    
     @IBOutlet weak var profileTableView: UITableView!
+    
     @IBOutlet weak var myImageView: UIImageView!
     
     @IBOutlet weak var userName: UILabel!
     //ピッカービュー
-    private var myPickerView:UIPickerView!
+    private var myPickerView:UIPickerView = UIPickerView()
     private let pickerViewHeight:CGFloat = 160
     
     //pickerViewの上にのせるtoolbar
@@ -52,8 +54,6 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UIPickerViewDa
         addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
         profileTableView.layer.cornerRadius = 10.0;
         profileTableView.clipsToBounds = true
-        // 6.指示を出しているのがViewControllerだと伝える設定
-        //self : 自分自身(ViewControllerのこと)
         //データソース（表示するデータの設定を指示する人）
         myPickerView.dataSource = self
         //デリゲート（完治したイベントを委任する人、代理人（店長））
@@ -87,12 +87,12 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UIPickerViewDa
         self.profileTableView.deselectRow(at: pickerIndexPath, animated: true)
     }
     
-    /// セルの個数を指定するデリゲートメソッド（必須）
+    /// セルの個数指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Settings.count
     }
     
-    /// セルに値を設定するデータソースメソッド（必須）
+    /// セルに値を表示
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを取得
         let cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: pickerIndexPath) as! ProfileTableViewCell
@@ -113,7 +113,7 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UIPickerViewDa
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //ピッカービューとセルがかぶる時はスクロール
+        //ピッカービューとセルがかぶる時のスクロール
         let cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: pickerIndexPath) as! ProfileTableViewCell
         let cellLimit:CGFloat = cell.frame.origin.y + cell.frame.height
         let pickerViewLimit:CGFloat = myPickerView.frame.height + toolbarHeight
@@ -138,7 +138,7 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UIPickerViewDa
                 
         }
         pickerIndexPath = indexPath
-        //ピッカービューをリロード
+        //ピッカービューリロード
         myPickerView.reloadAllComponents()
         //ピッカービューを表示
         UIView.animate(withDuration: 0.2) {
@@ -147,7 +147,7 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UIPickerViewDa
         }
     }
         
-    //3.ピッカービューの列数を決定する
+    //3.ピッカービューの列数決定
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1;
     }
@@ -204,18 +204,5 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UIPickerViewDa
             cell.userInfoLabel.text = dream
         }
     }
-
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 
 }

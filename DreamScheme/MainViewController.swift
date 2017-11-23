@@ -25,9 +25,9 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     var entry = [
         
-        [BarChartDataEntry(x: 1.0, y: 3.0)],
-        [BarChartDataEntry(x: 1.0, y: 3.0)],
-        [BarChartDataEntry(x: 1.0, y: 100.0)]
+        [BarChartDataEntry(x: 1, y: 3.0)],
+        [BarChartDataEntry(x: 2, y: 3.0)],
+        [BarChartDataEntry(x: 3, y: 100.0)]
         
     ]
     
@@ -183,12 +183,19 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         chartView.xAxis.forceLabelsEnabled = false
         chartView.xAxis.drawLabelsEnabled = false
         chartView.chartDescription?.text = ""
+//        chartView.valueForTouchPoint(point: <#T##CGPoint#>, axis: <#T##YAxis.AxisDependency#>)
+        
+        chartView.animate(yAxisDuration: 2.0)
+        chartView.legend.enabled = false
+        chartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 0)
+        
 //        chartView.xAxis.labelCount = 100
 //        chartView.xAxis.axisMinimum = 1
         //y軸の設定
         chartView.leftAxis.axisMinimum = 0
-        chartView.rightAxis.axisMaximum = 100
-        set.formLineWidth = 3
+        chartView.rightAxis.axisMaximum = 100.0
+        chartView.accessibilityLabel = ""
+        set.formLineWidth = 1
         set.formSize = 10
         cell.BarChrats.addSubview(chartView)
         return cell
