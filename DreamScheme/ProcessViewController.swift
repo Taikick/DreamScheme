@@ -31,11 +31,16 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     
     var myDatePicker = UIDatePicker()
     let pickerView = UIPickerView()
-    let textField = UITextField()
+    var textField:UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        startTextFiled.resignFirstResponder()
+        EndTextField.resignFirstResponder()
+        WeekTextField.resignFirstResponder()
+        DayTextField.resignFirstResponder()
+        CardTextField.resignFirstResponder()
+        titleTextField.resignFirstResponder()
 
     }
     
@@ -142,8 +147,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
 
     }
     
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        print("textViewShouldBeginEditing\n")
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         
         startTextFiled.resignFirstResponder()
         EndTextField.resignFirstResponder()
@@ -168,7 +172,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
             forTextFiled(textField:CardTextField)
             return false
         default:
-            return true
+            return false
         }
     }
     
