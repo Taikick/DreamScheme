@@ -35,12 +35,6 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        startTextFiled.resignFirstResponder()
-        EndTextField.resignFirstResponder()
-        WeekTextField.resignFirstResponder()
-        DayTextField.resignFirstResponder()
-        CardTextField.resignFirstResponder()
-        titleTextField.resignFirstResponder()
 
     }
     
@@ -172,7 +166,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
             forTextFiled(textField:CardTextField)
             return false
         default:
-            return false
+            return true
         }
     }
     
