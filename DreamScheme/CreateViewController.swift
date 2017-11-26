@@ -203,12 +203,15 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             return false
         case 7:
             forPickerView(textField: cardTextField)
+            return false
         default:
             return true
         }
         return true
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        
         
     }
     //繰り返し処理を行うスイッチ
