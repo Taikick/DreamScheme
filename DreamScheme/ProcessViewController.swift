@@ -177,7 +177,17 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
+        switch pickerView.tag {
+        case 3:
+            WeekTextField.text = NDArray[row]
+        case 4:
+            DayTextField.text = NTArray[row]
+        case 5:
+            CardTextField.text = cardArray[row]
+            
+        default:
+            print("それ以外")
+        }
     }
 
     override func didReceiveMemoryWarning() {

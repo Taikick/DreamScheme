@@ -207,11 +207,25 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         default:
             return true
         }
-        return true
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        
+        switch pickerView.tag {
+        case 3:
+            weekCountTextField.text = todoWeekArray[row]
+        case 4:
+            dayCountTextField.text = todoDayArray[row]
+        case 5:
+            noticeDayTextField.text = NDArray[row]
+        case 6:
+            noticeTimeTextField.text = NTArray[row]
+        case 7:
+            cardTextField.text = cardArray[row]
+            
+        default:
+            print("それ以外")
+        }
+
         
     }
     //繰り返し処理を行うスイッチ
