@@ -31,6 +31,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     
     let pickerView = UIPickerView()
+    var myDatePicker = UIDatePicker()
     
     let todoWeekArray = ["毎日","1回","2回","3回","4回","5回","6回"]
     
@@ -43,20 +44,13 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     ]
     
     var cardArray = ["赤","青","黄色","緑"]
-    var array = ["楽天", "ソニー", "APPLE", "amazon", "softbank"]
+
     
     var passedTitle = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createTextFiled.tag = 0
-        startTextField.tag = 1
-        endTextField.tag = 2
-        weekCountTextField.tag = 3
-        dayCountTextField.tag = 4
-        noticeDayTextField.tag = 5
-        noticeTimeTextField.tag = 6
-        cardTextField.tag = 7
+
     }
     
     func forPickerView(textField:UITextField){
@@ -82,7 +76,43 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
         textField.inputAccessoryView = toolBar
+        pickerView.tag = textField.tag
+        self.view.addSubview(vi)
     }
+    
+    func forDatePicker(textField:UITextField) {
+        //DateFormatterを使って文字型から日付型に変更する
+        let df = DateFormatter()
+        df.dateFormat = "yyyy/MM/dd"
+        
+        //選択可能な最小値を決定(2017/01/01)
+        myDatePicker.minimumDate = df.date(from: "2017/12/01")
+        
+        //選択可能な最大値(2017/12/31)
+        myDatePicker.maximumDate = df.date(from: "2030/12/31")
+        
+        //初期値を設定
+        myDatePicker.date = df.date(from: "2018/01/01")!
+        myDatePicker.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: myDatePicker.bounds.size.height)
+        let pvi = UIView(frame: myDatePicker.bounds)
+        pvi.backgroundColor = UIColor.white
+        pvi.addSubview(myDatePicker)
+        
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor.black
+        let doneButton   = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(ProcessViewController.donePressed))
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ProcessViewController.cancelPressed))
+        let spaceButton  = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+        textField.inputAccessoryView = toolBar
+        myDatePicker.tag = textField.tag
+        self.view.addSubview(pvi)
+    }
+    
     func donePressed() {
         view.endEditing(true)
     }
@@ -97,9 +127,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        switch textField.tag {
-        case 0:
-            return 0
+        switch pickerView.tag {
         case 1:
             return 0
         case 2:
@@ -121,13 +149,11 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch textField.tag {
-        case 0:
-            return "hoge"
+        switch pickerView.tag {
         case 1:
-            return "hoge"
+            return ""
         case 2:
-            return "hoge"
+            return ""
         case 3:
             return todoWeekArray[row]
         case 4:
@@ -139,11 +165,49 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         case 7:
             return cardArray[row]
         default:
-            return "hoge"
+            return ""
         }
         
     }
     
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        
+        startTextField.resignFirstResponder()
+        endTextField.resignFirstResponder()
+        weekCountTextField.resignFirstResponder()
+        dayCountTextField.resignFirstResponder()
+        cardTextField.resignFirstResponder()
+        createTextFiled.resignFirstResponder()
+        noticeDayTextField.resignFirstResponder()
+        noticeTimeTextField.resignFirstResponder()
+        switch textField.tag {
+        case 0:
+            return true
+        case 1:
+            forDatePicker(textField:startTextField)
+            return false
+        case 2:
+            forDatePicker(textField:endTextField)
+            return false
+        case 3:
+            forPickerView(textField:weekCountTextField)
+            return false
+        case 4:
+            forPickerView(textField: dayCountTextField)
+            return false
+        case 5:
+            forPickerView(textField: noticeDayTextField)
+            return false
+        case 6:
+            forPickerView(textField: noticeTimeTextField)
+            return false
+        case 7:
+            forPickerView(textField: cardTextField)
+        default:
+            return true
+        }
+        return true
+    }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
     }

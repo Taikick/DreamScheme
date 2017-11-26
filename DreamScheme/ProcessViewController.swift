@@ -18,13 +18,17 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     @IBOutlet weak var titleTextField: UITextField!
     
     
-    var NDArray = ["毎日","月曜","水曜","火曜","水曜","木曜","金曜","土曜","日曜"]
+    var NDArray = [
+        "毎日","月曜","水曜","火曜","水曜","木曜","金曜","土曜","日曜"
+    ]
     var NTArray = [
         "午前0時","午前1時","午前2時","午前3時","午前4時","午前5時","午前6時","午前7時","午前8時","午前9時",
         "午前10時","午前11時","午後0時","午後1時","午後2時","午後3時","午後4時","午後5時","午後6時","午後7時","午後8時","午後9時","午後10時","午後11時"
     ]
 
-    var cardArray = ["赤","青","黄色","緑"]
+    var cardArray = [
+        "赤","青","黄色","緑"
+    ]
 
     
 
@@ -61,6 +65,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         toolBar.sizeToFit()
         textField.inputAccessoryView = toolBar
         pickerView.tag = textField.tag
+        self.view.addSubview(vi)
     }
     
     func forDatePicker(textField:UITextField) {
@@ -93,6 +98,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         toolBar.sizeToFit()
         textField.inputAccessoryView = toolBar
         myDatePicker.tag = textField.tag
+        self.view.addSubview(pvi)
     }
     
     func donePressed() {
@@ -149,7 +155,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         DayTextField.resignFirstResponder()
         CardTextField.resignFirstResponder()
         titleTextField.resignFirstResponder()
-        switch pickerView.tag {
+        switch textField.tag {
         case 0:
             forDatePicker(textField:startTextFiled)
             return false

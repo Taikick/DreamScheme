@@ -99,9 +99,9 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
         let cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: pickerIndexPath) as! ProfileTableViewCell
         //        let cell = profileTableView.cellForRow(at:pickerIndexPath) as! ProfileTableViewCell
         cell.textLabel?.text = Settings[indexPath.row]
-        switch(pickerIndexPath.row){
+        switch indexPath.row {
         case 0:
-            cell.userInfoLabel.text = language[indexPath.row]
+            cell.userInfoLabel.text = language[0]
         case 1:
             cell.userInfoLabel.text = unReachTask
         case 2:
