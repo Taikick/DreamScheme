@@ -104,9 +104,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         case 2:
             return 0
         case 3:
-            <#code#>
+            return todoWeekArray.count
         case 4:
-            <#code#>
+            return todoDayArray.count
         case 5:
             return NDArray.count
         case 6:
@@ -114,14 +114,32 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         case 7:
             return cardArray.count
         default:
-            <#code#>
+            return 0
         }
     }
     
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-
-        
+        switch textField.tag {
+        case 0:
+            return "hoge"
+        case 1:
+            return "hoge"
+        case 2:
+            return "hoge"
+        case 3:
+            return todoWeekArray[row]
+        case 4:
+            return todoDayArray[row]
+        case 5:
+            return NDArray[row]
+        case 6:
+            return NTArray[row]
+        case 7:
+            return cardArray[row]
+        default:
+            return "hoge"
+        }
         
     }
     

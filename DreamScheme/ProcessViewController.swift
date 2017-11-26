@@ -31,8 +31,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     
     var myDatePicker = UIDatePicker()
     let pickerView = UIPickerView()
-    var textField:UITextField!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -60,9 +59,10 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
         textField.inputAccessoryView = toolBar
+        pickerView.tag = textField.tag
     }
     
-    func forDatePicker(textFiled:UITextField) {
+    func forDatePicker(textField:UITextField) {
         //DateFormatterを使って文字型から日付型に変更する
         let df = DateFormatter()
         df.dateFormat = "yyyy/MM/dd"
@@ -91,6 +91,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
         textField.inputAccessoryView = toolBar
+        myDatePicker.tag = textField.tag
     }
     
     func donePressed() {
@@ -107,9 +108,8 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        pickerView.tag = textField.tag
 
-        switch textField.tag {
+        switch pickerView.tag {
         case 2:
             return NDArray.count
         case 3:
@@ -126,9 +126,8 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
 
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        pickerView.tag = textField.tag
 
-        switch textField.tag {
+        switch pickerView.tag {
         case 2:
             return NDArray[row]
         case 3:
@@ -149,12 +148,12 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         DayTextField.resignFirstResponder()
         CardTextField.resignFirstResponder()
         titleTextField.resignFirstResponder()
-        switch textField.tag {
+        switch pickerView.tag {
         case 0:
-            forDatePicker(textFiled:startTextFiled)
+            forDatePicker(textField:startTextFiled)
             return false
         case 1:
-            forDatePicker(textFiled:EndTextField)
+            forDatePicker(textField:EndTextField)
             return false
         case 2:
             forTextFiled(textField:WeekTextField)
