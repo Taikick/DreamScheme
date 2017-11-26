@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerViewDataSource,UITextFieldDelegate {
     @IBOutlet weak var startTextFiled: UITextField!

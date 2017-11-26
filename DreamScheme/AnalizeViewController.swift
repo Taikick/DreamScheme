@@ -8,6 +8,7 @@
 
 import UIKit
 import Charts
+import CoreData
 
 class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 

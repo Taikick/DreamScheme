@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 extension Array {
     func findIndex(includeElement: (Element) -> Bool) -> [Int] {

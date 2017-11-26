@@ -9,6 +9,7 @@
 import UIKit
 import Charts
 import FontAwesome_swift
+import CoreData
 
 
 class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {

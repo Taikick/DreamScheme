@@ -8,6 +8,7 @@
 
 import UIKit
 import Charts
+import CoreData
 import FontAwesome_swift
 import SlideMenuControllerSwift
 

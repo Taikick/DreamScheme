@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate{
     @IBOutlet weak var taskImage: UIImageView!
