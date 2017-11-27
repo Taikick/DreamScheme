@@ -44,7 +44,10 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     ]
     
     var cardArray = ["赤","青","黄色","緑"]
+    
+    var startPicker:Date = Date()
 
+    var endPicker:Date = Date()
     
     var passedTitle = -1
     let df = DateFormatter()
@@ -245,8 +248,10 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         if myDatePicker.tag == 1{
             startTextField.text = strSelectedDate
             
+            startPicker = myDatePicker.date
         } else if myDatePicker.tag == 2 {
             endTextField.text = strSelectedDate
+            endPicker = myDatePicker.date
         }
     }
 
@@ -281,14 +286,14 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         
         let newTask = NSManagedObject(entity: forTask!, insertInto: viewContext)
         newTask.setValue(createTextFiled.text,forKey:"title")
+        print(createTextFiled.text)
         
-        if myDatePicker.tag == 1{
-        newTask.setValue(myDatePicker.date,forKey:"startDate")
-            print(myDatePicker.date)
-        } else {
-        newTask.setValue(myDatePicker.date,forKey:"endDate")
-            print(myDatePicker.date)
-        }
+        newTask.setValue(startPicker,forKey:"startDate")
+            print(startPicker)
+        
+        newTask.setValue(endPicker,forKey:"endDate")
+            print(endPicker)
+
         //あとid入れる
         do{
             try viewContext.save()

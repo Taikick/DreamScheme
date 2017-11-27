@@ -20,7 +20,8 @@ extension ForTasks {
     @NSManaged public var endDate: NSDate?
     @NSManaged public var id: Int16
     @NSManaged public var startDate: NSDate?
-    @NSManaged public var taskTime: NSDate?
+    @NSManaged public var taskStartTime: NSDate?
     @NSManaged public var title: String?
+    @NSManaged public var taskEndTime: NSDate?
 
 }
