@@ -24,7 +24,6 @@
 		6DAE84991FC1D00E001346A7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE84981FC1D00E001346A7 /* ProfileViewController.swift */; };
 		6DAE849B1FC1D01F001346A7 /* GoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE849A1FC1D01F001346A7 /* GoalViewController.swift */; };
 		6DAE849D1FC1D030001346A7 /* AnalizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAE849C1FC1D030001346A7 /* AnalizeViewController.swift */; };
-		6DFC2E201FC2886600D9687D /* TasksManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFC2E1F1FC2886600D9687D /* TasksManageViewController.swift */; };
 		6DFC2E281FC3477000D9687D /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFC2E271FC3477000D9687D /* ProfileTableViewCell.swift */; };
 		6DFC2E2F1FC351D300D9687D /* AnalizeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFC2E2E1FC351D300D9687D /* AnalizeTableViewCell.swift */; };
 		6DFC2E321FC363F200D9687D /* GoalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFC2E311FC363F200D9687D /* GoalTableViewCell.swift */; };
@@ -80,7 +79,6 @@
 		6DAE84981FC1D00E001346A7 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		6DAE849A1FC1D01F001346A7 /* GoalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalViewController.swift; sourceTree = "<group>"; };
 		6DAE849C1FC1D030001346A7 /* AnalizeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalizeViewController.swift; sourceTree = "<group>"; };
-		6DFC2E1F1FC2886600D9687D /* TasksManageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TasksManageViewController.swift; sourceTree = "<group>"; };
 		6DFC2E271FC3477000D9687D /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		6DFC2E2E1FC351D300D9687D /* AnalizeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalizeTableViewCell.swift; sourceTree = "<group>"; };
 		6DFC2E311FC363F200D9687D /* GoalTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoalTableViewCell.swift; sourceTree = "<group>"; };
@@ -209,7 +207,6 @@
 				6DFC2E401FC534BF00D9687D /* person.jpg */,
 				6DFC2E3E1FC501D200D9687D /* sinkan2.jpg */,
 				6DFC2E221FC293CA00D9687D /* profiles */,
-				6DFC2E1F1FC2886600D9687D /* TasksManageViewController.swift */,
 				6DFC2E301FC363C100D9687D /* Goals */,
 				6DFC2E2D1FC351A100D9687D /* Analizes */,
 			);
@@ -584,7 +581,6 @@
 				6D3F38201FBF724900D6F37F /* SlideViewController.swift in Sources */,
 				6D64A7361FBD8745005CC476 /* HomeTableViewCell.swift in Sources */,
 				6D3F38221FBF72B800D6F37F /* LeftViewController.swift in Sources */,
-				6DFC2E201FC2886600D9687D /* TasksManageViewController.swift in Sources */,
 				6DAE849B1FC1D01F001346A7 /* GoalViewController.swift in Sources */,
 				6DFC2E321FC363F200D9687D /* GoalTableViewCell.swift in Sources */,
 				6DAE849D1FC1D030001346A7 /* AnalizeViewController.swift in Sources */,

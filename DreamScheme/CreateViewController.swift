@@ -78,6 +78,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         textField.inputAccessoryView = toolBar
         pickerView.tag = textField.tag
         self.view.addSubview(vi)
+        vi.addSubview(toolBar)
     }
     
     func forDatePicker(textField:UITextField) {
@@ -111,6 +112,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         textField.inputAccessoryView = toolBar
         myDatePicker.tag = textField.tag
         self.view.addSubview(pvi)
+        pvi.addSubview(toolBar)
     }
     
     func donePressed() {
