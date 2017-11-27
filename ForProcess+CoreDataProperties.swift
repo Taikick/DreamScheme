@@ -20,5 +20,6 @@ extension ForProcess {
     @NSManaged public var id: Int16
     @NSManaged public var processEnd: NSDate?
     @NSManaged public var processSrart: NSDate?
+    @NSManaged public var title: String?
 
 }

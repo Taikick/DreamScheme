@@ -530,6 +530,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
+                                    <action selector="tapReturn:" destination="lLA-60-u6c" eventType="editingDidEndOnExit" id="y8Z-UT-clY"/>
                                     <outlet property="delegate" destination="lLA-60-u6c" id="Y3D-9j-zYg"/>
                                 </connections>
                             </textField>
@@ -558,6 +559,9 @@
                                 <state key="normal" title="追加">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="tapAdd:" destination="lLA-60-u6c" eventType="touchUpInside" id="9kA-20-GjE"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iWl-yj-VNo">
                                 <rect key="frame" x="24" y="177" width="97" height="30"/>
@@ -901,7 +905,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="hAR-4V-ZRs" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mhu-0v-9IL">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Mhu-0v-9IL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

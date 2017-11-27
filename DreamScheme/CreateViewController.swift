@@ -247,11 +247,12 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         let strSelectedDate = df.string(from: sender.date)
         if myDatePicker.tag == 1{
             startTextField.text = strSelectedDate
-            
             startPicker = myDatePicker.date
+            
         } else if myDatePicker.tag == 2 {
             endTextField.text = strSelectedDate
             endPicker = myDatePicker.date
+            
         }
     }
 
@@ -285,7 +286,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         let forTask = NSEntityDescription.entity(forEntityName: "ForTasks", in: viewContext)
         
         let newTask = NSManagedObject(entity: forTask!, insertInto: viewContext)
-        newTask.setValue(createTextFiled.text,forKey:"title")
+        newTask.setValue(createTextFiled.text!,forKey:"title")
         print(createTextFiled.text)
         
         newTask.setValue(startPicker,forKey:"startDate")

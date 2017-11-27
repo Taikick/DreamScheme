@@ -34,6 +34,9 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
 
     var passedProcess = -1
     
+    var startPicker = Date()
+    var endPicker = Date()
+    
     var myDatePicker = UIDatePicker()
     let pickerView = UIPickerView()
 
@@ -211,12 +214,42 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         let strSelectedDate = df.string(from: sender.date)
         if myDatePicker.tag == 0{
             startTextFiled.text = strSelectedDate
+            startPicker = myDatePicker.date
             print(startTextFiled.text)
         } else if myDatePicker.tag == 1 {
             EndTextField.text = strSelectedDate
+            endPicker = myDatePicker.date
         }
     }
 
+    
+    @IBAction func tapAdd(_ sender: UIButton) {
+        print("追加ボタンが押されました")
+        
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let forProcess = NSEntityDescription.entity(forEntityName: "ForProcess", in: viewContext)
+        
+        let newProcess = NSManagedObject(entity: forProcess!, insertInto: viewContext)
+//        newProcess.setValue(, forKey: )
+//        print()
+        newProcess.setValue(titleTextField.text!, forKey: "title")
+        print(titleTextField.text!)
+        newProcess.setValue(startPicker, forKey: "processSrart")
+        print(startPicker)
+        newProcess.setValue(endPicker, forKey: "processEnd")
+        print(endPicker)
+        
+//        newProcess.setValue(, forKey: "forTaskID")
+        //print()
+        
+    }
+    
+    @IBAction func tapReturn(_ sender: UITextField) {
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
