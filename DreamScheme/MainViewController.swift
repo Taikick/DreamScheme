@@ -186,12 +186,12 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         chartView.chartDescription?.text = ""
         
         set.drawValuesEnabled = false
-        chartView.xAxis.labelTextColor = UIColor.clear
+        
 //        chartView.valueForTouchPoint(point: <#T##CGPoint#>, axis: <#T##YAxis.AxisDependency#>)
-        set.valueTextColor = UIColor.clear
+        
         chartView.animate(yAxisDuration: 2.0)
         chartView.legend.enabled = false
-        chartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 0)
+
         chartView.borderLineWidth = 1.0
 //        chartView.xAxis.labelCount = 100
 //        chartView.xAxis.axisMinimum = 1
@@ -204,7 +204,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         chartView.rightAxis.axisMinimum = 0
         chartView.rightAxis.axisMaximum = 100.0
         chartView.accessibilityLabel = ""
-        chartView.noDataText = ""
+        cell.BarChrats.noDataText = ""
         chartView.xAxis.drawLabelsEnabled = true
 
         chartView.descriptionTextPosition = nil
@@ -212,6 +212,10 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         chartView.drawGridBackgroundEnabled = false
         set.formLineWidth = 1
         set.formSize = 5
+        //色系
+        chartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 0)
+        set.valueTextColor = UIColor.clear
+        chartView.xAxis.labelTextColor = UIColor.clear
         cell.BarChrats.addSubview(chartView)
         return cell
     }

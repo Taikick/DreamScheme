@@ -89,7 +89,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let set = BarChartDataSet(values: entry, label: "タスク時間")
             chartView.data = BarChartData(dataSet: set)
             chartView.drawBordersEnabled = false
-            chartView.minOffset = CGFloat(10.0)
+            chartView.minOffset = CGFloat(0)
             chartView.sizeToFit()
             //x軸の設
             chartView.xAxis.drawGridLinesEnabled = false
@@ -97,13 +97,20 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             chartView.xAxis.drawLabelsEnabled = false
             chartView.accessibilityLabel = ""
             chartView.chartDescription?.text = ""
+            chartView.animate(yAxisDuration: 2.0)
             //        chartView.xAxis.labelCount = 100
             //        chartView.xAxis.axisMinimum = 1
             //y軸の設定
+            chartView.leftAxis.labelCount = 5
             chartView.leftAxis.axisMinimum = 0
-            chartView.rightAxis.axisMaximum = 100
+            chartView.leftAxis.axisMaximum = 100
+            chartView.rightAxis.labelCount = 5
+            chartView.rightAxis.axisMinimum = 0
+            chartView.rightAxis.axisMaximum = 100.0
+            chartView.leftAxis.axisMinimum = 0
             set.formLineWidth = 3
             set.formSize = 10
+            cell.DTitleChart.noDataText = ""
             cell.DTitleChart.addSubview(chartView)
             return cell
         } else if tableView.tag == 2{
