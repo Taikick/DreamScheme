@@ -244,11 +244,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         let strSelectedDate = df.string(from: sender.date)
         if myDatePicker.tag == 1{
             startTextField.text = strSelectedDate
-            print(startTextField.text)
+            
         } else if myDatePicker.tag == 2 {
             endTextField.text = strSelectedDate
-            
-            print(endTextField.text)
         }
     }
 
@@ -286,8 +284,10 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         
         if myDatePicker.tag == 1{
         newTask.setValue(myDatePicker.date,forKey:"startDate")
+            print(myDatePicker.date)
         } else {
         newTask.setValue(myDatePicker.date,forKey:"endDate")
+            print(myDatePicker.date)
         }
         //あとid入れる
         do{

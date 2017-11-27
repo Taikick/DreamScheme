@@ -27,8 +27,8 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var entry = [
         
         [BarChartDataEntry(x: 1, y: 3.0)],
-        [BarChartDataEntry(x: 2, y: 3.0)],
-        [BarChartDataEntry(x: 3, y: 100.0)]
+        [BarChartDataEntry(x: 2, y: 80.0)],
+        [BarChartDataEntry(x: 3, y: 10.0)]
         
     ]
     
@@ -174,30 +174,44 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         rect.origin.y += 4
         rect.size.height -= 4
         let chartView = HorizontalBarChartView(frame: rect)
-        let set = BarChartDataSet(values: entry[1], label: "タスク時間")
+        let set = BarChartDataSet(values: entry[indexPath.row], label: "")
         chartView.data = BarChartData(dataSet: set)
         chartView.drawBordersEnabled = false
-        chartView.minOffset = CGFloat(10.0)
+        chartView.minOffset = CGFloat(0)
         chartView.sizeToFit()
         //x軸の設
         chartView.xAxis.drawGridLinesEnabled = false
         chartView.xAxis.forceLabelsEnabled = false
         chartView.xAxis.drawLabelsEnabled = false
         chartView.chartDescription?.text = ""
-//        chartView.valueForTouchPoint(point: <#T##CGPoint#>, axis: <#T##YAxis.AxisDependency#>)
         
+        set.drawValuesEnabled = false
+        chartView.xAxis.labelTextColor = UIColor.clear
+//        chartView.valueForTouchPoint(point: <#T##CGPoint#>, axis: <#T##YAxis.AxisDependency#>)
+        set.valueTextColor = UIColor.clear
         chartView.animate(yAxisDuration: 2.0)
         chartView.legend.enabled = false
         chartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 0)
-        
+        chartView.borderLineWidth = 1.0
 //        chartView.xAxis.labelCount = 100
 //        chartView.xAxis.axisMinimum = 1
         //y軸の設定
+        
+        chartView.leftAxis.labelCount = 5
         chartView.leftAxis.axisMinimum = 0
+        chartView.leftAxis.axisMaximum = 100
+        chartView.rightAxis.labelCount = 5
+        chartView.rightAxis.axisMinimum = 0
         chartView.rightAxis.axisMaximum = 100.0
         chartView.accessibilityLabel = ""
+        chartView.noDataText = ""
+        chartView.xAxis.drawLabelsEnabled = true
+
+        chartView.descriptionTextPosition = nil
+        chartView.highlightPerTapEnabled = false
+        chartView.drawGridBackgroundEnabled = false
         set.formLineWidth = 1
-        set.formSize = 10
+        set.formSize = 5
         cell.BarChrats.addSubview(chartView)
         return cell
     }
