@@ -232,6 +232,14 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
     }
 
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            hometitles.remove(at: indexPath.row)
+            homeTime.remove(at: indexPath.row)
+            entry.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
 
     
     override func didReceiveMemoryWarning() {

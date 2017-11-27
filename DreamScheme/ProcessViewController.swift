@@ -37,8 +37,13 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     var myDatePicker = UIDatePicker()
     let pickerView = UIPickerView()
 
+    
+    var vi = UIView()
+    
+    let df = DateFormatter()
     override func viewDidLoad() {
         super.viewDidLoad()
+        myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
 
     }
     
@@ -47,7 +52,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         pickerView.delegate   = self
         pickerView.dataSource = self
         
-        let vi = UIView(frame: pickerView.bounds)
+        vi = UIView(frame: pickerView.bounds)
         vi.backgroundColor = UIColor.white
         vi.addSubview(pickerView)
         
@@ -71,9 +76,9 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     
     func forDatePicker(textField:UITextField) {
         //DateFormatterを使って文字型から日付型に変更する
-        let df = DateFormatter()
-        df.dateFormat = "yyyy/MM/dd"
         
+        df.dateFormat = "yyyy/MM/dd"
+        vi = UIView(frame: myDatePicker.bounds)
         //選択可能な最小値を決定(2017/01/01)
         myDatePicker.minimumDate = df.date(from: "2017/12/01")
         
@@ -83,9 +88,9 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         //初期値を設定
         myDatePicker.date = df.date(from: "2018/01/01")!
         myDatePicker.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: myDatePicker.bounds.size.height)
-        let pvi = UIView(frame: myDatePicker.bounds)
-        pvi.backgroundColor = UIColor.white
-        pvi.addSubview(myDatePicker)
+        
+        vi.backgroundColor = UIColor.white
+        vi.addSubview(myDatePicker)
         
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
@@ -99,17 +104,19 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         toolBar.sizeToFit()
         textField.inputAccessoryView = toolBar
         myDatePicker.tag = textField.tag
-        self.view.addSubview(pvi)
-        pvi.addSubview(toolBar)
+        self.view.addSubview(vi)
+        vi.addSubview(toolBar)
     }
     
     func donePressed() {
-        view.endEditing(true)
+        
+        vi.removeFromSuperview()
     }
     
     // Cancel
     func cancelPressed() {
-        view.endEditing(true)
+        
+        vi.removeFromSuperview()
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -149,8 +156,11 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
 
     }
     
+    
+    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         
+        vi.removeFromSuperview()
         startTextFiled.resignFirstResponder()
         EndTextField.resignFirstResponder()
         WeekTextField.resignFirstResponder()
@@ -180,15 +190,30 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView.tag {
-        case 3:
+        case 2:
             WeekTextField.text = NDArray[row]
-        case 4:
+        case 3:
             DayTextField.text = NTArray[row]
-        case 5:
+        case 4:
             CardTextField.text = cardArray[row]
             
         default:
             print("それ以外")
+        }
+    }
+    
+    //DatePickerで、選択している日付を変えた時、日付用のTextFieldに値を表示
+    func showDateSelected(sender:UIDatePicker){
+        
+        // フォーマットを設定
+        print(df.string(from: sender.date))
+        
+        let strSelectedDate = df.string(from: sender.date)
+        if myDatePicker.tag == 0{
+            startTextFiled.text = strSelectedDate
+            print(startTextFiled.text)
+        } else if myDatePicker.tag == 1 {
+            EndTextField.text = strSelectedDate
         }
     }
 

@@ -67,6 +67,9 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         radarChartView.xAxis.granularity = 1
         radarChartView.rotationEnabled = false
         chartDataSet.drawFilledEnabled = true
+        radarChartView.descriptionTextPosition = nil
+        radarChartView.innerWebLineWidth = 0
+        
         //値は整数で表示
         let numberFormatter = NumberFormatter()
         numberFormatter.generatesDecimalNumbers = false

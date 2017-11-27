@@ -2,6 +2,18 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:ForProcess+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:ForProcess+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:ForTasks+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:ForTasks+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
       location = "group:DreamScheme.xcodeproj">
    </FileRef>
    <FileRef

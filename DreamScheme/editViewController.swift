@@ -114,6 +114,17 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             return cell
         }
     }
+    //テーブルをスワイプし削除ボタンを出す
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if tableView.tag == 2 {
+                ProTitle.remove(at: indexPath.row)
+                ProTime.remove(at: indexPath.row)
+                ProcessTableView.deleteRows(at: [indexPath], with: .fade)
+            }
+            
+        }
+    }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         

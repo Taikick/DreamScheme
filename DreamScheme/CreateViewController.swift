@@ -47,9 +47,12 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
 
     
     var passedTitle = -1
+    let df = DateFormatter()
+    var vi = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
 
     }
     
@@ -59,7 +62,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         pickerView.delegate   = self
         pickerView.dataSource = self
         
-        let vi = UIView(frame: pickerView.bounds)
+        vi = UIView(frame: pickerView.bounds)
         vi.backgroundColor = UIColor.white
         vi.addSubview(pickerView)
         
@@ -83,7 +86,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     func forDatePicker(textField:UITextField) {
         //DateFormatterを使って文字型から日付型に変更する
-        let df = DateFormatter()
+        
         df.dateFormat = "yyyy/MM/dd"
         
         //選択可能な最小値を決定(2017/01/01)
@@ -95,9 +98,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         //初期値を設定
         myDatePicker.date = df.date(from: "2018/01/01")!
         myDatePicker.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: myDatePicker.bounds.size.height)
-        let pvi = UIView(frame: myDatePicker.bounds)
-        pvi.backgroundColor = UIColor.white
-        pvi.addSubview(myDatePicker)
+        
+        vi.backgroundColor = UIColor.white
+        vi.addSubview(myDatePicker)
         
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
@@ -111,17 +114,17 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         toolBar.sizeToFit()
         textField.inputAccessoryView = toolBar
         myDatePicker.tag = textField.tag
-        self.view.addSubview(pvi)
-        pvi.addSubview(toolBar)
+        self.view.addSubview(vi)
+        vi.addSubview(toolBar)
     }
     
     func donePressed() {
-        view.endEditing(true)
+        vi.removeFromSuperview()
     }
     
     // Cancel
     func cancelPressed() {
-        view.endEditing(true)
+        vi.removeFromSuperview()
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -174,6 +177,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         
+        vi.removeFromSuperview()
         startTextField.resignFirstResponder()
         endTextField.resignFirstResponder()
         weekCountTextField.resignFirstResponder()
@@ -230,6 +234,24 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
 
         
     }
+    
+    //DatePickerで、選択している日付を変えた時、日付用のTextFieldに値を表示
+    func showDateSelected(sender:UIDatePicker){
+        
+        // フォーマットを設定
+        print(df.string(from: sender.date))
+        
+        let strSelectedDate = df.string(from: sender.date)
+        if myDatePicker.tag == 1{
+            startTextField.text = strSelectedDate
+            print(startTextField.text)
+        } else if myDatePicker.tag == 2 {
+            endTextField.text = strSelectedDate
+            
+            print(endTextField.text)
+        }
+    }
+
     //繰り返し処理を行うスイッチ
     @IBAction func tapForSwitch(_ sender: UISwitch) {
         if sender.isOn {
@@ -249,10 +271,40 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         
     }
     
+    //追加ボタンが押された時にコアデータにデータを挿入する
     @IBAction func taskAddButton(_ sender: UIButton) {
         print("追加ボタンが押されました")
+        
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let forTask = NSEntityDescription.entity(forEntityName: "ForTasks", in: viewContext)
+        
+        let newTask = NSManagedObject(entity: forTask!, insertInto: viewContext)
+        newTask.setValue(createTextFiled.text,forKey:"title")
+        
+        if myDatePicker.tag == 1{
+        newTask.setValue(myDatePicker.date,forKey:"startDate")
+        } else {
+        newTask.setValue(myDatePicker.date,forKey:"endDate")
+        }
+        //あとid入れる
+        do{
+            try viewContext.save()
+        }catch {
+            print("接続失敗")
+        }
+        
     }
+    
+    
+    
+    
 
+    //キーボードを出た時に下がる処理
+    @IBAction func returnFinish(_ sender: UITextField) {
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
