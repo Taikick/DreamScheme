@@ -288,9 +288,13 @@
                                     <action selector="taskAddButton:" destination="fKd-Rq-cmA" eventType="touchUpInside" id="XlS-3k-hXD"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="w4G-p1-KrY">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="w4G-p1-KrY">
                                 <rect key="frame" x="254" y="493" width="140" height="109"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="84S-9v-m0m" appends="YES" id="BTR-UV-2jK"/>
+                                </connections>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="目標達成のイメージアイコン" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cy6-20-zi1">
                                 <rect key="frame" x="20" y="480" width="226" height="38"/>
@@ -473,6 +477,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aIM-Je-327" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="84S-9v-m0m">
+                    <connections>
+                        <action selector="tapImage:" destination="fKd-Rq-cmA" id="gLy-rf-fh4"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3604" y="-465"/>
         </scene>
