@@ -671,6 +671,10 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="sinkan2.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="ns3-Rt-ruR">
                                 <rect key="frame" x="20" y="82" width="102" height="103"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="jDV-S8-rGt" appends="YES" id="84K-OV-ZFs"/>
+                                </connections>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ニックネーム" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1yQ-hy-lF0">
                                 <rect key="frame" x="157" y="164" width="104" height="21"/>
@@ -720,6 +724,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dgk-hX-Kuq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="jDV-S8-rGt">
+                    <connections>
+                        <action selector="tapImage:" destination="Xs4-E8-Wjr" id="dPb-Sv-Pq5"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-871.01449275362324" y="491.57608695652175"/>
         </scene>

@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import Photos
+import MobileCoreServices
 
 
 
@@ -48,6 +50,7 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
         }
         return cell
     }
+    
     
     @IBAction func tapImage(_ sender: UITapGestureRecognizer) {
         
@@ -95,8 +98,6 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
             }
             
         }
-        
-        
     }
     
     //カメラロールで写真を選んだ後
