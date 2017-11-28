@@ -33,16 +33,21 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     ]
     
     
-    var hometitles:[String] = [
+    var hometitles:[String?] = [
         "英語を勉強してナンパできるようになる"
         ,"PHPマスター"
         ,"swiftマスター"
     ]
     
-    var homeTime:[String] = [
+    var homeTime:[Date?] = [
         "2017.12.24-2018.12.24"
         ,"2017.12.24 - 2018.3.9"
         ,"2017"
+    ]
+    
+    var homeLastTime:[Date?] = [
+    
+    
     ]
     
     
@@ -67,12 +72,19 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
         
-//        do {
-//                
-//            }
-//        }catch {
-//            print("read失敗")
-//        }
+        let predicate = NSPredicate(format: "id = %@", false as CVarArg)
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResult {
+                hometitles.append(result.value(forKey: "title"))
+                homeTime[].append(result.value(forKey: "taskStartTime"))
+                homeLastTime[].append(result.value(forKey: "taskEndTime"))
+            }
+            
+        }catch {
+            print("read失敗")
+        }
     }
     
     
