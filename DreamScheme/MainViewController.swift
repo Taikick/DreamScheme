@@ -76,8 +76,11 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             for result:AnyObject in fetchResult {
                 
                 var hometitle:String? = result.value(forKey: "title") as? String
+                print(hometitle)
                 var forStart:Date? = result.value(forKey: "startDate") as? Date
+                print(forStart)
                 var forEnd:Date? = result.value(forKey: "endDate") as? Date
+                print(forEnd)
                 var forCard:String? = result.value(forKey: "cardDesign") as? String
                 print(forCard)
                 let df = DateFormatter()
