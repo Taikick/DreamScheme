@@ -16,27 +16,32 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
     
     var selectedIndex = -1
     var selectedProcess = -1
-    var goalTitles:[String] = [
-        "英語を勉強してナンパできるようになる"
-        ,"PHPマスター"
-        ,"swiftマスター"
-    ]
     
-    var goalTime:[String] = [
-        "2017.12.24-2018.12.24"
-        ,"2017.12.24 - 2018.3.9"
-        ,"2017"
-    ]
+    var cardsDesign:[String] = []
+    
+    var hometitles:[String] = []
+    
+    var homeTime:[String] = []
+    
+    var homeLastTime:[String] = []
+
     
     var entry = [
         
         [BarChartDataEntry(x: 1.0, y: 3.0)],
+        [BarChartDataEntry(x: 1.0, y: 3.0)],
+        [BarChartDataEntry(x: 1.0, y: 100.0)],
+        [BarChartDataEntry(x: 1.0, y: 3.0)],
+        [BarChartDataEntry(x: 1.0, y: 3.0)],
+        [BarChartDataEntry(x: 1.0, y: 100.0)] ,       [BarChartDataEntry(x: 1.0, y: 3.0)],
         [BarChartDataEntry(x: 1.0, y: 3.0)],
         [BarChartDataEntry(x: 1.0, y: 100.0)]
         
     ]
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        read()
         addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
     }
 
@@ -44,9 +49,13 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         //goalTableView.reloadData()
         //        timer.invalidate()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        read()
+    }
     //行数の決定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return goalTitles.count;
+        return hometitles.count;
     }
     
     
@@ -58,33 +67,107 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = goalTableView.dequeueReusableCell(withIdentifier: "GoalCell", for: indexPath) as! GoalTableViewCell
         
-        cell.TasksLabel.text = goalTitles[indexPath.row]
-        cell.DateLabel.text = goalTime[indexPath.row]
-        
-        
+        cell.TasksLabel.text = hometitles[indexPath.row]
+        cell.TasksLabel.textColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
+        cell.DateLabel.text = "\(homeTime[indexPath.row]) - \(homeLastTime[indexPath.row])"
+        cell.DateLabel.textColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         var rect = cell.BarView.bounds
         rect.origin.y += 4
         rect.size.height -= 4
         let chartView = HorizontalBarChartView(frame: rect)
-        let set = BarChartDataSet(values: entry[1], label: "タスク時間")
+        let set = BarChartDataSet(values: entry[indexPath.row], label: "")
         chartView.data = BarChartData(dataSet: set)
         chartView.drawBordersEnabled = false
-        chartView.minOffset = CGFloat(10.0)
+        chartView.minOffset = CGFloat(0)
         chartView.sizeToFit()
         //x軸の設
         chartView.xAxis.drawGridLinesEnabled = false
         chartView.xAxis.forceLabelsEnabled = false
         chartView.xAxis.drawLabelsEnabled = false
-        //        chartView.xAxis.labelCount = 100
-        //        chartView.xAxis.axisMinimum = 1
+        chartView.chartDescription?.text = ""
+        set.drawValuesEnabled = false
+        chartView.animate(yAxisDuration: 2.0)
+        chartView.legend.enabled = false
+        chartView.borderLineWidth = 1.0
         //y軸の設定
-        chartView.leftAxis.axisMinimum = 0
-        chartView.rightAxis.axisMaximum = 100
-        set.formLineWidth = 3
-        set.formSize = 10
+        chartView.leftAxis.enabled = false
+        chartView.rightAxis.labelCount = 5
+        chartView.rightAxis.axisMinimum = 0
+        chartView.rightAxis.axisMaximum = 100.0
+        chartView.accessibilityLabel = ""
+        cell.BarView.noDataText = ""
+        chartView.xAxis.drawLabelsEnabled = true
+        chartView.descriptionTextPosition = nil
+        chartView.highlightPerTapEnabled = false
+        chartView.drawGridBackgroundEnabled = false
+        set.formLineWidth = 1
+        set.formSize = 3
+        
+        //色系
+        if cardsDesign[indexPath.row] == "青"{
+            cell.backgroundColor = #colorLiteral(red: 0.4508578777, green: 0.9882974029, blue: 0.8376303315, alpha: 1)
+            set.colors = [#colorLiteral(red: 0.476841867, green: 0.5048075914, blue: 1, alpha: 0.8272153253)]
+        } else if cardsDesign[indexPath.row] == "赤"{
+            cell.backgroundColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 0.5359856592)
+            set.colors = [#colorLiteral(red: 0.5807225108, green: 0.066734083, blue: 0, alpha: 0.9017016267)]
+        } else if cardsDesign[indexPath.row] == "黄色"{
+            cell.backgroundColor = #colorLiteral(red: 1, green: 0.8323456645, blue: 0.4732058644, alpha: 0.7487157534)
+            set.colors = [#colorLiteral(red: 1, green: 0.9334713866, blue: 0.2072222195, alpha: 1)]
+        } else {
+            cell.backgroundColor = #colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 0.6764501284)
+            set.colors = [#colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 1)]
+        }
+        chartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 0)
+        set.valueTextColor = UIColor.clear
+        chartView.xAxis.labelTextColor = UIColor.clear
         cell.BarView.addSubview(chartView)
         return cell
     }
+    func read(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+        
+        let predicate = NSPredicate(format: "doneID = %@",NSNumber(value: false) as CVarArg)
+        query.predicate = predicate
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResult {
+                
+                var hometitle:String? = result.value(forKey: "title") as? String
+                
+                print(hometitle)
+                var forCard:String? = result.value(forKey: "cardDesign") as? String
+                print(forCard)
+                
+                var forStart:Date? = result.value(forKey: "startDate") as? Date
+                print(forStart)
+                
+                var forEnd:Date? = result.value(forKey: "endDate") as? Date
+                print(forEnd)
+                
+                let df = DateFormatter()
+                df.dateFormat = "yyyy/MM/dd"
+                df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
+                //nilは入らないようにする
+                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil {
+                    
+                    hometitles.append(hometitle!)
+                    cardsDesign.append(forCard!)
+                    homeTime.append(df.string(from: forStart!))
+                    homeLastTime.append(df.string(from: forEnd!))
+                    
+                }
+            }
+            
+        }catch {
+            print("read失敗")
+        }
+    }
+
     //セルが押された時発動
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(indexPath.row)が行目")

@@ -34,8 +34,16 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         [BarChartDataEntry(x: 1, y: 10.0)],
         [BarChartDataEntry(x: 1, y: 3.0)],
         [BarChartDataEntry(x: 1, y: 80.0)],
+        [BarChartDataEntry(x: 1, y: 10.0)],
+        [BarChartDataEntry(x: 1, y: 3.0)],
+        [BarChartDataEntry(x: 1, y: 80.0)],
+        [BarChartDataEntry(x: 1, y: 10.0)],
+        [BarChartDataEntry(x: 1, y: 3.0)],
+        [BarChartDataEntry(x: 1, y: 80.0)],
+        [BarChartDataEntry(x: 1, y: 10.0)],
+        [BarChartDataEntry(x: 1, y: 3.0)],
+        [BarChartDataEntry(x: 1, y: 80.0)],
         [BarChartDataEntry(x: 1, y: 10.0)]
-        
     ]
     
     var cardsDesign:[String] = []
@@ -68,7 +76,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
         
-        let predicate = NSPredicate(format: "id = %@",NSNumber(value: false) as CVarArg)
+        let predicate = NSPredicate(format: "doneID = %@",NSNumber(value: false) as CVarArg)
         query.predicate = predicate
         do {
             let fetchResult = try viewContext.fetch(query)
@@ -106,6 +114,9 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        read()
+    }
     
     //timerの変数
     var timer:Timer!
@@ -164,11 +175,10 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        read()
-        print("ホームタイム\(homeTime.count)")
-        print("ホームタイトル\(hometitles.count)")
-        print("ホームラストタイム\(homeLastTime.count)")
+          read()
+//        print("ホームタイム\(homeTime.count)")
+//        print("ホームタイトル\(hometitles.count)")
+//        print("ホームラストタイム\(homeLastTime.count)")
 //        print(cardsDesign)
         //fontawesomeをボタンに使う
         myButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
@@ -189,6 +199,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     override func viewWillAppear(_ animated: Bool) {
         homeTableView.reloadData()
+        read()
 //        timer.invalidate()
     }
     
@@ -219,7 +230,9 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         let cell = homeTableView.dequeueReusableCell(withIdentifier: "homeCell", for: indexPath) as! HomeTableViewCell
         
         cell.tasksLabel.text = hometitles[indexPath.row]
-//        cell.dateLabel.text = homeTime[indexPath.row]
+        cell.tasksLabel.textColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
+        cell.dateLabel.text = "\(homeTime[indexPath.row]) - \(homeLastTime[indexPath.row])"
+        cell.dateLabel.textColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         var rect = cell.BarChrats.bounds
         rect.origin.y += 4
         rect.size.height -= 4
@@ -235,16 +248,11 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         chartView.xAxis.drawLabelsEnabled = false
         chartView.chartDescription?.text = ""
         set.drawValuesEnabled = false
-//        chartView.valueForTouchPoint(point: <#T##CGPoint#>, axis: <#T##YAxis.AxisDependency#>)
         chartView.animate(yAxisDuration: 2.0)
         chartView.legend.enabled = false
         chartView.borderLineWidth = 1.0
-//        chartView.xAxis.labelCount = 100
-//        chartView.xAxis.axisMinimum = 1
         //y軸の設定
-        chartView.leftAxis.labelCount = 5
-        chartView.leftAxis.axisMinimum = 0
-        chartView.leftAxis.axisMaximum = 100
+        chartView.leftAxis.enabled = false
         chartView.rightAxis.labelCount = 5
         chartView.rightAxis.axisMinimum = 0
         chartView.rightAxis.axisMaximum = 100.0
@@ -255,9 +263,22 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         chartView.highlightPerTapEnabled = false
         chartView.drawGridBackgroundEnabled = false
         set.formLineWidth = 1
-        set.formSize = 5
+        set.formSize = 3
         
         //色系
+        if cardsDesign[indexPath.row] == "青"{
+            cell.backgroundColor = #colorLiteral(red: 0.4508578777, green: 0.9882974029, blue: 0.8376303315, alpha: 1)
+            set.colors = [#colorLiteral(red: 0.476841867, green: 0.5048075914, blue: 1, alpha: 0.8272153253)]
+        } else if cardsDesign[indexPath.row] == "赤"{
+            cell.backgroundColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 0.5359856592)
+            set.colors = [#colorLiteral(red: 0.5807225108, green: 0.066734083, blue: 0, alpha: 0.9017016267)]
+        } else if cardsDesign[indexPath.row] == "黄色"{
+            cell.backgroundColor = #colorLiteral(red: 1, green: 0.8323456645, blue: 0.4732058644, alpha: 0.7487157534)
+            set.colors = [#colorLiteral(red: 1, green: 0.9334713866, blue: 0.2072222195, alpha: 1)]
+        } else {
+            cell.backgroundColor = #colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 0.6764501284)
+            set.colors = [#colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 1)]
+        }
         chartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 0)
         set.valueTextColor = UIColor.clear
         chartView.xAxis.labelTextColor = UIColor.clear
