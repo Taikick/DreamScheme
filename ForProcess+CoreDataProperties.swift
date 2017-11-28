@@ -16,13 +16,13 @@ extension ForProcess {
         return NSFetchRequest<ForProcess>(entityName: "ForProcess")
     }
 
+    @NSManaged public var dailyProcess: String?
     @NSManaged public var forTaskID: Int16
     @NSManaged public var id: Int16
+    @NSManaged public var processCard: String?
     @NSManaged public var processEnd: NSDate?
     @NSManaged public var processSrart: NSDate?
     @NSManaged public var title: String?
-    @NSManaged public var processCard: String?
     @NSManaged public var weeklyProcess: String?
-    @NSManaged public var dailyProcess: String?
 
 }

@@ -77,22 +77,25 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 
                 var hometitle:String? = result.value(forKey: "title") as? String
                 print(hometitle)
+//                var forCard:String? = result.value(forKey: "cardDesign") as? String
+//                print(forCard)
                 var forStart:Date? = result.value(forKey: "startDate") as? Date
                 print(forStart)
                 var forEnd:Date? = result.value(forKey: "endDate") as? Date
                 print(forEnd)
-                var forCard:String? = result.value(forKey: "cardDesign") as? String
-                print(forCard)
+                
+                
                 let df = DateFormatter()
                 df.dateFormat = "yyyy/MM/dd"
                 df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
                 //nilは入らないようにする
-                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil{
+                if forStart != nil && forEnd != nil && hometitle != nil  {
 
                     hometitles.append(hometitle!)
+//                    cardsDesign.append(forCard!)
                     homeTime.append(df.string(from: forStart!))
                     homeLastTime.append(df.string(from: forEnd!))
-                    cardsDesign.append(forCard!)
+                    
                 }
             }
             
