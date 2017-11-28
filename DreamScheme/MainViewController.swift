@@ -62,6 +62,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
         
         let predicate = NSPredicate(format: "id = %@", false as CVarArg)
+        query.predicate = predicate
         do {
             let fetchResult = try viewContext.fetch(query)
             
@@ -70,6 +71,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 hometitles.append((result.value(forKey: "title") as? String)!)
                 var forStart:Date? = result.value(forKey: "startDate") as? Date
                 var forEnd:Date? = result.value(forKey: "endDate") as? Date
+                print(forStart)
 
                 let df = DateFormatter()
                 df.dateFormat = "yyyy/MM/dd"
