@@ -794,7 +794,6 @@
                     </view>
                     <connections>
                         <outlet property="goalTableView" destination="sLI-KE-nhj" id="UkO-pd-Mxv"/>
-                        <segue destination="T8P-p5-k3B" kind="show" identifier="moveCreate" id="grm-ve-lJA"/>
                         <segue destination="M4P-zI-hsf" kind="show" identifier="GoalToDetail" id="sMw-PW-TYe"/>
                     </connections>
                 </viewController>

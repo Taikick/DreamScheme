@@ -290,7 +290,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         let newTask = NSManagedObject(entity: forTask!, insertInto: viewContext)
         newTask.setValue(createTextFiled.text!,forKey:"title")
         print(createTextFiled.text)
-        
+        newTask.setValue(false, forKey: "doneID")
         newTask.setValue(startPicker,forKey:"startDate")
             print(startPicker)
         
@@ -298,6 +298,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             print(endPicker)
 
         //あとid入れる
+        
         do{
             try viewContext.save()
         }catch {
@@ -340,17 +341,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             // データを取り出す
             let strURL = myDefault.string(forKey: "selectedPhotoURL")
             
-            if strURL != nil{
-                
-                let url = URL(string: strURL as String!)
-                let fetchResult: PHFetchResult = PHAsset.fetchAssets(withALAssetURLs: [url!], options: nil)
-                let asset: PHAsset = (fetchResult.firstObject! as PHAsset)
-                let manager: PHImageManager = PHImageManager()
-                manager.requestImage(for: asset,targetSize: CGSize(width: 5, height: 500),contentMode: .aspectFill,options: nil) { (image, info) -> Void in
-                    self.taskImage.image = image
-                }
-                
-            }
+      
             
         }
 
@@ -378,7 +369,17 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         // 即反映させる
         myDefault.synchronize()
         
-        
+        if strURL != nil{
+            
+            let url = URL(string: strURL as String!)
+            let fetchResult: PHFetchResult = PHAsset.fetchAssets(withALAssetURLs: [url!], options: nil)
+            let asset: PHAsset = (fetchResult.firstObject! as PHAsset)
+            let manager: PHImageManager = PHImageManager()
+            manager.requestImage(for: asset,targetSize: CGSize(width: 5, height: 500),contentMode: .aspectFill,options: nil) { (image, info) -> Void in
+                self.taskImage.image = image
+            }
+            
+        }
         
         //閉じる処理
         imagePicker.dismiss(animated: true, completion: nil)

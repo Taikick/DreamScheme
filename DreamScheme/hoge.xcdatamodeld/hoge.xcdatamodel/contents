@@ -8,6 +8,7 @@
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="ForTasks" representedClassName=".ForTasks" syncable="YES" codeGenerationType="class">
+        <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="doneID" optional="YES" attributeType="Boolean" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -18,6 +19,6 @@
     </entity>
     <elements>
         <element name="ForProcess" positionX="-45" positionY="0" width="128" height="120"/>
-        <element name="ForTasks" positionX="-18" positionY="27" width="128" height="150"/>
+        <element name="ForTasks" positionX="-18" positionY="27" width="128" height="165"/>
     </elements>
 </model>
