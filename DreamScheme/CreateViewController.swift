@@ -235,7 +235,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         case 6:
             noticeTimeTextField.text = NTArray[row]
         case 7:
-            cardTextField.text = cardArray[row]
+            cardTextField.text! = cardArray[row]
+            print(cardTextField.text!)
             
         default:
             print("それ以外")
@@ -328,6 +329,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         newTask.setValue(id + 1,forKey:"id")
         print(id)
         
+        newTask.setValue(cardTextField.text!, forKey: "cardDesign")
+        print(cardTextField.text!)
         do{
             try viewContext.save()
         }catch {

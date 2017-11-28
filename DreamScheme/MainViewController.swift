@@ -24,20 +24,27 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     
     
-    var entry = [
+    var entry:[[BarChartDataEntry]] = [
         
         [BarChartDataEntry(x: 1, y: 3.0)],
-        [BarChartDataEntry(x: 2, y: 80.0)],
-        [BarChartDataEntry(x: 3, y: 10.0)]
+        [BarChartDataEntry(x: 1, y: 80.0)],
+        [BarChartDataEntry(x: 1, y: 10.0)],
+        [BarChartDataEntry(x: 1, y: 3.0)],
+        [BarChartDataEntry(x: 1, y: 80.0)],
+        [BarChartDataEntry(x: 1, y: 10.0)],
+        [BarChartDataEntry(x: 1, y: 3.0)],
+        [BarChartDataEntry(x: 1, y: 80.0)],
+        [BarChartDataEntry(x: 1, y: 10.0)]
         
     ]
     
+    var cardsDesign:[String] = []
     
     var hometitles:[String] = []
     
-    var homeTime:[String?] = []
+    var homeTime:[String] = []
     
-    var homeLastTime:[String?] = []
+    var homeLastTime:[String] = []
     
     
     //時間のラベル
@@ -68,17 +75,23 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             
             for result:AnyObject in fetchResult {
                 
-                hometitles.append((result.value(forKey: "title") as? String)!)
+                var hometitle:String? = result.value(forKey: "title") as? String
                 var forStart:Date? = result.value(forKey: "startDate") as? Date
                 var forEnd:Date? = result.value(forKey: "endDate") as? Date
-                print(forStart)
-
+                var forCard:String? = result.value(forKey: "cardDesign") as? String
+                print(forCard)
                 let df = DateFormatter()
                 df.dateFormat = "yyyy/MM/dd"
                 df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
-                homeTime.append(df.string(from: forStart!))
-                homeLastTime.append(df.string(from: forEnd!))
-               
+                //nilは入らないようにする
+                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil{
+
+                    hometitles.append(hometitle!)
+                    homeTime.append(df.string(from: forStart!))
+                    homeLastTime.append(df.string(from: forEnd!))
+                    cardsDesign.append(forCard!)
+                    
+                }
             }
             
         }catch {
@@ -146,6 +159,10 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         super.viewDidLoad()
         
         read()
+        print("ホームタイム\(homeTime.count)")
+        print("ホームタイトル\(hometitles.count)")
+        print("ホームラストタイム\(homeLastTime.count)")
+//        print(cardsDesign)
         //fontawesomeをボタンに使う
         myButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
         myButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
@@ -195,9 +212,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         let cell = homeTableView.dequeueReusableCell(withIdentifier: "homeCell", for: indexPath) as! HomeTableViewCell
         
         cell.tasksLabel.text = hometitles[indexPath.row]
-        cell.dateLabel.text = homeTime[indexPath.row]
-        
-        
+//        cell.dateLabel.text = homeTime[indexPath.row]
         var rect = cell.BarChrats.bounds
         rect.origin.y += 4
         rect.size.height -= 4
@@ -212,19 +227,14 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         chartView.xAxis.forceLabelsEnabled = false
         chartView.xAxis.drawLabelsEnabled = false
         chartView.chartDescription?.text = ""
-        
         set.drawValuesEnabled = false
-        
 //        chartView.valueForTouchPoint(point: <#T##CGPoint#>, axis: <#T##YAxis.AxisDependency#>)
-        
         chartView.animate(yAxisDuration: 2.0)
         chartView.legend.enabled = false
-
         chartView.borderLineWidth = 1.0
 //        chartView.xAxis.labelCount = 100
 //        chartView.xAxis.axisMinimum = 1
         //y軸の設定
-        
         chartView.leftAxis.labelCount = 5
         chartView.leftAxis.axisMinimum = 0
         chartView.leftAxis.axisMaximum = 100
@@ -234,12 +244,12 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         chartView.accessibilityLabel = ""
         cell.BarChrats.noDataText = ""
         chartView.xAxis.drawLabelsEnabled = true
-
         chartView.descriptionTextPosition = nil
         chartView.highlightPerTapEnabled = false
         chartView.drawGridBackgroundEnabled = false
         set.formLineWidth = 1
         set.formSize = 5
+        
         //色系
         chartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 0)
         set.valueTextColor = UIColor.clear
