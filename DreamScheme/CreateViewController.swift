@@ -51,6 +51,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
 
     var endPicker:Date = Date()
     
+    var id = 0
+    
     var passedTitle = -1
     let df = DateFormatter()
     var vi = UIView()
@@ -95,13 +97,15 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         df.dateFormat = "yyyy/MM/dd"
         
         //選択可能な最小値を決定(2017/01/01)
-        myDatePicker.minimumDate = df.date(from: "2017/12/01")
+        
         
         //選択可能な最大値(2017/12/31)
         myDatePicker.maximumDate = df.date(from: "2030/12/31")
         
         //初期値を設定
+        
         myDatePicker.date = df.date(from: "2018/01/01")!
+        myDatePicker.minimumDate = Date()
         myDatePicker.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: myDatePicker.bounds.size.height)
         
         vi.backgroundColor = UIColor.white
@@ -276,16 +280,39 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
         
     }
+    func read(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+        
+        do {
+            
+            let fetchResults = try viewContext.fetch(query)
+            for result in fetchResults {
+                id = (result.value(forKey:"id") as? Int)!
+                
+            }
+        }catch {
+            print("read失敗")
+        }
+    }
+    
     
     //追加ボタンが押された時にコアデータにデータを挿入する
     @IBAction func taskAddButton(_ sender: UIButton) {
         print("追加ボタンが押されました")
+        read()
+
         
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
         let viewContext = appDelegate.persistentContainer.viewContext
         
         let forTask = NSEntityDescription.entity(forEntityName: "ForTasks", in: viewContext)
+        
+        
         
         let newTask = NSManagedObject(entity: forTask!, insertInto: viewContext)
         newTask.setValue(createTextFiled.text!,forKey:"title")
@@ -298,13 +325,14 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             print(endPicker)
 
         //あとid入れる
+        newTask.setValue(id + 1,forKey:"id")
+        print(id)
         
         do{
             try viewContext.save()
         }catch {
             print("接続失敗")
         }
-        
     }
     
     

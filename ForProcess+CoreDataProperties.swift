@@ -21,5 +21,8 @@ extension ForProcess {
     @NSManaged public var processEnd: NSDate?
     @NSManaged public var processSrart: NSDate?
     @NSManaged public var title: String?
+    @NSManaged public var processCard: String?
+    @NSManaged public var weeklyProcess: String?
+    @NSManaged public var dailyProcess: String?
 
 }

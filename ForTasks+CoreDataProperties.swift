@@ -24,5 +24,13 @@ extension ForTasks {
     @NSManaged public var taskStartTime: NSDate?
     @NSManaged public var title: String?
     @NSManaged public var id: Int16
+    @NSManaged public var forSwitch: Bool
+    @NSManaged public var forNotice: Bool
+    @NSManaged public var cardDesign: String?
+    @NSManaged public var taskImagePath: String?
+    @NSManaged public var weekly: String?
+    @NSManaged public var purposeTime: String?
+    @NSManaged public var noticeDay: String?
+    @NSManaged public var noticeWeek: String?
 
 }

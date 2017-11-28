@@ -16,7 +16,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     
     
-    //
+    
     var selectedIndex = -1
     
     @IBOutlet weak var myButton: UIButton!
@@ -59,6 +59,22 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     @IBOutlet weak var homeTableView: UITableView!
     
     @IBOutlet weak var myBarButton: UIBarButtonItem!
+    
+    func read(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+        
+//        do {
+//                
+//            }
+//        }catch {
+//            print("read失敗")
+//        }
+    }
+    
     
     //timerの変数
     var timer:Timer!

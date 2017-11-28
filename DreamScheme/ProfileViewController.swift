@@ -21,7 +21,8 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
     @IBOutlet weak var myImageView: UIImageView!
     
     @IBOutlet weak var userName: UILabel!
-
+    
+    @IBOutlet weak var profileSettings: UITableView!
     let Settings:[String] = ["未達成のやるべきこと","総合タスク時間"]
     
     let unReachTask = "3個"
@@ -84,17 +85,7 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
             // データを取り出す
             let strURL = myDefault.string(forKey: "selectedPhotoURL")
             
-            if strURL != nil{
-                
-                let url = URL(string: strURL as String!)
-                let fetchResult: PHFetchResult = PHAsset.fetchAssets(withALAssetURLs: [url!], options: nil)
-                let asset: PHAsset = (fetchResult.firstObject! as PHAsset)
-                let manager: PHImageManager = PHImageManager()
-                manager.requestImage(for: asset,targetSize: CGSize(width: 5, height: 500),contentMode: .aspectFill,options: nil) { (image, info) -> Void in
-                    self.myImageView.image = image
-                }
-                
-            }
+
             
         }
     }
@@ -120,7 +111,17 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
         // 即反映させる
         myDefault.synchronize()
         
-        
+        if strURL != nil{
+            
+            let url = URL(string: strURL as String!)
+            let fetchResult: PHFetchResult = PHAsset.fetchAssets(withALAssetURLs: [url!], options: nil)
+            let asset: PHAsset = (fetchResult.firstObject! as PHAsset)
+            let manager: PHImageManager = PHImageManager()
+            manager.requestImage(for: asset,targetSize: CGSize(width: 5, height: 500),contentMode: .aspectFill,options: nil) { (image, info) -> Void in
+                self.myImageView.image = image
+            }
+            
+        }
         
         //閉じる処理
         imagePicker.dismiss(animated: true, completion: nil)
