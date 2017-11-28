@@ -33,22 +33,11 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     ]
     
     
-    var hometitles:[String?] = [
-        "英語を勉強してナンパできるようになる"
-        ,"PHPマスター"
-        ,"swiftマスター"
-    ]
+    var hometitles:[String] = []
     
-    var homeTime:[Date?] = [
-        "2017.12.24-2018.12.24"
-        ,"2017.12.24 - 2018.3.9"
-        ,"2017"
-    ]
+    var homeTime:[String?] = []
     
-    var homeLastTime:[Date?] = [
-    
-    
-    ]
+    var homeLastTime:[String?] = []
     
     
     //時間のラベル
@@ -77,9 +66,17 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let fetchResult = try viewContext.fetch(query)
             
             for result:AnyObject in fetchResult {
-                hometitles.append(result.value(forKey: "title"))
-                homeTime[].append(result.value(forKey: "taskStartTime"))
-                homeLastTime[].append(result.value(forKey: "taskEndTime"))
+                
+                hometitles.append((result.value(forKey: "title") as? String)!)
+                var forStart:Date? = result.value(forKey: "startDate") as? Date
+                var forEnd:Date? = result.value(forKey: "endDate") as? Date
+
+                let df = DateFormatter()
+                df.dateFormat = "yyyy/MM/dd"
+                df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
+                homeTime.append(df.string(from: forStart!))
+                homeLastTime.append(df.string(from: forEnd!))
+               
             }
             
         }catch {
@@ -146,6 +143,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        read()
         //fontawesomeをボタンに使う
         myButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
         myButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
