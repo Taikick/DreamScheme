@@ -68,7 +68,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
         
-        let predicate = NSPredicate(format: "id = %@", false as CVarArg)
+        let predicate = NSPredicate(format: "id = %@",NSNumber(value: false) as CVarArg)
         query.predicate = predicate
         do {
             let fetchResult = try viewContext.fetch(query)
@@ -76,23 +76,25 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             for result:AnyObject in fetchResult {
                 
                 var hometitle:String? = result.value(forKey: "title") as? String
+                
                 print(hometitle)
-//                var forCard:String? = result.value(forKey: "cardDesign") as? String
-//                print(forCard)
+                var forCard:String? = result.value(forKey: "cardDesign") as? String
+                print(forCard)
+                
                 var forStart:Date? = result.value(forKey: "startDate") as? Date
                 print(forStart)
+                
                 var forEnd:Date? = result.value(forKey: "endDate") as? Date
                 print(forEnd)
-                
                 
                 let df = DateFormatter()
                 df.dateFormat = "yyyy/MM/dd"
                 df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
                 //nilは入らないようにする
-                if forStart != nil && forEnd != nil && hometitle != nil  {
+                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil {
 
                     hometitles.append(hometitle!)
-//                    cardsDesign.append(forCard!)
+                    cardsDesign.append(forCard!)
                     homeTime.append(df.string(from: forStart!))
                     homeLastTime.append(df.string(from: forEnd!))
                     
@@ -292,7 +294,6 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
         
     }
-
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             hometitles.remove(at: indexPath.row)
@@ -301,12 +302,8 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
-
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }

@@ -60,7 +60,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
-
     }
     
     func forPickerView(textField:UITextField){
@@ -382,14 +381,11 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     //カメラロールで写真を選んだ後
     func imagePickerController(_ imagePicker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        
-        
         let assetURL:AnyObject = info[UIImagePickerControllerReferenceURL]! as AnyObject
         
         let strURL:String = assetURL.description
         
         print(strURL)
-        
         
         // ユーザーデフォルトを用意する
         let myDefault = UserDefaults.standard
@@ -417,7 +413,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         
     }
     
-
     //キーボードを出た時に下がる処理
     @IBAction func returnFinish(_ sender: UITextField) {
     }
