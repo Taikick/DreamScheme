@@ -329,7 +329,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         newTask.setValue(id + 1,forKey:"id")
         print(id)
         
-        newTask.setValue(cardTextField.text!, forKey: "cardDesign")
+        newTask.setValue(cardTextField.text!,forKey: "cardDesign")
         print(cardTextField.text!)
         do{
             try viewContext.save()

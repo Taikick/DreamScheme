@@ -90,7 +90,6 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     homeTime.append(df.string(from: forStart!))
                     homeLastTime.append(df.string(from: forEnd!))
                     cardsDesign.append(forCard!)
-                    
                 }
             }
             
