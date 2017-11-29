@@ -65,6 +65,15 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
+        df.dateFormat = "yyyy/MM/dd"
+        df.locale = Locale(identifier: "ja_JP");
+
+
+        weekCountTextField.text = todoWeekArray[0]
+        dayCountTextField.text = todoDayArray[0]
+        noticeDayTextField.text = NDArray[0]
+        noticeTimeTextField.text = NTArray[0]
+        cardTextField.text = cardArray[0]
     }
     
     func forPickerView(textField:UITextField){
@@ -109,7 +118,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         //初期値を設定
         
         myDatePicker.date = df.date(from: "2018/01/01")!
-        myDatePicker.minimumDate = Date()
         myDatePicker.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: myDatePicker.bounds.size.height)
         
         vi.backgroundColor = UIColor.white
@@ -255,7 +263,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         // フォーマットを設定
         print(df.string(from: sender.date))
         
-        let strSelectedDate = df.string(from: sender.date)
+        var strSelectedDate = df.string(from: sender.date)
         if myDatePicker.tag == 1{
             startTextField.text = strSelectedDate
             startPicker = myDatePicker.date

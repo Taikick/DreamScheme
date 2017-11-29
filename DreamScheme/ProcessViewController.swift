@@ -276,11 +276,14 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         
         newProcess.setValue(CardTextField.text, forKey: "processCard")
         print(CardTextField.text)
-//        newProcess.setValue(, forKey: "forTaskID")
-        //print()
+
         newProcess.setValue(id + 1,forKey:"id")
         print(id)
-        
+        newProcess.setValue(WeekTextField.text, forKey: "weeklyProcess")
+        newProcess.setValue(DayTextField.text, forKey: "dailyProcess")
+        //タスクIDの指定
+        //newProcess.setValue(, forKey: "forTaskID")
+        //print()
         do{
             try viewContext.save()
         }catch {

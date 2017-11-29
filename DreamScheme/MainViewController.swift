@@ -91,8 +91,6 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     cardsDesign.append(forCard!)
                     homeTime.append(df.string(from: forStart!))
                     homeLastTime.append(df.string(from: forEnd!))
-                    entry[0].append([BarChartDataEntry(x: 1, y: 3.0)])
-                    
                 }
             }
             
