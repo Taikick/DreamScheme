@@ -14,15 +14,9 @@ import SlideMenuControllerSwift
 
 class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
-    
-    
-    
     var selectedIndex = -1
     
     @IBOutlet weak var myButton: UIButton!
-    
-    
-    
     
     var entry:[[BarChartDataEntry]] = [
         
@@ -35,15 +29,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         [BarChartDataEntry(x: 1, y: 3.0)],
         [BarChartDataEntry(x: 1, y: 80.0)],
         [BarChartDataEntry(x: 1, y: 10.0)],
-        [BarChartDataEntry(x: 1, y: 3.0)],
-        [BarChartDataEntry(x: 1, y: 80.0)],
-        [BarChartDataEntry(x: 1, y: 10.0)],
-        [BarChartDataEntry(x: 1, y: 3.0)],
-        [BarChartDataEntry(x: 1, y: 80.0)],
-        [BarChartDataEntry(x: 1, y: 10.0)],
-        [BarChartDataEntry(x: 1, y: 3.0)],
-        [BarChartDataEntry(x: 1, y: 80.0)],
-        [BarChartDataEntry(x: 1, y: 10.0)]
+        [BarChartDataEntry(x: 1, y: 3.0)]
     ]
     
     var cardsDesign:[String] = []
@@ -105,6 +91,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     cardsDesign.append(forCard!)
                     homeTime.append(df.string(from: forStart!))
                     homeLastTime.append(df.string(from: forEnd!))
+                    entry[0].append([BarChartDataEntry(x: 1, y: 3.0)])
                     
                 }
             }
@@ -252,6 +239,9 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         chartView.legend.enabled = false
         chartView.borderLineWidth = 1.0
         //y軸の設定
+        chartView.leftAxis.axisMinimum = 0
+        chartView.leftAxis.axisMaximum = 100.0
+        chartView.leftAxis.labelCount = 5
         chartView.leftAxis.enabled = false
         chartView.rightAxis.labelCount = 5
         chartView.rightAxis.axisMinimum = 0

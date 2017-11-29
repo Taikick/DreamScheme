@@ -29,6 +29,11 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     @IBOutlet weak var noticeTimeTextField: UITextField!
     
     @IBOutlet weak var cardTextField: UITextField!
+    
+    @IBOutlet weak var forSwitch: UISwitch!
+    
+    @IBOutlet weak var noticeSwitch: UISwitch!
+    
     var textField = UITextField()
     
     
@@ -266,17 +271,20 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     @IBAction func tapForSwitch(_ sender: UISwitch) {
         if sender.isOn {
             print("繰り返しスイッチオン")
+            forSwitch.isOn = true
         }else{
             print("繰り返しスイッチオフ")
+            forSwitch.isOn = false
         }
     }
     
     //通知用のスイッチ
     @IBAction func AlertSwitch(_ sender: UISwitch) {
         if sender.isOn {
-            print("通知スイッチオン")
+            noticeSwitch.isOn = true
         }else{
             print("通知スイッチオフ")
+            noticeSwitch.isOn = false
         }
         
     }
@@ -329,6 +337,23 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         print(id)
         
         newTask.setValue(cardTextField.text, forKey: "cardDesign")
+        //繰り返しスイッチの値を入れる
+        newTask.setValue(forSwitch.isOn, forKey: "forSwitch")
+        //通知スイッチの値を入れる
+        newTask.setValue(noticeSwitch.isOn, forKey: "forNotice")
+        
+        newTask.setValue(weekCountTextField.text, forKey: "weekly")
+        
+        newTask.setValue(dayCountTextField.text, forKey: "purposeTime")
+        
+        newTask.setValue(Date(), forKey: "created_at")
+        
+        newTask.setValue(noticeDayTextField.text, forKey: "noticeWeek")
+        
+        newTask.setValue(noticeTimeTextField.text, forKey: "noticeDay")
+        
+        //イメージパスと時間に０
+        
         do{
             try viewContext.save()
         }catch {

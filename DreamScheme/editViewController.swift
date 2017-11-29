@@ -24,6 +24,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     @IBOutlet weak var ProcessTableView: UITableView!
     var entry = [BarChartDataEntry(x: 1.0, y: 3.0)]
     
+    var cardsDesign:[String] = []
     
     var DTitle:[String] = [
         "英語を勉強してナンパできるようになる"
@@ -32,24 +33,21 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var DTitleTime:[String] = [
         "2017.12.24-2018.12.24"
     ]
+    
 
     var ProTitle:[String] = [
-        "英語を勉強してナンパできるようになる"
-        ,"PHPマスター"
-        ,"swiftマスター"
-        ,"終わらないコード"
     ]
     
     var ProTime:[String] = [
-        "2017.12.24-2018.12.24"
-        ,"2017.12.24 - 2018.3.9"
-        ,"2017"
-        ,"now"
+
     ]
+    
+    var ProEndTime:[String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        read()
+        print(ProTitle)
         //fontawesomeをボタンに使う
         addProButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
         addProButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
@@ -62,6 +60,23 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         performSegue(withIdentifier: "toDProcess", sender: nil)
     }
 
+    
+    func readTitle(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+        
+        //        let predicate = NSPredicate(format: "id = %@",)
+        //        query.predicate = predicate
+        do {
+            
+            
+        }catch {
+            print("read失敗")
+        }
+    }
     //行数の決定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.tag == 1{
@@ -116,7 +131,17 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         } else if tableView.tag == 2{
             let cell = ProcessTableView.dequeueReusableCell(withIdentifier: "ProcessCell", for: indexPath) as! ProcessTableViewCell
             cell.ProLabel.text = ProTitle[indexPath.row]
-            cell.ProTimeLabel.text = ProTime[indexPath.row]
+            cell.ProTimeLabel.text = "\(ProTime[indexPath.row]) - \(ProEndTime[indexPath.row])"
+            //色系
+            if cardsDesign[indexPath.row] == "青"{
+                cell.backgroundColor = #colorLiteral(red: 0.4508578777, green: 0.9882974029, blue: 0.8376303315, alpha: 1)
+            } else if cardsDesign[indexPath.row] == "赤"{
+                cell.backgroundColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 0.5359856592)
+            } else if cardsDesign[indexPath.row] == "黄色"{
+                cell.backgroundColor = #colorLiteral(red: 1, green: 0.8323456645, blue: 0.4732058644, alpha: 0.7487157534)
+            } else {
+                cell.backgroundColor = #colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 0.6764501284)
+            }
             return cell
         }else {
             let cell = DTitleTableViewCell()
@@ -135,6 +160,51 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
 
+    func read(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForProcess> = ForProcess.fetchRequest()
+        
+//        let predicate = NSPredicate(format: "doneID = %@",NSNumber(value: false) as CVarArg)
+//        query.predicate = predicate
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResult {
+                
+                var processtitle:String? = result.value(forKey: "title") as? String
+                
+                print(processtitle)
+                var forCard:String? = result.value(forKey: "processCard") as? String
+                print(forCard)
+                
+                var forStart:Date? = result.value(forKey: "processSrart") as? Date
+                print(forStart)
+                
+                var forEnd:Date? = result.value(forKey: "processEnd") as? Date
+                print(forEnd)
+                
+                let df = DateFormatter()
+                df.dateFormat = "yyyy/MM/dd"
+                df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
+                //nilは入らないようにする
+                if forStart != nil && forEnd != nil && processtitle != nil && forCard != nil {
+                    
+                    ProTitle.append(processtitle!)
+                    cardsDesign.append(forCard!)
+                    ProTime.append(df.string(from: forStart!))
+                    ProEndTime.append(df.string(from: forEnd!))
+                    
+                }
+            }
+            
+        }catch {
+            print("read失敗")
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if tableView.tag == 1 {
