@@ -290,9 +290,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         do {
             
             let fetchResults = try viewContext.fetch(query)
-            for result in fetchResults {
+            for result:AnyObject in fetchResults {
                 id = (result.value(forKey:"id") as? Int)!
-                
             }
         }catch {
             print("read失敗")
@@ -315,6 +314,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         
         
         let newTask = NSManagedObject(entity: forTask!, insertInto: viewContext)
+        
         newTask.setValue(createTextFiled.text!,forKey:"title")
         print(createTextFiled.text)
         newTask.setValue(false, forKey: "doneID")

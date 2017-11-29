@@ -32,6 +32,8 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
 
     
 
+    var id:Int = 0
+    
     var passedProcess = -1
     
     var startPicker = Date()
@@ -47,9 +49,13 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     override func viewDidLoad() {
         super.viewDidLoad()
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
+        
 
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
     func forTextFiled(textField:UITextField){
         pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: pickerView.bounds.size.height)
         pickerView.delegate   = self
@@ -215,19 +221,43 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         if myDatePicker.tag == 0{
             startTextFiled.text = strSelectedDate
             startPicker = myDatePicker.date
-            print(startTextFiled.text)
         } else if myDatePicker.tag == 1 {
             EndTextField.text = strSelectedDate
             endPicker = myDatePicker.date
         }
     }
     
+    //データの読み込み処理
+    func read(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForProcess> = ForProcess.fetchRequest()
+        
+        do {
+            
+            let fetchResults = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResults {
+                
+                id = (result.value(forKey:"id") as? Int)!
+                
+            }
+            
+        } catch {
+            print("read失敗")
+        }
+        print("あい\(id)")
+    }
     
 
 
     
     @IBAction func tapAdd(_ sender: UIButton) {
         print("追加ボタンが押されました")
+        
+        read()
         
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -236,8 +266,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         let forProcess = NSEntityDescription.entity(forEntityName: "ForProcess", in: viewContext)
         
         let newProcess = NSManagedObject(entity: forProcess!, insertInto: viewContext)
-//        newProcess.setValue(, forKey: )
-//        print()
+
         newProcess.setValue(titleTextField.text!, forKey: "title")
         print(titleTextField.text!)
         newProcess.setValue(startPicker, forKey: "processSrart")
@@ -245,11 +274,23 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         newProcess.setValue(endPicker, forKey: "processEnd")
         print(endPicker)
         
+        newProcess.setValue(CardTextField.text, forKey: "processCard")
+        print(CardTextField.text)
 //        newProcess.setValue(, forKey: "forTaskID")
         //print()
+        newProcess.setValue(id + 1,forKey:"id")
+        print(id)
+        
+        do{
+            try viewContext.save()
+        }catch {
+            print("接続失敗")
+        }
+        
         
     }
     
+    //キーボード下げる処理
     @IBAction func tapReturn(_ sender: UITextField) {
         
     }
