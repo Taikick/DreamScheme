@@ -49,7 +49,9 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     override func viewDidLoad() {
         super.viewDidLoad()
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
-        
+        WeekTextField.text = NDArray[0]
+        DayTextField.text = NTArray[0]
+        CardTextField.text = cardArray[0]
 
     }
     
