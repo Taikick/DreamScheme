@@ -26,14 +26,15 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     var cardsDesign:[String] = []
     
-    var DTitle:[String] = [
-        "英語を勉強してナンパできるようになる"
-    ]
+    var DTitle:String = ""
     
-    var DTitleTime:[String] = [
-        "2017.12.24-2018.12.24"
-    ]
+    var DTitleTime:String = ""
+    
+    var DtitleEnd:String = ""
+    
     var titleID = 0
+    
+    var DcardDesing = ""
     
 
     var ProTitle:[String] = [
@@ -44,6 +45,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     ]
     
     var ProEndTime:[String] = []
+    
+    var ProId:[Int] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +77,37 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         let predicate = NSPredicate(format: "id = %@",passedIndex)
         query.predicate = predicate
         do {
+            let fetchResult = try viewContext.fetch(query)
             
+            for result:AnyObject in fetchResult {
+                
+                var hometitle:String? = result.value(forKey: "title") as? String
+                
+                print(hometitle)
+                var forCard:String? = result.value(forKey: "cardDesign") as? String
+                print(forCard)
+                
+                var forStart:Date? = result.value(forKey: "startDate") as? Date
+                print(forStart)
+                
+                var forEnd:Date? = result.value(forKey: "endDate") as? Date
+                print(forEnd)
+                var id: Int = (result.value(forKey: "id") as? Int)!
+                
+                let df = DateFormatter()
+                df.dateFormat = "yyyy/MM/dd"
+                df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
+                //nilは入らないようにする
+                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil && id != nil {
+                    
+                    DTitle = hometitle!
+                    DcardDesing = forCard!
+                    DTitleTime = df.string(from: forStart!)
+                    DtitleEnd = df.string(from: forEnd!)
+                    titleID = id
+                    
+                }
+            }
         }catch {
             print("read失敗")
         }
@@ -82,7 +115,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     //行数の決定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.tag == 1{
-            return DTitle.count;
+            return 1
         }else if tableView.tag == 2{
             return ProTime.count
         }else {
@@ -97,8 +130,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         if tableView.tag == 1 {
             let cell = DtitleTableView.dequeueReusableCell(withIdentifier: "DTitleCell", for: indexPath) as! DTitleTableViewCell
-            cell.DTitleLabel.text = DTitle[indexPath.row]
-            cell.DTitleDate.text = DTitleTime[indexPath.row]
+            cell.DTitleLabel.text = DTitle
+            cell.DTitleDate.text = DTitleTime
             var rect = cell.DTitleChart.bounds
             rect.origin.y += 4
             rect.size.height -= 4
@@ -169,13 +202,39 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         let query:NSFetchRequest<ForProcess> = ForProcess.fetchRequest()
         
-        let predicate = NSPredicate(format: "doneID = %@",passedIndex)
+        let predicate = NSPredicate(format: "forTaskID = %@",passedIndex)
         query.predicate = predicate
         do {
             let fetchResult = try viewContext.fetch(query)
             
             for result:AnyObject in fetchResult {
+                var protitle:String? = result.value(forKey: "title") as? String
                 
+                print(protitle)
+                var forCard:String? = result.value(forKey: "processCard") as? String
+                print(forCard)
+                
+                var forStart:Date? = result.value(forKey: "processSrart") as? Date
+                print(forStart)
+                
+                var forEnd:Date? = result.value(forKey: "processEnd") as? Date
+                print(forEnd)
+                var id: Int = (result.value(forKey: "id") as? Int)!
+                
+                let df = DateFormatter()
+                df.dateFormat = "yyyy/MM/dd"
+                df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
+                //nilは入らないようにする
+                if forStart != nil && forEnd != nil && protitle != nil && forCard != nil && id != nil {
+                    
+                    ProTitle.append(protitle!)
+                    cardsDesign.append(forCard!)
+                    ProTime.append(df.string(from: forStart!))
+                    ProEndTime.append(df.string(from: forEnd!))
+                    ProId.append(id)
+                    
+                }
+
             }
             
         }catch {
