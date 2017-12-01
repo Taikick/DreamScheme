@@ -362,6 +362,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         
         //イメージパスと時間に０
         
+        
         do{
             try viewContext.save()
         }catch {

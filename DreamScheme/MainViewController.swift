@@ -14,7 +14,9 @@ import SlideMenuControllerSwift
 
 class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
-    var selectedIndex = -1
+    var selectedIndex = 0
+    
+    
     
     @IBOutlet weak var myButton: UIButton!
     
@@ -32,6 +34,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         [BarChartDataEntry(x: 1, y: 3.0)]
     ]
     
+    
     var cardsDesign:[String] = []
     
     var hometitles:[String] = []
@@ -39,6 +42,8 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var homeTime:[String] = []
     
     var homeLastTime:[String] = []
+    
+    var ids:[Int] = []
     
     
     //時間のラベル
@@ -80,17 +85,20 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 
                 var forEnd:Date? = result.value(forKey: "endDate") as? Date
                 print(forEnd)
+                var id: Int = (result.value(forKey: "id") as? Int)!
                 
                 let df = DateFormatter()
                 df.dateFormat = "yyyy/MM/dd"
                 df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
                 //nilは入らないようにする
-                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil {
+                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil && id != nil {
 
                     hometitles.append(hometitle!)
                     cardsDesign.append(forCard!)
                     homeTime.append(df.string(from: forStart!))
                     homeLastTime.append(df.string(from: forEnd!))
+                    ids.append(id)
+                    
                 }
             }
             
@@ -175,9 +183,9 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         //NavigationBarが半透明かどうか
         navigationController?.navigationBar.isTranslucent = false
         //NavigationBarの色を変更します
-        navigationController?.navigationBar.barTintColor = UIColor(red: 129/255, green: 212/255, blue: 78/255, alpha: 1)
+        navigationController?.navigationBar.barTintColor = UIColor(colorLiteralRed: 247/255, green: 247/255, blue: 247/255, alpha: 1)
         //NavigationBarに乗っている部品の色を変更します
-        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.tintColor = UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1)
         //バーの左側にボタンを配置します(ライブラリ特有)
         addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
 
@@ -218,10 +226,13 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         cell.tasksLabel.textColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         cell.dateLabel.text = "\(homeTime[indexPath.row]) - \(homeLastTime[indexPath.row])"
         cell.dateLabel.textColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
+        cell.forIdLabel.text = String(ids[indexPath.row])
+        cell.forIdLabel.alpha = 0
         var rect = cell.BarChrats.bounds
         rect.origin.y += 4
         rect.size.height -= 4
         let chartView = HorizontalBarChartView(frame: rect)
+        //ここにデータイレリ処理を書いていく
         let set = BarChartDataSet(values: entry[indexPath.row], label: "")
         chartView.data = BarChartData(dataSet: set)
         chartView.drawBordersEnabled = false
@@ -255,17 +266,17 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         //色系
         if cardsDesign[indexPath.row] == "青"{
-            cell.backgroundColor = #colorLiteral(red: 0.4508578777, green: 0.9882974029, blue: 0.8376303315, alpha: 1)
-            set.colors = [#colorLiteral(red: 0.476841867, green: 0.5048075914, blue: 1, alpha: 0.8272153253)]
+            cell.backgroundColor = UIColor(colorLiteralRed: 149/255, green: 191/255, blue: 220/255, alpha: 1)
+            set.colors = [UIColor(colorLiteralRed: 159/255, green: 152/255, blue: 201/255, alpha: 1)]
         } else if cardsDesign[indexPath.row] == "赤"{
-            cell.backgroundColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 0.5359856592)
-            set.colors = [#colorLiteral(red: 0.5807225108, green: 0.066734083, blue: 0, alpha: 0.9017016267)]
+            cell.backgroundColor = UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1)
+            set.colors = [UIColor(colorLiteralRed: 228/255, green: 182/255, blue: 136/255, alpha: 1)]
         } else if cardsDesign[indexPath.row] == "黄色"{
-            cell.backgroundColor = #colorLiteral(red: 1, green: 0.8323456645, blue: 0.4732058644, alpha: 0.7487157534)
-            set.colors = [#colorLiteral(red: 1, green: 0.9334713866, blue: 0.2072222195, alpha: 1)]
+            cell.backgroundColor = UIColor(colorLiteralRed: 239/255, green: 212/255, blue: 102/255, alpha: 1)
+            set.colors = [UIColor(colorLiteralRed: 216/255, green: 194/255, blue: 39/255, alpha: 1)]
         } else {
-            cell.backgroundColor = #colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 0.6764501284)
-            set.colors = [#colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 1)]
+            cell.backgroundColor = UIColor(colorLiteralRed: 86/255, green: 186/255, blue: 154/255, alpha: 1)
+            set.colors = [UIColor(colorLiteralRed: 77/255, green: 122/255, blue: 113/255, alpha: 1)]
         }
         chartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 0)
         set.valueTextColor = UIColor.clear
@@ -278,7 +289,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(indexPath.row)が行目")
         //セグウェを使って移動する時に値を渡す
-        selectedIndex = indexPath.row
+        selectedIndex = ids[indexPath.row]
         //選択された行番号をほぞん
         
         //セグエに名前を指定して画面遷移処理を発動

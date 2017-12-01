@@ -14,7 +14,7 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
 
     @IBOutlet weak var goalTableView: UITableView!
     
-    var selectedIndex = -1
+    var selectedIndex = 0
     var selectedProcess = -1
     
     var cardsDesign:[String] = []
@@ -172,7 +172,7 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("\(indexPath.row)が行目")
         //セグウェを使って移動する時に値を渡す
-        selectedIndex = indexPath.row
+        selectedIndex = 0
         selectedProcess = indexPath.row
         //選択された行番号をほぞん
         performSegue(withIdentifier: "GoalToDetail", sender: nil)
@@ -185,7 +185,7 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         if segue.identifier == "GoalToDetail" {
             
             let toEdit: editViewController = segue.destination as! editViewController
-            toEdit.passedIndex = selectedProcess
+            toEdit.passedIndex = selectedIndex
         }
         
     }
