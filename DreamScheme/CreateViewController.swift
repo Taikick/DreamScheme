@@ -70,7 +70,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         df.dateFormat = "yyyy/MM/dd"
         df.locale = Locale(identifier: "ja_JP");
         if passedID != -1 {
-            readTitle()
+            isData()
         }else{
             weekCountTextField.text = todoWeekArray[0]
             dayCountTextField.text = todoDayArray[0]
@@ -80,7 +80,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
     }
     
-    func readTitle(){
+    func isData(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
         let viewContext = appDelegate.persistentContainer.viewContext
@@ -102,9 +102,16 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 
                 var forStart:Date? = result.value(forKey: "startDate") as? Date
                 print(forStart)
-                
+
                 var forEnd:Date? = result.value(forKey: "endDate") as? Date
                 print(forEnd)
+                
+                var switchDecide:Bool = result.value(forKey: "forSwitch")
+                
+                var forDecide:Bool = (result.value(forKey:"forNotice" ) as? Bool)!
+                var Weekly:String = (result.value(forKey: "weekly") as? String)!
+                var Dayly:String = (result.value(forKey:"purposeTime") as? String)!
+                
                 
                 let df = DateFormatter()
                 df.dateFormat = "yyyy/MM/dd"
@@ -116,6 +123,11 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     cardTextField.text = forCard!
                     startTextField.text = df.string(from: forStart!)
                     endTextField.text = df.string(from: forEnd!)
+                    forSwitch.isOn = switchDecide
+                    noticeSwitch.isOn = forDecide
+                    weekCountTextField.text = Weekly
+                    dayCountTextField.text = Dayly
+                    
                     
                     
                 }
@@ -381,8 +393,10 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         let newTask = NSManagedObject(entity: forTask!, insertInto: viewContext)
         
         newTask.setValue(createTextFiled.text!,forKey:"title")
+        
         print(createTextFiled.text)
         newTask.setValue(false, forKey: "doneID")
+        
         newTask.setValue(startPicker,forKey:"startDate")
             print(startPicker)
         
