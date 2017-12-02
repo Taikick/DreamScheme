@@ -34,11 +34,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>REFrostedViewController.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>SlideMenuControllerSwift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -57,17 +52,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>81169FE194FE617BBE5571A40AD2DB1C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9C61B6F8AB337B9D0ACC2880EE6EFAC6</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>AF0C654C755150D235E0E801E3031A52</key>
+		<key>B863DCA3348E2F5A9047FEAF228A00A7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -78,6 +63,11 @@
 			<true/>
 		</dict>
 		<key>F307B842FF76B2DE6C55DB67C0885325</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F6E877BBDDCC98B7D2B1F9696DDA8225</key>
 		<dict>
 			<key>primary</key>
 			<true/>
