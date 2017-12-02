@@ -234,7 +234,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let cell = ProcessTableView.dequeueReusableCell(withIdentifier: "ProcessCell", for: indexPath) as! ProcessTableViewCell
             cell.ProLabel.text = ProTitle[indexPath.row]
             cell.ProTimeLabel.text = "\(ProTime[indexPath.row]) - \(ProEndTime[indexPath.row])"
-//            cell.ProIDLabel = 
+            cell.ProIDLabel.text = String(ProId[indexPath.row])
             //色系
             if cardsDesign[indexPath.row] == "青"{
                 cell.backgroundColor = #colorLiteral(red: 0.4508578777, green: 0.9882974029, blue: 0.8376303315, alpha: 1)
@@ -268,10 +268,10 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if tableView.tag == 1 {
-            print("\(indexPath.row)が行目")
             performSegue(withIdentifier: "moveCreate", sender: nil)
         } else if tableView.tag == 2 {
-            print("\(indexPath.row)が行目")
+            print(ProId[indexPath.row])
+            selectedProcess = ProId[indexPath.row]
             performSegue(withIdentifier: "toDProcess", sender: nil)
         }
         //セグエに名前を指定して画面遷移処理を発動
@@ -289,7 +289,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         } else if segue.identifier == "moveCreate" {
             
             let moveCreate: CreateViewController = segue.destination as! CreateViewController
-            moveCreate.passedTitle = selectedTitle
+            moveCreate.passedID = passedIndex
         }
         
         
@@ -298,16 +298,4 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

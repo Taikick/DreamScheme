@@ -58,12 +58,13 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     var id = 0
     
-    var passedTitle = -1
+    var passedID = -1
     let df = DateFormatter()
     var vi = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(passedID)
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
         df.dateFormat = "yyyy/MM/dd"
         df.locale = Locale(identifier: "ja_JP");
