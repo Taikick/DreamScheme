@@ -63,7 +63,13 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
+        if passedProcess != -1 {
+            processRead()
+        }else{
+            WeekTextField.text = NDArray[0]
+            DayTextField.text = NTArray[0]
+            CardTextField.text = cardArray[0]
+        }
     }
     func forTextFiled(textField:UITextField){
         pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: pickerView.bounds.size.height)
@@ -314,39 +320,76 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     @IBAction func tapAdd(_ sender: UIButton) {
         print("追加ボタンが押されました")
         
-        read()
+    
+        if passedProcess != -1 {
+            let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+            let viewContext = appDelegate.persistentContainer.viewContext
+            let query:NSFetchRequest<ForProcess> = ForProcess.fetchRequest()
+            let predicate = NSPredicate(format: "id = %d",passedProcess)
+            query.predicate = predicate
+            do{
+                let fetchResult = try viewContext.fetch(query)
+                for result:AnyObject in fetchResult {
+                    let record = result as! NSManagedObject
+                    
+                    record.setValue(titleTextField.text!, forKey: "title")
+                    print(titleTextField.text!)
+                    record.setValue(startPicker, forKey: "processSrart")
+                    print(startPicker)
+                    record.setValue(endPicker, forKey: "processEnd")
+                    print(endPicker)
+                    record.setValue(CardTextField.text, forKey: "processCard")
+                    print(CardTextField.text)
+                    record.setValue(WeekTextField.text, forKey: "weeklyProcess")
+                    record.setValue(DayTextField.text, forKey: "dailyProcess")
+                    //タスクIDの指定
+                    
+                }
+                do{
+                    try viewContext.save()
+                }catch {
+                    print("接続失敗")
+                }
+                
+            }catch {
+                print("接続失敗")
+            }
+            
+        }else {
+            read()
+            let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+            let viewContext = appDelegate.persistentContainer.viewContext
         
-        let viewContext = appDelegate.persistentContainer.viewContext
+            let forProcess = NSEntityDescription.entity(forEntityName: "ForProcess", in: viewContext)
         
-        let forProcess = NSEntityDescription.entity(forEntityName: "ForProcess", in: viewContext)
-        
-        let newProcess = NSManagedObject(entity: forProcess!, insertInto: viewContext)
+            let newProcess = NSManagedObject(entity: forProcess!, insertInto: viewContext)
 
-        newProcess.setValue(titleTextField.text!, forKey: "title")
-        print(titleTextField.text!)
-        newProcess.setValue(startPicker, forKey: "processSrart")
-        print(startPicker)
-        newProcess.setValue(endPicker, forKey: "processEnd")
-        print(endPicker)
+            newProcess.setValue(titleTextField.text!, forKey: "title")
+            print(titleTextField.text!)
+            newProcess.setValue(startPicker, forKey: "processSrart")
+            print(startPicker)
+            newProcess.setValue(endPicker, forKey: "processEnd")
+            print(endPicker)
         
-        newProcess.setValue(CardTextField.text, forKey: "processCard")
-        print(CardTextField.text)
+            newProcess.setValue(CardTextField.text, forKey: "processCard")
+            print(CardTextField.text)
 
-        newProcess.setValue(id + 1,forKey:"id")
-        print(id)
-        newProcess.setValue(WeekTextField.text, forKey: "weeklyProcess")
-        newProcess.setValue(DayTextField.text, forKey: "dailyProcess")
-        //タスクIDの指定
-        newProcess.setValue(tasksID, forKey: "forTaskID")
-        print(passedProcess)
-        do{
-            try viewContext.save()
-        }catch {
-            print("接続失敗")
+            newProcess.setValue(id + 1,forKey:"id")
+            print(id)
+            newProcess.setValue(WeekTextField.text, forKey: "weeklyProcess")
+            newProcess.setValue(DayTextField.text, forKey: "dailyProcess")
+            //タスクIDの指定
+            newProcess.setValue(tasksID, forKey: "forTaskID")
+            
+            do{
+                try viewContext.save()
+            }catch {
+                print("接続失敗")
+            }
+            
         }
-        
+
         
     }
     

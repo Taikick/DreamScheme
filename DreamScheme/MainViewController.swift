@@ -109,6 +109,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     override func viewDidAppear(_ animated: Bool) {
         read()
+        homeTableView.reloadData()
     }
     
     //timerの変数

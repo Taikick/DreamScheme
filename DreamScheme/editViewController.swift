@@ -66,13 +66,17 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        ProTitle = []
+        ProEndTime = []
+        ProTime = []
         readTitle()
         read()
+        DtitleTableView.reloadData()
+        ProcessTableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        readTitle()
-        read()
+
     }
     
     //ボタンを押した時の処理
@@ -181,7 +185,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         if tableView.tag == 1{
             return 1
         }else if tableView.tag == 2{
-            return ProTime.count
+            return ProTitle.count
         }else {
             return 0
         }
