@@ -108,6 +108,12 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        cardsDesign = []
+        hometitles = []
+        homeTime = []
+        homeLastTime = []
+        ids = []
         read()
         homeTableView.reloadData()
     }
