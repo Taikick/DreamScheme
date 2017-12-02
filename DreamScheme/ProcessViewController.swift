@@ -16,6 +16,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     @IBOutlet weak var DayTextField: UITextField!
     @IBOutlet weak var CardTextField: UITextField!
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var addButton: UIButton!
     
     
     var NDArray = [
@@ -69,6 +70,11 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
             WeekTextField.text = NDArray[0]
             DayTextField.text = NTArray[0]
             CardTextField.text = cardArray[0]
+        }
+        if passedProcess != -1{
+            addButton.titleLabel?.text = "更新"
+        } else {
+            addButton.titleLabel?.text = "追加"
         }
     }
     func forTextFiled(textField:UITextField){

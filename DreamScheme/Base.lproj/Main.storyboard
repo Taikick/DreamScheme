@@ -309,7 +309,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="03w-gS-grI">
                                 <rect key="frame" x="20" y="638" width="374" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.25549021440817377" green="0.48102149816112072" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="追加">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -494,6 +494,7 @@
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
+                        <outlet property="addButton" destination="03w-gS-grI" id="URX-eS-cuu"/>
                         <outlet property="cardTextField" destination="0pt-sI-Urn" id="Ss7-oq-mMr"/>
                         <outlet property="createTextFiled" destination="7bH-6k-k4w" id="VoT-wj-zbn"/>
                         <outlet property="dayCountTextField" destination="NoD-Vh-0pC" id="gu1-W8-dw6"/>
@@ -650,6 +651,7 @@
                         <outlet property="DayTextField" destination="VMr-8W-Wkc" id="NNs-D9-2KS"/>
                         <outlet property="EndTextField" destination="aQ3-gm-3Mf" id="jzw-qC-aNo"/>
                         <outlet property="WeekTextField" destination="ckP-PD-fgu" id="Ry7-6L-fZg"/>
+                        <outlet property="addButton" destination="2gY-A9-4ig" id="4Yg-Hf-jyj"/>
                         <outlet property="startTextFiled" destination="iWl-yj-VNo" id="Ypr-iI-IiT"/>
                         <outlet property="titleTextField" destination="vle-Wh-c9y" id="y1n-f2-4eb"/>
                     </connections>

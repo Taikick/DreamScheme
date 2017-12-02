@@ -12,6 +12,10 @@ import Photos
 import MobileCoreServices
 
 class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
+    
+    
+    @IBOutlet weak var addButton: UIButton!
+    
     @IBOutlet weak var taskImage: UIImageView!
     
     @IBOutlet weak var createTextFiled: UITextField!
@@ -80,8 +84,39 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             noticeTimeTextField.text = NTArray[0]
             cardTextField.text = cardArray[0]
         }
+        
+
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        //        if createTextFiled.text == "" || startTextField.text == "" || endTextField.text == "" || weekCountTextField.text == "" || dayCountTextField.text == "" || cardTextField.text == ""{
+        //            addButton.backgroundColor = #colorLiteral(red: 0.4620226622, green: 0.8382837176, blue: 1, alpha: 0.1185787671)
+        //            addButton.isEnabled = false
+        print(passedID)
+        
+        myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
+        df.dateFormat = "yyyy/MM/dd"
+        df.locale = Locale(identifier: "ja_JP");
+        if passedID != -1 {
+            isData()
+        }else{
+            weekCountTextField.text = todoWeekArray[0]
+            dayCountTextField.text = todoDayArray[0]
+            noticeDayTextField.text = NDArray[0]
+            noticeTimeTextField.text = NTArray[0]
+            cardTextField.text = cardArray[0]
+        }
+        if passedID != -1{
+            addButton.titleLabel?.text = "更新"
+        } else {
+            addButton.titleLabel?.text = "追加"
+        }
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
     func isData(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -399,55 +434,59 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             
             
         }else {
-            print("追加ボタンが押されました")
-            read()
-            let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+            if createTextFiled.text != nil || startTextField.text != nil || endTextField.text != nil || weekCountTextField.text != nil || dayCountTextField.text != nil || cardTextField.text != nil {
+                print("追加ボタンが押されました")
+                read()
+                let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
-            let viewContext = appDelegate.persistentContainer.viewContext
+                let viewContext = appDelegate.persistentContainer.viewContext
         
-            let forTask = NSEntityDescription.entity(forEntityName: "ForTasks", in: viewContext)
+                let forTask = NSEntityDescription.entity(forEntityName: "ForTasks", in: viewContext)
         
         
         
-            let newTask = NSManagedObject(entity: forTask!, insertInto: viewContext)
+                let newTask = NSManagedObject(entity: forTask!, insertInto: viewContext)
         
-            newTask.setValue(createTextFiled.text!,forKey:"title")
+                newTask.setValue(createTextFiled.text!,forKey:"title")
         
-            print(createTextFiled.text)
-            newTask.setValue(false, forKey: "doneID")
+                print(createTextFiled.text)
+                newTask.setValue(false, forKey: "doneID")
         
-            newTask.setValue(startPicker,forKey:"startDate")
-            print(startPicker)
+                newTask.setValue(startPicker,forKey:"startDate")
+                print(startPicker)
         
-            newTask.setValue(endPicker,forKey:"endDate")
-            print(endPicker)
+                newTask.setValue(endPicker,forKey:"endDate")
+                print(endPicker)
 
-            //あとid入れる
-            newTask.setValue(id + 1,forKey:"id")
-            print(id)
+                //あとid入れる
+                newTask.setValue(id + 1,forKey:"id")
+                print(id)
         
-            newTask.setValue(cardTextField.text, forKey: "cardDesign")
-            //繰り返しスイッチの値を入れる
-            newTask.setValue(forSwitch.isOn, forKey: "forSwitch")
-            //通知スイッチの値を入れる
-            newTask.setValue(noticeSwitch.isOn, forKey: "forNotice")
+                newTask.setValue(cardTextField.text, forKey: "cardDesign")
+                //繰り返しスイッチの値を入れる
+                newTask.setValue(forSwitch.isOn, forKey: "forSwitch")
+                //通知スイッチの値を入れる
+                newTask.setValue(noticeSwitch.isOn, forKey: "forNotice")
         
-            newTask.setValue(weekCountTextField.text, forKey: "weekly")
+                newTask.setValue(weekCountTextField.text, forKey: "weekly")
         
-            newTask.setValue(dayCountTextField.text, forKey: "purposeTime")
+                newTask.setValue(dayCountTextField.text, forKey: "purposeTime")
         
-            newTask.setValue(Date(), forKey: "created_at")
+                newTask.setValue(Date(), forKey: "created_at")
         
-            newTask.setValue(noticeDayTextField.text, forKey: "noticeWeek")
+                newTask.setValue(noticeDayTextField.text, forKey: "noticeWeek")
         
-            newTask.setValue(noticeTimeTextField.text, forKey: "noticeDay")
+                newTask.setValue(noticeTimeTextField.text, forKey: "noticeDay")
+            
+            
         
-            //イメージパスと時間に０
+                //イメージパスと時間に０
         
-            do{
-                try viewContext.save()
-            }catch {
-                print("接続失敗")
+                do{
+                    try viewContext.save()
+                }catch {
+                    print("接続失敗")
+                }
             }
         }
     }
