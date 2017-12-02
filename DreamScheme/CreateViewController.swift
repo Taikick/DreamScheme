@@ -440,9 +440,15 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 newTask.setValue(noticeSwitch.isOn, forKey: "forNotice")
         
                 newTask.setValue(Date(), forKey: "created_at")
-                newTask.setValue(Date(), forKey: "noticeDay")
         
                 
+        
+
+            
+            
+        
+                //イメージパスと時間に０
+        
                 do{
                     try viewContext.save()
                 }catch {
