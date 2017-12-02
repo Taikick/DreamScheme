@@ -91,31 +91,31 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         query.predicate = predicate
         do {
             let fetchResult = try viewContext.fetch(query)
-            
+                            
+            let df = DateFormatter()
+            df.dateFormat = "yyyy/MM/dd"
+            df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
             for result:AnyObject in fetchResult {
                 
-                var hometitle:String? = result.value(forKey: "title") as? String
+                var hometitle:String? = result.value(forKey: "title") as String
                 
                 print(hometitle)
-                var forCard:String? = result.value(forKey: "cardDesign") as? String
+                var forCard:String? = result.value(forKey: "cardDesign") as String
                 print(forCard)
                 
-                var forStart:Date? = result.value(forKey: "startDate") as? Date
+                var forStart:Date? = result.value(forKey: "startDate") as Date
                 print(forStart)
 
-                var forEnd:Date? = result.value(forKey: "endDate") as? Date
+                var forEnd:Date? = result.value(forKey: "endDate") as Date
                 print(forEnd)
                 
                 var switchDecide:Bool = result.value(forKey: "forSwitch")
                 
-                var forDecide:Bool = (result.value(forKey:"forNotice" ) as? Bool)!
-                var Weekly:String = (result.value(forKey: "weekly") as? String)!
-                var Dayly:String = (result.value(forKey:"purposeTime") as? String)!
+                var forDecide:Bool = (result.value(forKey:"forNotice" ) as Bool)!
+                var Weekly:String = (result.value(forKey: "weekly") as String)!
+                var Dayly:String = (result.value(forKey:"purposeTime") as String)!
                 
-                
-                let df = DateFormatter()
-                df.dateFormat = "yyyy/MM/dd"
-                df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
+
                 //nilは入らないようにする
                 if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil && id != nil {
                     
@@ -127,9 +127,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     noticeSwitch.isOn = forDecide
                     weekCountTextField.text = Weekly
                     dayCountTextField.text = Dayly
-                    
-                    
-                    
                 }
             }
         }catch {
