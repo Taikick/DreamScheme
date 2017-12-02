@@ -31,10 +31,13 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     ]
 
     
-
+    //オートインクリメント用
     var id:Int = 0
     
+    //プロセス指定のID
     var passedProcess = -1
+    //タスク指定のID
+    var tasksID = -1
     
     var startPicker = Date()
     var endPicker = Date()
@@ -49,9 +52,13 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     override func viewDidLoad() {
         super.viewDidLoad()
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
-        WeekTextField.text = NDArray[0]
-        DayTextField.text = NTArray[0]
-        CardTextField.text = cardArray[0]
+        if passedProcess != -1 {
+            processRead()
+        }else{
+            WeekTextField.text = NDArray[0]
+            DayTextField.text = NTArray[0]
+            CardTextField.text = cardArray[0]
+        }
 
     }
     
@@ -229,6 +236,51 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         }
     }
     
+    
+    func processRead(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForProcess> = ForProcess.fetchRequest()
+        
+        let predicate = NSPredicate(format: "id = %d",passedProcess)
+        query.predicate = predicate
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResult {
+                var protitle:String? = result.value(forKey: "title") as? String
+                
+                print(protitle)
+                var forCard:String? = result.value(forKey: "processCard") as? String
+                print(forCard)
+                
+                var forStart:Date? = result.value(forKey: "processSrart") as? Date
+                print(forStart)
+                
+                var forEnd:Date? = result.value(forKey: "processEnd") as? Date
+                print(forEnd)
+                var id: Int = (result.value(forKey: "id") as? Int)!
+                
+                let df = DateFormatter()
+                df.dateFormat = "yyyy/MM/dd"
+                df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
+                //nilは入らないようにする
+                if forStart != nil && forEnd != nil && protitle != nil && forCard != nil && id != nil {
+                    titleTextField.text = protitle!
+                    CardTextField.text = forCard!
+                    startTextFiled.text = df.string(from: forStart!)
+                    EndTextField.text = df.string(from: forEnd!)
+                }
+                
+            }
+            
+        }catch {
+            print("read失敗")
+        }
+    }
+    
     //データの読み込み処理
     func read(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -284,8 +336,8 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         newProcess.setValue(WeekTextField.text, forKey: "weeklyProcess")
         newProcess.setValue(DayTextField.text, forKey: "dailyProcess")
         //タスクIDの指定
-        //newProcess.setValue(, forKey: "forTaskID")
-        //print()
+        newProcess.setValue(tasksID, forKey: "forTaskID")
+        print(passedProcess)
         do{
             try viewContext.save()
         }catch {

@@ -65,6 +65,16 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         addProButton.setTitleColor(UIColor.blue, for: .normal)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        readTitle()
+        read()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        readTitle()
+        read()
+    }
+    
     //ボタンを押した時の処理
     
     @IBAction func tapButton(_ sender: UIButton) {
@@ -189,13 +199,13 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             cell.DtitleIDLabel.text = String(passedIndex)
             cell.DtitleIDLabel.alpha = 0
             if DcardDesing == "青"{
-                cell.backgroundColor = #colorLiteral(red: 0.4508578777, green: 0.9882974029, blue: 0.8376303315, alpha: 1)
+                cell.backgroundColor = UIColor(colorLiteralRed: 149/255, green: 191/255, blue: 220/255, alpha: 1)
             } else if DcardDesing == "赤"{
-                cell.backgroundColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 0.5359856592)
+                cell.backgroundColor = UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1)
             } else if DcardDesing == "黄色"{
-                cell.backgroundColor = #colorLiteral(red: 1, green: 0.8323456645, blue: 0.4732058644, alpha: 0.7487157534)
+                cell.backgroundColor = UIColor(colorLiteralRed: 239/255, green: 212/255, blue: 102/255, alpha: 1)
             } else {
-                cell.backgroundColor = #colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 0.6764501284)
+                cell.backgroundColor = UIColor(colorLiteralRed: 86/255, green: 186/255, blue: 154/255, alpha: 1)
             }
             
             var rect = cell.DTitleChart.bounds
@@ -235,15 +245,16 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             cell.ProLabel.text = ProTitle[indexPath.row]
             cell.ProTimeLabel.text = "\(ProTime[indexPath.row]) - \(ProEndTime[indexPath.row])"
             cell.ProIDLabel.text = String(ProId[indexPath.row])
+            cell.ProIDLabel.alpha = 0
             //色系
             if cardsDesign[indexPath.row] == "青"{
-                cell.backgroundColor = #colorLiteral(red: 0.4508578777, green: 0.9882974029, blue: 0.8376303315, alpha: 1)
+                cell.backgroundColor = UIColor(colorLiteralRed: 149/255, green: 191/255, blue: 220/255, alpha: 1)
             } else if cardsDesign[indexPath.row] == "赤"{
-                cell.backgroundColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 0.5359856592)
+                cell.backgroundColor = UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1)
             } else if cardsDesign[indexPath.row] == "黄色"{
-                cell.backgroundColor = #colorLiteral(red: 1, green: 0.8323456645, blue: 0.4732058644, alpha: 0.7487157534)
+                cell.backgroundColor = UIColor(colorLiteralRed: 239/255, green: 212/255, blue: 102/255, alpha: 1)
             } else {
-                cell.backgroundColor = #colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 0.6764501284)
+                cell.backgroundColor = UIColor(colorLiteralRed: 86/255, green: 186/255, blue: 154/255, alpha: 1)
             }
             return cell
         }else {
@@ -286,6 +297,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             
             let toProcess: ProcessViewController = segue.destination as! ProcessViewController
             toProcess.passedProcess = selectedProcess
+            toProcess.tasksID = passedIndex
         } else if segue.identifier == "moveCreate" {
             
             let moveCreate: CreateViewController = segue.destination as! CreateViewController
