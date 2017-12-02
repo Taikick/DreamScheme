@@ -362,46 +362,45 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
             }
             
         }else {
-            read()
-            let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+            if startTextFiled.text != "" || EndTextField.text != "" || titleTextField.text != "" || WeekTextField.text != "" || DayTextField.text != "" || CardTextField.text != "" {
+                read()
+                let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
-            let viewContext = appDelegate.persistentContainer.viewContext
+                let viewContext = appDelegate.persistentContainer.viewContext
         
-            let forProcess = NSEntityDescription.entity(forEntityName: "ForProcess", in: viewContext)
+                let forProcess = NSEntityDescription.entity(forEntityName: "ForProcess", in: viewContext)
         
-            let newProcess = NSManagedObject(entity: forProcess!, insertInto: viewContext)
+                let newProcess = NSManagedObject(entity: forProcess!, insertInto: viewContext)
 
-            newProcess.setValue(titleTextField.text!, forKey: "title")
-            print(titleTextField.text!)
-            newProcess.setValue(startPicker, forKey: "processSrart")
-            print(startPicker)
-            newProcess.setValue(endPicker, forKey: "processEnd")
-            print(endPicker)
+                newProcess.setValue(titleTextField.text!, forKey: "title")
+                print(titleTextField.text!)
+                newProcess.setValue(startPicker, forKey: "processSrart")
+                print(startPicker)
+                newProcess.setValue(endPicker, forKey: "processEnd")
+                print(endPicker)
         
-            newProcess.setValue(CardTextField.text, forKey: "processCard")
-            print(CardTextField.text)
+                newProcess.setValue(CardTextField.text, forKey: "processCard")
+                print(CardTextField.text)
 
-            newProcess.setValue(id + 1,forKey:"id")
-            print(id)
-            newProcess.setValue(WeekTextField.text, forKey: "weeklyProcess")
-            newProcess.setValue(DayTextField.text, forKey: "dailyProcess")
-            //タスクIDの指定
-            newProcess.setValue(tasksID, forKey: "forTaskID")
-            
-            do{
-                try viewContext.save()
-            }catch {
-                print("接続失敗")
+                newProcess.setValue(id + 1,forKey:"id")
+                print(id)
+                newProcess.setValue(WeekTextField.text, forKey: "weeklyProcess")
+                newProcess.setValue(DayTextField.text, forKey: "dailyProcess")
+                //タスクIDの指定
+                newProcess.setValue(tasksID, forKey: "forTaskID")
+                do{
+                    try viewContext.save()
+                }catch {
+                    print("接続失敗")
+                }
+            //アラート出す
+            } else {
+                
             }
-            
         }
-
-        
     }
-    
     //キーボード下げる処理
     @IBAction func tapReturn(_ sender: UITextField) {
-        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

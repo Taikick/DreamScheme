@@ -487,6 +487,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 }catch {
                     print("接続失敗")
                 }
+            //アラート出す
+            }else {
+                
             }
         }
     }
