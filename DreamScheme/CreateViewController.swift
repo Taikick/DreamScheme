@@ -91,30 +91,30 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             let fetchResult = try viewContext.fetch(query)
             let df = DateFormatter()
             df.dateFormat = "yyyy/MM/dd"
-            df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
+            df.locale = Locale(identifier:"ja_jp")
             for result:AnyObject in fetchResult {
                 
-                var hometitle:String? = result.value(forKey: "title") as? String
-                var forCard:String? = result.value(forKey: "cardDesign") as? String
+                var hometitle:String? = result.value(forKey: "title") as! String
+                var forCard:String? = result.value(forKey: "cardDesign") as! String
                 var forStart:Date? = result.value(forKey: "startDate") as! Date
                 var forEnd:Date? = result.value(forKey: "endDate") as! Date
-                var switchDecide:Bool = result.value(forKey: "forSwitch")
-                var forDecide:Bool = (result.value(forKey:"forNotice" ) as! Bool)!
-                var Weekly:String = (result.value(forKey: "weekly") as! String)!
-                var Dayly:String = (result.value(forKey:"purposeTime") as! String)!
+                var switchDecide:Bool? = result.value(forKey: "forSwitch") as! Bool?
+                var forDecide:Bool? = result.value(forKey:"forNotice" ) as! Bool?
+                var Weekly:String = result.value(forKey: "weekly") as! String
+                var Dayly:String = result.value(forKey:"purposeTime") as! String
                 
-//                //nilは入らないようにする
-//                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil && id != nil {
+                //nilは入らないようにする
+                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil && id != nil {
                     
                     createTextFiled.text = hometitle!
                     cardTextField.text = forCard!
                     startTextField.text = df.string(from: forStart!)
                     endTextField.text = df.string(from: forEnd!)
-                    forSwitch.isOn = switchDecide
-                    noticeSwitch.isOn = forDecide
+                    forSwitch.isOn = switchDecide!
+                    noticeSwitch.isOn = forDecide!
                     weekCountTextField.text = Weekly
                     dayCountTextField.text = Dayly
-//                }
+                }
             }
         }catch {
             print("read失敗")
@@ -155,7 +155,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         df.dateFormat = "yyyy/MM/dd"
         
         //選択可能な最小値を決定(2017/01/01)
-        
         
         //選択可能な最大値(2017/12/31)
         myDatePicker.maximumDate = df.date(from: "2030/12/31")
