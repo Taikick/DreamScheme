@@ -12,6 +12,9 @@ class ProcessTableViewCell: UITableViewCell {
 
     @IBOutlet weak var ProLabel: UILabel!
     @IBOutlet weak var ProTimeLabel: UILabel!
+    
+    @IBOutlet weak var ProIDLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

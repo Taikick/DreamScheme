@@ -287,7 +287,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     //セルが押された時発動
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("\(indexPath.row)が行目")
+        print(ids[indexPath.row])
         //セグウェを使って移動する時に値を渡す
         selectedIndex = ids[indexPath.row]
         //選択された行番号をほぞん

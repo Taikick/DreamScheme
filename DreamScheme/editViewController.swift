@@ -13,16 +13,21 @@ import CoreData
 
 
 class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-
+    //ホームから選ばれて来たID
     var passedIndex = 1
+    //選ばれたプロセスを次ページに渡すためのID
     var selectedProcess = -1
+    //タイトルを押した時に次のページに飛ばすためのID
     var selectedTitle = -1
     
     @IBOutlet weak var addProButton: UIButton!
     @IBOutlet weak var DtitleTableView: UITableView!
     
     @IBOutlet weak var ProcessTableView: UITableView!
-    var entry = [BarChartDataEntry(x: 1.0, y: 3.0)]
+    
+    
+    
+    var entry = [BarChartDataEntry(x: 1, y: 80.0)]
     
     var cardsDesign:[String] = []
     
@@ -181,6 +186,18 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let cell = DtitleTableView.dequeueReusableCell(withIdentifier: "DTitleCell", for: indexPath) as! DTitleTableViewCell
             cell.DTitleLabel.text = DTitle
             cell.DTitleDate.text = DTitleTime
+            cell.DtitleIDLabel.text = String(passedIndex)
+            cell.DtitleIDLabel.alpha = 0
+            if DcardDesing == "青"{
+                cell.backgroundColor = #colorLiteral(red: 0.4508578777, green: 0.9882974029, blue: 0.8376303315, alpha: 1)
+            } else if DcardDesing == "赤"{
+                cell.backgroundColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 0.5359856592)
+            } else if DcardDesing == "黄色"{
+                cell.backgroundColor = #colorLiteral(red: 1, green: 0.8323456645, blue: 0.4732058644, alpha: 0.7487157534)
+            } else {
+                cell.backgroundColor = #colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 0.6764501284)
+            }
+            
             var rect = cell.DTitleChart.bounds
             rect.origin.y += 4
             rect.size.height -= 4
@@ -212,10 +229,12 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             cell.DTitleChart.noDataText = ""
             cell.DTitleChart.addSubview(chartView)
             return cell
+            
         } else if tableView.tag == 2{
             let cell = ProcessTableView.dequeueReusableCell(withIdentifier: "ProcessCell", for: indexPath) as! ProcessTableViewCell
             cell.ProLabel.text = ProTitle[indexPath.row]
             cell.ProTimeLabel.text = "\(ProTime[indexPath.row]) - \(ProEndTime[indexPath.row])"
+//            cell.ProIDLabel = 
             //色系
             if cardsDesign[indexPath.row] == "青"{
                 cell.backgroundColor = #colorLiteral(red: 0.4508578777, green: 0.9882974029, blue: 0.8376303315, alpha: 1)

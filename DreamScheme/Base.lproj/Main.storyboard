@@ -181,6 +181,13 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SXu-d5-76l">
+                                                    <rect key="frame" x="186" y="40" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Zk-Xr-9Z6" customClass="BarChartView" customModule="Charts">
                                                     <rect key="frame" x="-2" y="46" width="414" height="72"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -190,9 +197,10 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.25549021440000003" green="0.48102149820000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
-                                            <outlet property="DTitleChart" destination="2Zk-Xr-9Z6" id="42A-ag-h0t"/>
+                                            <outlet property="DTitleChart" destination="2Zk-Xr-9Z6" id="xrM-a3-on0"/>
                                             <outlet property="DTitleDate" destination="FzJ-Nf-VXJ" id="bQI-hh-gdq"/>
                                             <outlet property="DTitleLabel" destination="FhB-NT-M20" id="qTR-Ak-szb"/>
+                                            <outlet property="DtitleIDLabel" destination="SXu-d5-76l" id="xOg-CH-Ijw"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -239,6 +247,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.25549021440000003" green="0.48102149820000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
+                                            <outlet property="ProIDLabel" destination="1Qq-tg-8b6" id="Egr-Bg-Tp4"/>
                                             <outlet property="ProLabel" destination="5We-9Z-XUf" id="nUr-Qn-PT1"/>
                                             <outlet property="ProTimeLabel" destination="qaB-4W-nxQ" id="MSe-JO-xQO"/>
                                         </connections>
