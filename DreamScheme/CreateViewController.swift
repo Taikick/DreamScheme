@@ -65,18 +65,66 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         print(passedID)
+        
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
         df.dateFormat = "yyyy/MM/dd"
         df.locale = Locale(identifier: "ja_JP");
-
-
-        weekCountTextField.text = todoWeekArray[0]
-        dayCountTextField.text = todoDayArray[0]
-        noticeDayTextField.text = NDArray[0]
-        noticeTimeTextField.text = NTArray[0]
-        cardTextField.text = cardArray[0]
+        if passedID != -1 {
+            readTitle()
+        }else{
+            weekCountTextField.text = todoWeekArray[0]
+            dayCountTextField.text = todoDayArray[0]
+            noticeDayTextField.text = NDArray[0]
+            noticeTimeTextField.text = NTArray[0]
+            cardTextField.text = cardArray[0]
+        }
     }
     
+    func readTitle(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+        
+        let predicate = NSPredicate(format: "id = %d",passedID)
+        query.predicate = predicate
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResult {
+                
+                var hometitle:String? = result.value(forKey: "title") as? String
+                
+                print(hometitle)
+                var forCard:String? = result.value(forKey: "cardDesign") as? String
+                print(forCard)
+                
+                var forStart:Date? = result.value(forKey: "startDate") as? Date
+                print(forStart)
+                
+                var forEnd:Date? = result.value(forKey: "endDate") as? Date
+                print(forEnd)
+                
+                let df = DateFormatter()
+                df.dateFormat = "yyyy/MM/dd"
+                df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
+                //nilは入らないようにする
+                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil && id != nil {
+                    
+                    createTextFiled.text = hometitle!
+                    cardTextField.text = forCard!
+                    startTextField.text = df.string(from: forStart!)
+                    endTextField.text = df.string(from: forEnd!)
+                    
+                    
+                }
+            }
+        }catch {
+            print("read失敗")
+        }
+    }
+
     func forPickerView(textField:UITextField){
         
         pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: pickerView.bounds.size.height)
