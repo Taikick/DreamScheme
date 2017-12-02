@@ -272,6 +272,9 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
                     CardTextField.text = forCard!
                     startTextFiled.text = df.string(from: forStart!)
                     EndTextField.text = df.string(from: forEnd!)
+                    WeekTextField.text = result.value(forKey: "weeklyProcess") as! String
+                    DayTextField.text = result.value(forKey: "dailyProcess") as! String
+                    
                 }
                 
             }
