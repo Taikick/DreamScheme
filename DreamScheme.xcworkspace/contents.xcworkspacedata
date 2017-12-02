@@ -2,16 +2,16 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:ForTimeLog+CoreDataClass.swift">
-   </FileRef>
-   <FileRef
-      location = "group:ForTimeLog+CoreDataProperties.swift">
-   </FileRef>
-   <FileRef
       location = "group:ForTasks+CoreDataClass.swift">
    </FileRef>
    <FileRef
       location = "group:ForTasks+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:ForTimeLog+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:ForTimeLog+CoreDataProperties.swift">
    </FileRef>
    <FileRef
       location = "group:ForProcess+CoreDataClass.swift">

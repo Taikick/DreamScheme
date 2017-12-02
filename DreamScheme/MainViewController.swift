@@ -91,7 +91,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 df.dateFormat = "yyyy/MM/dd"
                 df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
                 //nilは入らないようにする
-                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil && id != nil {
+                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil {
 
                     hometitles.append(hometitle!)
                     cardsDesign.append(forCard!)

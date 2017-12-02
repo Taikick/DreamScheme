@@ -12,8 +12,6 @@ import CoreData
 class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerViewDataSource,UITextFieldDelegate {
     @IBOutlet weak var startTextFiled: UITextField!
     @IBOutlet weak var EndTextField: UITextField!
-    @IBOutlet weak var WeekTextField: UITextField!
-    @IBOutlet weak var DayTextField: UITextField!
     @IBOutlet weak var CardTextField: UITextField!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var addButton: UIButton!
@@ -56,8 +54,6 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         if passedProcess != -1 {
             processRead()
         }else{
-            WeekTextField.text = NDArray[0]
-            DayTextField.text = NTArray[0]
             CardTextField.text = cardArray[0]
         }
 
@@ -67,8 +63,6 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         if passedProcess != -1 {
             processRead()
         }else{
-            WeekTextField.text = NDArray[0]
-            DayTextField.text = NTArray[0]
             CardTextField.text = cardArray[0]
         }
         if passedProcess != -1{
@@ -193,8 +187,6 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         vi.removeFromSuperview()
         startTextFiled.resignFirstResponder()
         EndTextField.resignFirstResponder()
-        WeekTextField.resignFirstResponder()
-        DayTextField.resignFirstResponder()
         CardTextField.resignFirstResponder()
         titleTextField.resignFirstResponder()
         switch textField.tag {
@@ -203,12 +195,6 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
             return false
         case 1:
             forDatePicker(textField:EndTextField)
-            return false
-        case 2:
-            forTextFiled(textField:WeekTextField)
-            return false
-        case 3:
-            forTextFiled(textField:DayTextField)
             return false
         case 4:
             forTextFiled(textField:CardTextField)
@@ -220,10 +206,6 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView.tag {
-        case 2:
-            WeekTextField.text = NDArray[row]
-        case 3:
-            DayTextField.text = NTArray[row]
         case 4:
             CardTextField.text = cardArray[row]
             
@@ -284,8 +266,6 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
                     CardTextField.text = forCard!
                     startTextFiled.text = df.string(from: forStart!)
                     EndTextField.text = df.string(from: forEnd!)
-                    WeekTextField.text = result.value(forKey: "weeklyProcess") as! String
-                    DayTextField.text = result.value(forKey: "dailyProcess") as! String
                     
                 }
                 
@@ -346,10 +326,6 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
                     print(endPicker)
                     record.setValue(CardTextField.text, forKey: "processCard")
                     print(CardTextField.text)
-                    record.setValue(WeekTextField.text, forKey: "weeklyProcess")
-                    record.setValue(DayTextField.text, forKey: "dailyProcess")
-                    //タスクIDの指定
-                    
                 }
                 do{
                     try viewContext.save()
@@ -362,7 +338,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
             }
             
         }else {
-            if startTextFiled.text != "" || EndTextField.text != "" || titleTextField.text != "" || WeekTextField.text != "" || DayTextField.text != "" || CardTextField.text != "" {
+            if startTextFiled.text != "" || EndTextField.text != "" || titleTextField.text != "" ||  CardTextField.text != "" {
                 read()
                 let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -384,8 +360,6 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
 
                 newProcess.setValue(id + 1,forKey:"id")
                 print(id)
-                newProcess.setValue(WeekTextField.text, forKey: "weeklyProcess")
-                newProcess.setValue(DayTextField.text, forKey: "dailyProcess")
                 //タスクIDの指定
                 newProcess.setValue(tasksID, forKey: "forTaskID")
                 do{

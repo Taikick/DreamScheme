@@ -2,7 +2,7 @@
 //  ForTasks+CoreDataProperties.swift
 //  
 //
-//  Created by 加藤　大起 on 2017/12/01.
+//  Created by 加藤　大起 on 2017/12/03.
 //
 //
 
@@ -23,13 +23,9 @@ extension ForTasks {
     @NSManaged public var forNotice: Bool
     @NSManaged public var forSwitch: Bool
     @NSManaged public var id: Int16
-    @NSManaged public var noticeDay: String?
-    @NSManaged public var noticeWeek: String?
-    @NSManaged public var purposeTime: String?
+    @NSManaged public var noticeDay: NSDate?
     @NSManaged public var startDate: NSDate?
-    @NSManaged public var taskImagePath: String?
     @NSManaged public var title: String?
-    @NSManaged public var weekly: String?
     @NSManaged public var totalTime: NSDate?
 
 }

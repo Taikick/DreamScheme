@@ -16,21 +16,15 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     @IBOutlet weak var addButton: UIButton!
     
-    @IBOutlet weak var taskImage: UIImageView!
-    
     @IBOutlet weak var createTextFiled: UITextField!
     
     @IBOutlet weak var startTextField: UITextField!
     
     @IBOutlet weak var endTextField: UITextField!
-    
-    @IBOutlet weak var weekCountTextField: UITextField!
 
     @IBOutlet weak var dayCountTextField: UITextField!
     
     @IBOutlet weak var noticeDayTextField: UITextField!
-    
-    @IBOutlet weak var noticeTimeTextField: UITextField!
     
     @IBOutlet weak var cardTextField: UITextField!
     
@@ -44,11 +38,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     let pickerView = UIPickerView()
     var myDatePicker = UIDatePicker()
     
-    let todoWeekArray = ["毎日","1回","2回","3回","4回","5回","6回"]
-    
     let todoDayArray = ["1時間","2時間","3時間","4時間","5時間","6時間","7時間","8時間","9時間","10時間","11時間","12時間","13時間","4時間","15時間","16時間","17時間","18時間","19時間","20時間","21時間","22時間","23時間","24時間"]
     
-    var NDArray = ["毎日","月曜","水曜","火曜","水曜","木曜","金曜","土曜","日曜"]
     var NTArray = [
         "午前0時","午前1時","午前2時","午前3時","午前4時","午前5時","午前6時","午前7時","午前8時","午前9時",
         "午前10時","午前11時","午後0時","午後1時","午後2時","午後3時","午後4時","午後5時","午後6時","午後7時","午後8時","午後9時","午後10時","午後11時"
@@ -78,10 +69,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         if passedID != -1 {
             isData()
         }else{
-            weekCountTextField.text = todoWeekArray[0]
             dayCountTextField.text = todoDayArray[0]
-            noticeDayTextField.text = NDArray[0]
-            noticeTimeTextField.text = NTArray[0]
             cardTextField.text = cardArray[0]
         }
         
@@ -100,10 +88,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         if passedID != -1 {
             isData()
         }else{
-            weekCountTextField.text = todoWeekArray[0]
             dayCountTextField.text = todoDayArray[0]
-            noticeDayTextField.text = NDArray[0]
-            noticeTimeTextField.text = NTArray[0]
             cardTextField.text = cardArray[0]
         }
         if passedID != -1{
@@ -137,8 +122,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 var forEnd:Date? = result.value(forKey: "endDate") as! Date
                 var switchDecide:Bool? = result.value(forKey: "forSwitch") as! Bool?
                 var forDecide:Bool? = result.value(forKey:"forNotice" ) as! Bool?
-                var Weekly:String = result.value(forKey: "weekly") as! String
-                var Dayly:String = result.value(forKey:"purposeTime") as! String
+                
+                
                 
                 //nilは入らないようにする
                 if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil {
@@ -149,8 +134,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     endTextField.text = df.string(from: forEnd!)
                     forSwitch.isOn = switchDecide!
                     noticeSwitch.isOn = forDecide!
-                    weekCountTextField.text = Weekly
-                    dayCountTextField.text = Dayly
+                    
                 }
             }
         }catch {
@@ -240,11 +224,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         case 2:
             return 0
         case 3:
-            return todoWeekArray.count
+            return 0
         case 4:
             return todoDayArray.count
-        case 5:
-            return NDArray.count
         case 6:
             return NTArray.count
         case 7:
@@ -261,12 +243,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             return ""
         case 2:
             return ""
-        case 3:
-            return todoWeekArray[row]
         case 4:
             return todoDayArray[row]
-        case 5:
-            return NDArray[row]
         case 6:
             return NTArray[row]
         case 7:
@@ -282,12 +260,10 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         vi.removeFromSuperview()
         startTextField.resignFirstResponder()
         endTextField.resignFirstResponder()
-        weekCountTextField.resignFirstResponder()
         dayCountTextField.resignFirstResponder()
         cardTextField.resignFirstResponder()
         createTextFiled.resignFirstResponder()
         noticeDayTextField.resignFirstResponder()
-        noticeTimeTextField.resignFirstResponder()
         switch textField.tag {
         case 0:
             return true
@@ -298,7 +274,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             forDatePicker(textField:endTextField)
             return false
         case 3:
-            forPickerView(textField:weekCountTextField)
             return false
         case 4:
             forPickerView(textField: dayCountTextField)
@@ -307,7 +282,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             forPickerView(textField: noticeDayTextField)
             return false
         case 6:
-            forPickerView(textField: noticeTimeTextField)
+
             return false
         case 7:
             forPickerView(textField: cardTextField)
@@ -319,14 +294,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         switch pickerView.tag {
-        case 3:
-            weekCountTextField.text = todoWeekArray[row]
         case 4:
             dayCountTextField.text = todoDayArray[row]
-        case 5:
-            noticeDayTextField.text = NDArray[row]
-        case 6:
-            noticeTimeTextField.text = NTArray[row]
         case 7:
             cardTextField.text! = cardArray[row]
             print(cardTextField.text!)
@@ -414,11 +383,13 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     record.setValue(startPicker,forKey:"startDate")
                     record.setValue(endPicker,forKey:"endDate")
                     record.setValue(cardTextField.text, forKey: "cardDesign")
-                    record.setValue(weekCountTextField.text, forKey: "weekly")
-                    record.setValue(dayCountTextField.text, forKey: "purposeTime")
+                    
                     record.setValue(noticeSwitch.isOn, forKey: "forNotice")
-                    record.setValue(noticeDayTextField.text, forKey: "noticeWeek")
-                    record.setValue(noticeTimeTextField.text, forKey: "noticeDay")
+                    //通知の日時
+                    
+                    //目標時間の設定
+                    
+                    
                     record.setValue(forSwitch.isOn, forKey: "forSwitch")
                 }
                 do{
@@ -434,7 +405,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             
             
         }else {
-            if createTextFiled.text != nil || startTextField.text != nil || endTextField.text != nil || weekCountTextField.text != nil || dayCountTextField.text != nil || cardTextField.text != nil {
+            if createTextFiled.text != nil || startTextField.text != nil || endTextField.text != nil || dayCountTextField.text != nil || cardTextField.text != nil {
                 print("追加ボタンが押されました")
                 read()
                 let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -468,20 +439,10 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 //通知スイッチの値を入れる
                 newTask.setValue(noticeSwitch.isOn, forKey: "forNotice")
         
-                newTask.setValue(weekCountTextField.text, forKey: "weekly")
-        
-                newTask.setValue(dayCountTextField.text, forKey: "purposeTime")
-        
                 newTask.setValue(Date(), forKey: "created_at")
+                newTask.setValue(Date(), forKey: "noticeDay")
         
-                newTask.setValue(noticeDayTextField.text, forKey: "noticeWeek")
-        
-                newTask.setValue(noticeTimeTextField.text, forKey: "noticeDay")
-            
-            
-        
-                //イメージパスと時間に０
-        
+                
                 do{
                     try viewContext.save()
                 }catch {
@@ -493,83 +454,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             }
         }
     }
-    
-    
-    @IBAction func tapImage(_ sender: UITapGestureRecognizer) {
-        
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {    //追記
-            print("行けたお")
-            //写真ライブラリ(カメラロール)表示用のViewControllerを宣言
-            let controller = UIImagePickerController()
-            
-            controller.delegate = self
-            //新しく宣言したViewControllerでカメラとカメラロールのどちらを表示するかを指定
-            controller.sourceType = UIImagePickerControllerSourceType.photoLibrary
-            //トリミング
-            controller.allowsEditing = true
-            //新たに追加したカメラロール表示ViewControllerをpresentViewControllerにする
-            self.present(controller, animated: true, completion: nil)
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
-                
-                let picker = UIImagePickerController()
-                picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
-                picker.mediaTypes = [kUTTypeMovie as String]
-                picker.allowsEditing = false
-                picker.delegate = self
-                picker.videoQuality = UIImagePickerControllerQualityType.typeHigh
-                
-                self.present(picker, animated: true, completion: nil)
-            }
-            
-            //UserDefaultから取り出す
-            // ユーザーデフォルトを用意する
-            let myDefault = UserDefaults.standard
-            
-            // データを取り出す
-            let strURL = myDefault.string(forKey: "selectedPhotoURL")
-            
-      
-            
-        }
-
-        
-    }
-    
-    //カメラロールで写真を選んだ後
-    func imagePickerController(_ imagePicker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        let assetURL:AnyObject = info[UIImagePickerControllerReferenceURL]! as AnyObject
-        
-        let strURL:String = assetURL.description
-        
-        print(strURL)
-        
-        // ユーザーデフォルトを用意する
-        let myDefault = UserDefaults.standard
-        
-        // データを書き込んで
-        myDefault.set(strURL, forKey: "selectedPhotoURL")
-        
-        // 即反映させる
-        myDefault.synchronize()
-        
-        if strURL != nil{
-            
-            let url = URL(string: strURL as String!)
-            let fetchResult: PHFetchResult = PHAsset.fetchAssets(withALAssetURLs: [url!], options: nil)
-            let asset: PHAsset = (fetchResult.firstObject! as PHAsset)
-            let manager: PHImageManager = PHImageManager()
-            manager.requestImage(for: asset,targetSize: CGSize(width: 5, height: 500),contentMode: .aspectFill,options: nil) { (image, info) -> Void in
-                self.taskImage.image = image
-            }
-            
-        }
-        
-        //閉じる処理
-        imagePicker.dismiss(animated: true, completion: nil)
-        
-    }
-    
     //キーボードを出た時に下がる処理
     @IBAction func returnFinish(_ sender: UITextField) {
     }

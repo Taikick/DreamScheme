@@ -2,7 +2,7 @@
 //  ForTimeLog+CoreDataProperties.swift
 //  
 //
-//  Created by 加藤　大起 on 2017/12/01.
+//  Created by 加藤　大起 on 2017/12/03.
 //
 //
 
@@ -16,8 +16,8 @@ extension ForTimeLog {
         return NSFetchRequest<ForTimeLog>(entityName: "ForTimeLog")
     }
 
-    @NSManaged public var startTime: NSDate?
     @NSManaged public var endTime: NSDate?
+    @NSManaged public var startTime: NSDate?
     @NSManaged public var taskID: Int16
 
 }

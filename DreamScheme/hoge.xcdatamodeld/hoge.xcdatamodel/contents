@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ForProcess" representedClassName=".ForProcess" syncable="YES" codeGenerationType="class">
-        <attribute name="dailyProcess" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="forTaskID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="processCard" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="processEnd" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="processSrart" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="weeklyProcess" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="ForTasks" representedClassName=".ForTasks" syncable="YES" codeGenerationType="class">
         <attribute name="cardDesign" optional="YES" attributeType="String" syncable="YES"/>
@@ -18,14 +16,10 @@
         <attribute name="forNotice" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="forSwitch" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="noticeDay" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="noticeWeek" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="purposeTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="noticeDay" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="taskImagePath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="totalTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="weekly" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="ForTimeLog" representedClassName="ForTimeLog" syncable="YES" codeGenerationType="class">
         <attribute name="endTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -33,8 +27,8 @@
         <attribute name="taskID" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="ForProcess" positionX="-45" positionY="0" width="128" height="165"/>
-        <element name="ForTasks" positionX="-18" positionY="27" width="128" height="270"/>
+        <element name="ForProcess" positionX="-45" positionY="0" width="128" height="135"/>
+        <element name="ForTasks" positionX="-18" positionY="27" width="128" height="210"/>
         <element name="ForTimeLog" positionX="-27" positionY="117" width="128" height="90"/>
     </elements>
 </model>
