@@ -39,15 +39,56 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var hometitles:[String] = []
     var homeTime:[String] = []
     var homeLastTime:[String] = []
-    var purposeTime:[Int] = []
     var ids:[Int] = []
+    var purposeTime:[Int] = []
+    //まだ
     
-
-
-
+    var totalDoneTime:[Int] = []
+    
+    
     
     @IBOutlet weak var homeTableView: UITableView!
     
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        read()
+                print(totalDoneTime)
+        //        print("ホームタイトル\(hometitles.count)")
+        //        print("ホームラストタイム\(homeLastTime.count)")
+        //        print(cardsDesign)
+        //fontawesomeをボタンに使う
+        myButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
+        myButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
+        myButton.setTitleColor(UIColor.blue, for: .normal)
+        
+        
+        //NavigationBarが半透明かどうか
+        navigationController?.navigationBar.isTranslucent = false
+        //NavigationBarの色を変更します
+        navigationController?.navigationBar.barTintColor = UIColor(colorLiteralRed: 247/255, green: 247/255, blue: 247/255, alpha: 1)
+        //NavigationBarに乗っている部品の色を変更します
+        navigationController?.navigationBar.tintColor = UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1)
+        //バーの左側にボタンを配置します(ライブラリ特有)
+        addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
+        
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        
+        cardsDesign = []
+        hometitles = []
+        homeTime = []
+        homeLastTime = []
+        ids = []
+        read()
+        homeTableView.reloadData()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        homeTableView.reloadData()
+        read()
+        //        timer.invalidate()
+    }
     
     
     func read(){
@@ -78,6 +119,8 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 var id: Int = (result.value(forKey: "id") as? Int)!
                 var totalTime = result.value(forKey: "totalTime") as? Int
                 
+                var doneTime = result.value(forKey: "totalDoneTime") as? Int
+                
                 let df = DateFormatter()
                 df.dateFormat = "yyyy/MM/dd"
                 df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
@@ -90,6 +133,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     homeLastTime.append(df.string(from: forEnd!))
                     ids.append(id)
                     purposeTime.append(totalTime!)
+                    totalDoneTime.append(doneTime!)
                 }
             }
             
@@ -98,49 +142,13 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        
-        cardsDesign = []
-        hometitles = []
-        homeTime = []
-        homeLastTime = []
-        ids = []
-        read()
-        homeTableView.reloadData()
-    }
+
     
     
 
 
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-          read()
-//        print("ホームタイム\(homeTime.count)")
-//        print("ホームタイトル\(hometitles.count)")
-//        print("ホームラストタイム\(homeLastTime.count)")
-//        print(cardsDesign)
-        //fontawesomeをボタンに使う
-        myButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
-        myButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
-        myButton.setTitleColor(UIColor.blue, for: .normal)
-        
-        
-        //NavigationBarが半透明かどうか
-        navigationController?.navigationBar.isTranslucent = false
-        //NavigationBarの色を変更します
-        navigationController?.navigationBar.barTintColor = UIColor(colorLiteralRed: 247/255, green: 247/255, blue: 247/255, alpha: 1)
-        //NavigationBarに乗っている部品の色を変更します
-        navigationController?.navigationBar.tintColor = UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1)
-        //バーの左側にボタンを配置します(ライブラリ特有)
-        addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
 
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        homeTableView.reloadData()
-        read()
-//        timer.invalidate()
-    }
+
     
     
     //トップに戻るボタン押下時の呼び出しメソッド
