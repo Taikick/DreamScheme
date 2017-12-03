@@ -43,6 +43,8 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     var homeLastTime:[String] = []
     
+    var purposeTime:[Int] = []
+    
     var ids:[Int] = []
     
     
@@ -86,19 +88,20 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 var forEnd:Date? = result.value(forKey: "endDate") as? Date
                 print(forEnd)
                 var id: Int = (result.value(forKey: "id") as? Int)!
+                var totalTime = result.value(forKey: "totalTime") as? Int
                 
                 let df = DateFormatter()
                 df.dateFormat = "yyyy/MM/dd"
                 df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
                 //nilは入らないようにする
-                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil {
+                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil && totalTime != nil{
 
                     hometitles.append(hometitle!)
                     cardsDesign.append(forCard!)
                     homeTime.append(df.string(from: forStart!))
                     homeLastTime.append(df.string(from: forEnd!))
                     ids.append(id)
-                    
+                    purposeTime.append(totalTime!)
                 }
             }
             
@@ -161,6 +164,8 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         // currentTime/60 の余り
         let second = (Int)(fmod(currentTime, 60))
         
+        var intDate = Int(currentTime)
+        print(currentTime)
         // %02d：２桁表示、0で埋める
         let sHour = String(format: "%02d", hour)
         let sMin = String(format:"%02d", minute)
