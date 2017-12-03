@@ -20,19 +20,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     @IBOutlet weak var myButton: UIButton!
     
-    var entry:[[BarChartDataEntry]] = [
-        
-        [BarChartDataEntry(x: 1, y: 3.0)],
-        [BarChartDataEntry(x: 1, y: 80.0)],
-        [BarChartDataEntry(x: 1, y: 10.0)],
-        [BarChartDataEntry(x: 1, y: 3.0)],
-        [BarChartDataEntry(x: 1, y: 80.0)],
-        [BarChartDataEntry(x: 1, y: 10.0)],
-        [BarChartDataEntry(x: 1, y: 3.0)],
-        [BarChartDataEntry(x: 1, y: 80.0)],
-        [BarChartDataEntry(x: 1, y: 10.0)],
-        [BarChartDataEntry(x: 1, y: 3.0)]
-    ]
+
     
     
     var cardsDesign:[String] = []
@@ -141,16 +129,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             print("read失敗")
         }
     }
-    
 
-    
-    
-
-
-
-
-    
-    
     //トップに戻るボタン押下時の呼び出しメソッド
     func goTop() {
         
@@ -187,7 +166,8 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         rect.size.height -= 4
         let chartView = HorizontalBarChartView(frame: rect)
         //ここにデータイレリ処理を書いていく
-        let set = BarChartDataSet(values: entry[indexPath.row], label: "")
+        var entry:[BarChartDataEntry] = [BarChartDataEntry(x: 1, y: Double(totalDoneTime[indexPath.row]) / 3600)]
+        let set = BarChartDataSet(values: entry, label: "")
         chartView.data = BarChartData(dataSet: set)
         chartView.drawBordersEnabled = false
         chartView.minOffset = CGFloat(0)
@@ -203,12 +183,12 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         chartView.borderLineWidth = 1.0
         //y軸の設定
         chartView.leftAxis.axisMinimum = 0
-        chartView.leftAxis.axisMaximum = 100.0
+        chartView.leftAxis.axisMaximum = Double(purposeTime[indexPath.row] / 3600)
         chartView.leftAxis.labelCount = 5
         chartView.leftAxis.enabled = false
         chartView.rightAxis.labelCount = 5
         chartView.rightAxis.axisMinimum = 0
-        chartView.rightAxis.axisMaximum = 100.0
+        chartView.rightAxis.axisMaximum = Double(purposeTime[indexPath.row] / 3600)
         chartView.accessibilityLabel = ""
         cell.BarChrats.noDataText = ""
         chartView.xAxis.drawLabelsEnabled = true
@@ -272,7 +252,6 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         if editingStyle == .delete {
             hometitles.remove(at: indexPath.row)
             homeTime.remove(at: indexPath.row)
-            entry.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }

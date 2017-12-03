@@ -33,7 +33,8 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         [BarChartDataEntry(x: 1.0, y: 100.0)],
         [BarChartDataEntry(x: 1.0, y: 3.0)],
         [BarChartDataEntry(x: 1.0, y: 3.0)],
-        [BarChartDataEntry(x: 1.0, y: 100.0)] ,       [BarChartDataEntry(x: 1.0, y: 3.0)],
+        [BarChartDataEntry(x: 1.0, y: 100.0)],
+        [BarChartDataEntry(x: 1.0, y: 3.0)],
         [BarChartDataEntry(x: 1.0, y: 3.0)],
         [BarChartDataEntry(x: 1.0, y: 100.0)]
         
@@ -105,17 +106,17 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         
         //色系
         if cardsDesign[indexPath.row] == "青"{
-            cell.backgroundColor = #colorLiteral(red: 0.4508578777, green: 0.9882974029, blue: 0.8376303315, alpha: 1)
-            set.colors = [#colorLiteral(red: 0.476841867, green: 0.5048075914, blue: 1, alpha: 0.8272153253)]
+            cell.backgroundColor = UIColor(colorLiteralRed: 149/255, green: 191/255, blue: 220/255, alpha: 1)
+            set.colors = [UIColor(colorLiteralRed: 159/255, green: 152/255, blue: 201/255, alpha: 1)]
         } else if cardsDesign[indexPath.row] == "赤"{
-            cell.backgroundColor = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 0.5359856592)
-            set.colors = [#colorLiteral(red: 0.5807225108, green: 0.066734083, blue: 0, alpha: 0.9017016267)]
+            cell.backgroundColor = UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1)
+            set.colors = [UIColor(colorLiteralRed: 228/255, green: 182/255, blue: 136/255, alpha: 1)]
         } else if cardsDesign[indexPath.row] == "黄色"{
-            cell.backgroundColor = #colorLiteral(red: 1, green: 0.8323456645, blue: 0.4732058644, alpha: 0.7487157534)
-            set.colors = [#colorLiteral(red: 1, green: 0.9334713866, blue: 0.2072222195, alpha: 1)]
+            cell.backgroundColor = UIColor(colorLiteralRed: 239/255, green: 212/255, blue: 102/255, alpha: 1)
+            set.colors = [UIColor(colorLiteralRed: 216/255, green: 194/255, blue: 39/255, alpha: 1)]
         } else {
-            cell.backgroundColor = #colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 0.6764501284)
-            set.colors = [#colorLiteral(red: 0, green: 0.5628422499, blue: 0.3188166618, alpha: 1)]
+            cell.backgroundColor = UIColor(colorLiteralRed: 86/255, green: 186/255, blue: 154/255, alpha: 1)
+            set.colors = [UIColor(colorLiteralRed: 77/255, green: 122/255, blue: 113/255, alpha: 1)]
         }
         chartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 0)
         set.valueTextColor = UIColor.clear
@@ -189,15 +190,13 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         }
         
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            hometitles.remove(at: indexPath.row)
+            homeTime.remove(at: indexPath.row)
+            goalTableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
-    */
 
 }
