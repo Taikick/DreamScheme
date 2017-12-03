@@ -91,12 +91,13 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     //    //ストップウォッチボタンが押された時の処理
     @IBAction func tapWatchButton(_ sender: UIButton) {
         
-        if timer != nil{
-            // timerが起動中なら一旦破棄する
-            timer.invalidate()
-        }
+        
         if watchButton.titleLabel?.text == "タスク開始" {
-            
+            if timer != nil{
+                // timerが起動中なら一旦破棄する
+                timer.invalidate()
+            }
+
             timer = Timer.scheduledTimer(
                 timeInterval: 1,
                 target: self,
@@ -104,21 +105,42 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 userInfo: nil,
                 repeats: true)
             startTime = Date()
-            watchButton.titleLabel?.text = "タスク終了"
+            watchButton.setTitle("タスク終了", for: .normal)
+            
         } else {
-            if timer != nil{
-                timer.invalidate()
-                watchLabel.text = "00:00:00"
-              
-            }
-            watchButton.titleLabel?.text = "タスク開始"
+            watchButton.setTitle("タスク開始", for: .normal)
+            timer.invalidate()
+            endTime = Date()
+            watchLabel.text = "00:00:00"
+            insertTime()
+            
+        }
+    }
+    //時間をぶちこむ
+    func insertTime(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let forTimeLog = NSEntityDescription.entity(forEntityName: "ForTimeLog", in: viewContext)
+        
+        let newTimeLog = NSManagedObject(entity: forTimeLog!, insertInto: viewContext)
+        
+        newTimeLog.setValue(startTime, forKey: "startTime")
+        newTimeLog.setValue(endTime, forKey: "endTime")
+        newTimeLog.setValue(passedIndex, forKey: "taskID")
+        
+        
+        do{
+            try viewContext.save()
+        }catch {
+            print("接続失敗")
         }
     }
     
-    
     @objc func timerCounter() {
         // タイマー開始からのインターバル時間
-        endTime = Date()
+        
         
         let currentTime = Date().timeIntervalSince(startTime)
         //timeHourを計算
@@ -140,8 +162,9 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
     }
 
-    //ボタンを押した時の処理
     
+    
+    //プロセス追加ボタンを押した時の処理
     @IBAction func tapButton(_ sender: UIButton) {
         performSegue(withIdentifier: "toDProcess", sender: nil)
     }
