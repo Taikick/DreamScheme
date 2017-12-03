@@ -15,24 +15,56 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     @IBOutlet weak var AnalizeTableView: UITableView!
     @IBOutlet weak var radarChartView: RadarChartView!
-
-
-    var subjects = [
-        "ナンパ", "金", "女", "XX", "プログラミング"
-    ]
-    //点数
-    let array = [30.0, 50.0, 80.0, 100.0, 100.0]
+    
+    var titles:[String] = []
+    
+    var totalDoneTime:[Int] = []
+    var DtotalDoneTime:[Double] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
-        setChart(dataPoints: subjects, values: array)
-        print("array:")
-        print(array)
+        
         AnalizeTableView.layer.cornerRadius = 10.0;
         AnalizeTableView.clipsToBounds = true
-
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        read()
+        for toDouble in totalDoneTime{
+            DtotalDoneTime.append(Double(toDouble))
+        }
+        setChart(dataPoints: titles, values: DtotalDoneTime)
+    }
+    
+    
+    func read(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+        
+        let predicate = NSPredicate(format: "doneID = %@",NSNumber(value: false) as CVarArg)
+        query.predicate = predicate
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResult {
+                
+                var hometitle:String? = result.value(forKey: "title") as? String
+                
+                var doneTime = result.value(forKey: "totalDoneTime") as? Int
+                
+                titles.append(hometitle!)
+                totalDoneTime.append(doneTime!)
+                
+            }
+            
+        }catch {
+            print("read失敗")
+        }
     }
     
     func setChart(dataPoints: [String], values: [Double]) {
@@ -63,7 +95,7 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         radarChartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 7)
         
         //ここまで軸の設定
-        radarChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values:subjects)
+        radarChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values:titles)
         radarChartView.xAxis.granularity = 1
         radarChartView.rotationEnabled = false
         chartDataSet.drawFilledEnabled = true
@@ -86,13 +118,13 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
 
     /// セルの個数を指定するデリゲートメソッド（必須）
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return subjects.count
+        return titles.count
     }
     
     /// セルに値を設定するデータソースメソッド（必須）
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tasksCell = tableView.dequeueReusableCell(withIdentifier: "AnalizeCell") as! AnalizeTableViewCell
-        tasksCell.setCell(titleText: subjects[indexPath.row])
+        tasksCell.setCell(titleText: titles[indexPath.row])
         
         return tasksCell
     }
