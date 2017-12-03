@@ -344,7 +344,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             rect.origin.y += 4
             rect.size.height -= 4
             let chartView = HorizontalBarChartView(frame: rect)
-            var entry = [BarChartDataEntry(x: 1, y: 80.0)]
+            var entry = [BarChartDataEntry(x: 1, y: Double(totalTime / 3600))]
             let set = BarChartDataSet(values: entry, label: "タスク時間")
             chartView.data = BarChartData(dataSet: set)
             chartView.drawBordersEnabled = false
@@ -362,10 +362,10 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             //y軸の設定
             chartView.leftAxis.labelCount = 5
             chartView.leftAxis.axisMinimum = 0
-            chartView.leftAxis.axisMaximum = Double(purposeTime)
+            chartView.leftAxis.axisMaximum = Double(purposeTime / 3600)
             chartView.rightAxis.labelCount = 5
             chartView.rightAxis.axisMinimum = 0
-            chartView.rightAxis.axisMaximum = 100.0
+            chartView.rightAxis.axisMaximum = Double(purposeTime / 3600)
             chartView.leftAxis.axisMinimum = 0
             set.formLineWidth = 3
             set.formSize = 10
