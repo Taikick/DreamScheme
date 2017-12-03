@@ -21,10 +21,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     @IBOutlet weak var startTextField: UITextField!
     
     @IBOutlet weak var endTextField: UITextField!
-
-    @IBOutlet weak var dayCountTextField: UITextField!
-    
-    @IBOutlet weak var noticeDayTextField: UITextField!
     
     @IBOutlet weak var cardTextField: UITextField!
     
@@ -32,18 +28,32 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     @IBOutlet weak var noticeSwitch: UISwitch!
     
+    @IBOutlet weak var dayCountTextField: UITextField!
+    
+    @IBOutlet weak var noticeDayTextField: UITextField!
+    
     var textField = UITextField()
     
     
     let pickerView = UIPickerView()
     var myDatePicker = UIDatePicker()
     
-    let todoDayArray = ["1時間","2時間","3時間","4時間","5時間","6時間","7時間","8時間","9時間","10時間","11時間","12時間","13時間","4時間","15時間","16時間","17時間","18時間","19時間","20時間","21時間","22時間","23時間","24時間"]
     
-    var NTArray = [
-        "午前0時","午前1時","午前2時","午前3時","午前4時","午前5時","午前6時","午前7時","午前8時","午前9時",
-        "午前10時","午前11時","午後0時","午後1時","午後2時","午後3時","午後4時","午後5時","午後6時","午後7時","午後8時","午後9時","午後10時","午後11時"
-    ]
+    var Time1:[Int] = [0,1,2,3,4,5,6,7,8,9]
+    var Time2:[Int] = [0,1,2,3,4,5,6,7,8,9]
+    var Time3:[Int] = [0,1,2,3,4,5,6,7,8,9]
+    var Time4:[Int] = [0,1,2,3,4,5,6,7,8,9]
+    var Time5:[Int] = [0,1,2,3,4,5,6,7,8,9]
+    
+    var select1 = 0
+    var select2 = 0
+    var select3 = 0
+    var select4 = 0
+    var select5 = 0
+    
+    //for文で回して値とってる
+    var NTArray:[Int] = []
+    
     
     var cardArray = ["赤","青","黄色","緑"]
     
@@ -61,6 +71,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        for i in 0...23{
+            NTArray.append(i)
+        }
         print(passedID)
         
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
@@ -69,8 +82,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         if passedID != -1 {
             isData()
         }else{
-            dayCountTextField.text = todoDayArray[0]
+            dayCountTextField.text = "00000時間"
             cardTextField.text = cardArray[0]
+            noticeDayTextField.text = "\(NTArray[11])時"
         }
         
 
@@ -87,16 +101,12 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         df.locale = Locale(identifier: "ja_JP");
         if passedID != -1 {
             isData()
-        }else{
-            dayCountTextField.text = todoDayArray[0]
-            cardTextField.text = cardArray[0]
-        }
-        if passedID != -1{
             addButton.titleLabel?.text = "更新"
-        } else {
+        }else{
+            
+            cardTextField.text = cardArray[0]
             addButton.titleLabel?.text = "追加"
         }
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -214,7 +224,13 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        switch  pickerView.tag{
+        case 4:
+            return 6
+        default:
+            return 1
+        }
+        
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -226,8 +242,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         case 3:
             return 0
         case 4:
-            return todoDayArray.count
-        case 6:
+            return 10
+        case 5:
             return NTArray.count
         case 7:
             return cardArray.count
@@ -244,9 +260,22 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         case 2:
             return ""
         case 4:
-            return todoDayArray[row]
-        case 6:
-            return NTArray[row]
+            if component == 0 {
+                return String(Time1[row])
+            }else if component == 1{
+                return String(Time2[row])
+            }else if component == 2{
+                return String(Time3[row])
+            }else if component == 3{
+                return String(Time4[row])
+            }else if component == 4{
+                return String(Time5[row])
+            }else {
+                return "時間"
+            }
+            
+        case 5:
+            return "\(NTArray[row])時"
         case 7:
             return cardArray[row]
         default:
@@ -295,7 +324,25 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         
         switch pickerView.tag {
         case 4:
-            dayCountTextField.text = todoDayArray[row]
+            if component == 0 {
+                // 1桁のピッカーの設定
+                select1 = Time1[row]
+            }else if component == 1{
+                // 2桁のピッカーの設定
+                select2 = Time2[row]
+            }else if component == 2{
+                // 3桁のピッカーの設定
+                select3 = Time3[row]
+            }else if component == 3{
+                // 4桁のピッカーの設定
+                select4 = Time4[row]
+            }else if component == 4{
+                // 5桁のピッカーの設定
+                select5 = Time5[row]
+            }
+            dayCountTextField.text = "\(select1)\(select2)\(select3)\(select4)\(select5)時間"
+        case 5:
+            noticeDayTextField.text = "\(NTArray[row])時"
         case 7:
             cardTextField.text! = cardArray[row]
             print(cardTextField.text!)
@@ -440,13 +487,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 newTask.setValue(noticeSwitch.isOn, forKey: "forNotice")
         
                 newTask.setValue(Date(), forKey: "created_at")
-        
                 
-        
-
-            
-            
-        
                 //イメージパスと時間に０
         
                 do{
