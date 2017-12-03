@@ -29,7 +29,9 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     @IBOutlet weak var watchLabel: UILabel!
     
-    var entry = [BarChartDataEntry(x: 1, y: 80.0)]
+    
+    
+    var purposeTime = 0
     
     var cardsDesign:[String] = []
     
@@ -43,21 +45,23 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     var DcardDesing = ""
     
-
-    var ProTitle:[String] = [
-    ]
+    var forStart = Date()
     
-    var ProTime:[String] = [
-
-    ]
+    var forEnd = Date()
+    
+    var ProTitle:[String] = []
+    
+    var ProTime:[String] = []
     
     //timerの変数
     var timer:Timer!
     var startTime = Date()
     var endTime = Date()
     var intDate = 0
-    
+    //コアから受け取ったユーザーの勉強時間
     var totalTime = 0
+    
+    //ユーザーの目標時間
     
     var ProEndTime:[String] = []
     
@@ -230,10 +234,10 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 var forCard:String? = result.value(forKey: "cardDesign") as? String
                 print(forCard)
                 
-                var forStart:Date? = result.value(forKey: "startDate") as? Date
+                forStart = (result.value(forKey: "startDate") as? Date)!
                 print(forStart)
                 
-                var forEnd:Date? = result.value(forKey: "endDate") as? Date
+                forEnd = (result.value(forKey: "endDate") as? Date)!
                 print(forEnd)
                 var id: Int = (result.value(forKey: "id") as? Int)!
                 
@@ -245,10 +249,10 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     
                     DTitle = hometitle!
                     DcardDesing = forCard!
-                    DTitleTime = df.string(from: forStart!)
-                    DtitleEnd = df.string(from: forEnd!)
+                    DTitleTime = df.string(from: forStart)
+                    DtitleEnd = df.string(from: forEnd)
                     titleID = id
-                    
+                    purposeTime = (result.value(forKey: "totalTime") as? Int)!
                 }
             }
         }catch {
@@ -340,6 +344,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             rect.origin.y += 4
             rect.size.height -= 4
             let chartView = HorizontalBarChartView(frame: rect)
+            var entry = [BarChartDataEntry(x: 1, y: 80.0)]
             let set = BarChartDataSet(values: entry, label: "タスク時間")
             chartView.data = BarChartData(dataSet: set)
             chartView.drawBordersEnabled = false
@@ -357,7 +362,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             //y軸の設定
             chartView.leftAxis.labelCount = 5
             chartView.leftAxis.axisMinimum = 0
-            chartView.leftAxis.axisMaximum = 100
+            chartView.leftAxis.axisMaximum = Double(purposeTime)
             chartView.rightAxis.labelCount = 5
             chartView.rightAxis.axisMinimum = 0
             chartView.rightAxis.axisMaximum = 100.0
