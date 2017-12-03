@@ -57,6 +57,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var endTime = Date()
     var intDate = 0
     
+    var totalTime = 0
+    
     var ProEndTime:[String] = []
     
     var ProId:[Int] = []
@@ -105,6 +107,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 userInfo: nil,
                 repeats: true)
             startTime = Date()
+            totalTime = 0
             watchButton.setTitle("タスク終了", for: .normal)
             
         } else {
@@ -113,6 +116,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             endTime = Date()
             watchLabel.text = "00:00:00"
             insertTime()
+            readTimeLogs()
+            
             
         }
     }
@@ -138,11 +143,48 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
     
+    func readTimeLogs(){
+            let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            let viewContext = appDelegate.persistentContainer.viewContext
+            
+            let query:NSFetchRequest<ForTimeLog> = ForTimeLog.fetchRequest()
+            
+            let predicate = NSPredicate(format: "taskID = %d", passedIndex)
+            query.predicate = predicate
+            do {
+                let fetchResult = try viewContext.fetch(query)
+                
+                for result:AnyObject in fetchResult {
+                    
+                    var startTime:Date = result.value(forKey: "startTime") as! Date
+                    
+                    var endTime:Date = result.value(forKey: "endTime") as! Date
+                    
+                    var getInterval = CFDateGetTimeIntervalSinceDate(endTime as CFDate, startTime as CFDate)
+                    var intDate = Int(getInterval)
+                    
+                    if intDate != nil {
+                        print("fuck\(intDate)")
+                        totalTime += intDate
+                    }
+                    
+                    
+                }
+                print(totalTime)
+            }catch {
+                print("read失敗")
+            }
+        
+
+    }
+    
     @objc func timerCounter() {
         // タイマー開始からのインターバル時間
         
         
         let currentTime = Date().timeIntervalSince(startTime)
+        print(currentTime)
         //timeHourを計算
         let hour = (Int)(fmod((currentTime/3600), 60))
         
@@ -151,8 +193,6 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         // currentTime/60 の余り
         let second = (Int)(fmod(currentTime, 60))
         
-        //        intDate = Int(currentTime)
-        print(currentTime)
         // %02d：２桁表示、0で埋める
         let sHour = String(format: "%02d", hour)
         let sMin = String(format:"%02d", minute)
