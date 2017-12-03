@@ -42,25 +42,13 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var purposeTime:[Int] = []
     var ids:[Int] = []
     
-    //timerの変数
-    var timer:Timer!
-    var startTime = Date()
-    var endTime = Date()
-    var intDate = 0
-    
-    //時間のラベル
-    @IBOutlet weak var timeHour: UILabel!
-    
-    //分のラベル
-    @IBOutlet weak var timeMinute: UILabel!
-    
-    //秒のラベル
-    @IBOutlet weak var timeSecond: UILabel!
+
+
 
     
     @IBOutlet weak var homeTableView: UITableView!
     
-    @IBOutlet weak var myBarButton: UIBarButtonItem!
+    
     
     func read(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -122,60 +110,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     
     
-    //ストップウォッチボタンが押された時の処理
-    @IBAction func tapWatch(_ sender: Any) {
-        
-        if timer != nil{
-            // timerが起動中なら一旦破棄する
-            timer.invalidate()
-        }
-        if myBarButton.title == "タスク開始" {
-            
-            timer = Timer.scheduledTimer(
-                timeInterval: 1,
-                target: self,
-                selector: #selector(self.timerCounter),
-                userInfo: nil,
-                repeats: true)
-            startTime = Date()
-            myBarButton.title = "タスク終了"
-        } else {
-            if timer != nil{
-                timer.invalidate()
-                timeHour.text = "00"
-                timeMinute.text = "00"
-                timeSecond.text = "00"
-            }
-            myBarButton.title = "タスク開始"
-        }
-    }
-    
-    
-    @objc func timerCounter() {
-        // タイマー開始からのインターバル時間
-        endTime = Date()
-        
-        let currentTime = Date().timeIntervalSince(startTime)
-        //timeHourを計算
-        let hour = (Int)(fmod((currentTime/3600), 60))
-        
-        // fmod() 余りを計算
-        let minute = (Int)(fmod((currentTime/60), 60))
-        // currentTime/60 の余り
-        let second = (Int)(fmod(currentTime, 60))
-        
-//        intDate = Int(currentTime)
-        print(currentTime)
-        // %02d：２桁表示、0で埋める
-        let sHour = String(format: "%02d", hour)
-        let sMin = String(format:"%02d", minute)
-        let sSecond = String(format:"%02d", second)
-        
-        timeHour.text = sHour
-        timeMinute.text = sMin
-        timeSecond.text = sSecond
-        
-    }
+
 
     
     override func viewDidLoad() {
@@ -189,8 +124,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         myButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
         myButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
         myButton.setTitleColor(UIColor.blue, for: .normal)
-        //バーボタンの文字列決定
-        myBarButton.title = "タスク開始"
+        
         
         //NavigationBarが半透明かどうか
         navigationController?.navigationBar.isTranslucent = false

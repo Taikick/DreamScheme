@@ -25,7 +25,9 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     @IBOutlet weak var ProcessTableView: UITableView!
     
+    @IBOutlet weak var watchButton: UIButton!
     
+    @IBOutlet weak var watchLabel: UILabel!
     
     var entry = [BarChartDataEntry(x: 1, y: 80.0)]
     
@@ -49,6 +51,12 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     ]
     
+    //timerの変数
+    var timer:Timer!
+    var startTime = Date()
+    var endTime = Date()
+    var intDate = 0
+    
     var ProEndTime:[String] = []
     
     var ProId:[Int] = []
@@ -63,6 +71,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         addProButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
         addProButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
         addProButton.setTitleColor(UIColor.blue, for: .normal)
+        watchButton.titleLabel?.text = "タスク開始"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -79,6 +88,58 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     }
     
+    //    //ストップウォッチボタンが押された時の処理
+    @IBAction func tapWatchButton(_ sender: UIButton) {
+        
+        if timer != nil{
+            // timerが起動中なら一旦破棄する
+            timer.invalidate()
+        }
+        if watchButton.titleLabel?.text == "タスク開始" {
+            
+            timer = Timer.scheduledTimer(
+                timeInterval: 1,
+                target: self,
+                selector: #selector(self.timerCounter),
+                userInfo: nil,
+                repeats: true)
+            startTime = Date()
+            watchButton.titleLabel?.text = "タスク終了"
+        } else {
+            if timer != nil{
+                timer.invalidate()
+                watchLabel.text = "00:00:00"
+              
+            }
+            watchButton.titleLabel?.text = "タスク開始"
+        }
+    }
+    
+    
+    @objc func timerCounter() {
+        // タイマー開始からのインターバル時間
+        endTime = Date()
+        
+        let currentTime = Date().timeIntervalSince(startTime)
+        //timeHourを計算
+        let hour = (Int)(fmod((currentTime/3600), 60))
+        
+        // fmod() 余りを計算
+        let minute = (Int)(fmod((currentTime/60), 60))
+        // currentTime/60 の余り
+        let second = (Int)(fmod(currentTime, 60))
+        
+        //        intDate = Int(currentTime)
+        print(currentTime)
+        // %02d：２桁表示、0で埋める
+        let sHour = String(format: "%02d", hour)
+        let sMin = String(format:"%02d", minute)
+        let sSecond = String(format:"%02d", second)
+        
+        watchLabel.text = "\(sHour):\(sMin):\(sSecond)"
+        
+    }
+
     //ボタンを押した時の処理
     
     @IBAction func tapButton(_ sender: UIButton) {
