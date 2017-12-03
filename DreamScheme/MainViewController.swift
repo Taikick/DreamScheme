@@ -36,17 +36,17 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     
     var cardsDesign:[String] = []
-    
     var hometitles:[String] = []
-    
     var homeTime:[String] = []
-    
     var homeLastTime:[String] = []
-    
     var purposeTime:[Int] = []
-    
     var ids:[Int] = []
     
+    //timerの変数
+    var timer:Timer!
+    var startTime = Date()
+    var endTime = Date()
+    var intDate = 0
     
     //時間のラベル
     @IBOutlet weak var timeHour: UILabel!
@@ -56,7 +56,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     //秒のラベル
     @IBOutlet weak var timeSecond: UILabel!
-    
+
     
     @IBOutlet weak var homeTableView: UITableView!
     
@@ -121,9 +121,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         homeTableView.reloadData()
     }
     
-    //timerの変数
-    var timer:Timer!
-    var startTime = Date()
+    
     //ストップウォッチボタンが押された時の処理
     @IBAction func tapWatch(_ sender: Any) {
         
@@ -155,6 +153,8 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     @objc func timerCounter() {
         // タイマー開始からのインターバル時間
+        endTime = Date()
+        
         let currentTime = Date().timeIntervalSince(startTime)
         //timeHourを計算
         let hour = (Int)(fmod((currentTime/3600), 60))
@@ -164,7 +164,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         // currentTime/60 の余り
         let second = (Int)(fmod(currentTime, 60))
         
-        var intDate = Int(currentTime)
+//        intDate = Int(currentTime)
         print(currentTime)
         // %02d：２桁表示、0で埋める
         let sHour = String(format: "%02d", hour)
