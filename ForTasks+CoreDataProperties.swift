@@ -26,6 +26,6 @@ extension ForTasks {
     @NSManaged public var noticeDay: NSDate?
     @NSManaged public var startDate: NSDate?
     @NSManaged public var title: String?
-    @NSManaged public var totalTime: NSDate?
+    @NSManaged public var totalTime: Int32
 
 }

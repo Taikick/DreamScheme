@@ -51,6 +51,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     var select4 = 0
     var select5 = 0
     
+    var purposeTime = 0
     //for文で回して値とってる
     var NTArray:[Int] = []
     
@@ -91,9 +92,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //        if createTextFiled.text == "" || startTextField.text == "" || endTextField.text == "" || weekCountTextField.text == "" || dayCountTextField.text == "" || cardTextField.text == ""{
-        //            addButton.backgroundColor = #colorLiteral(red: 0.4620226622, green: 0.8382837176, blue: 1, alpha: 0.1185787671)
-        //            addButton.isEnabled = false
+        toInt()
         print(passedID)
         
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
@@ -350,8 +349,18 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         default:
             print("それ以外")
         }
-
+    }
+    
+    //ピッカーの中の数を計算してINTにぶち込む
+    func toInt() {
+        var tenThou = select1 * 10000
+        var thou = select2 * 1000
+        var hund = select3 * 100
+        var ten = select4 * 10
+        var one = select5
         
+        var purposeHour = tenThou + thou + hund + ten + one
+        purposeTime = purposeHour * 3600
     }
     
     //DatePickerで、選択している日付を変えた時、日付用のTextFieldに値を表示
@@ -414,9 +423,10 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     //追加ボタンが押された時にコアデータにデータを挿入する
     @IBAction func taskAddButton(_ sender: UIButton) {
-        
+        //すでにデータが存在する場合
         if passedID != -1 {
             print("更新ボタンが押されました")
+            toInt()
             let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
             let viewContext = appDelegate.persistentContainer.viewContext
             let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
@@ -435,7 +445,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     //通知の日時
                     
                     //目標時間の設定
-                    
+                    record.setValue(purposeTime, forKey: "totalTime")
                     
                     record.setValue(forSwitch.isOn, forKey: "forSwitch")
                 }
@@ -450,11 +460,12 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             }
             
             
-            
+        //新規登録の場合
         }else {
             if createTextFiled.text != nil || startTextField.text != nil || endTextField.text != nil || dayCountTextField.text != nil || cardTextField.text != nil {
                 print("追加ボタンが押されました")
                 read()
+                toInt()
                 let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
                 let viewContext = appDelegate.persistentContainer.viewContext
@@ -487,9 +498,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 newTask.setValue(noticeSwitch.isOn, forKey: "forNotice")
         
                 newTask.setValue(Date(), forKey: "created_at")
+                newTask.setValue(purposeTime, forKey: "totalTime")
+                //通知の設定
                 
-                //イメージパスと時間に０
-        
                 do{
                     try viewContext.save()
                 }catch {
