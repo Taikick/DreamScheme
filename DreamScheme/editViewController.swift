@@ -172,16 +172,30 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                         print("fuck\(intDate)")
                         totalTime += intDate
                     }
-                    
-                    
                 }
                 print(totalTime)
             }catch {
                 print("read失敗")
             }
-        
-
     }
+    
+    func upDateTotalTime(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+        
+        let predicate = NSPredicate(format: "taskID = %d", passedIndex)
+        query.predicate = predicate
+        do {
+
+            }
+        catch {
+            print("read失敗")
+        }
+    }
+
     
     @objc func timerCounter() {
         // タイマー開始からのインターバル時間

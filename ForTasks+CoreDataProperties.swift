@@ -2,7 +2,7 @@
 //  ForTasks+CoreDataProperties.swift
 //  
 //
-//  Created by 加藤　大起 on 2017/12/03.
+//  Created by 加藤　大起 on 2017/12/04.
 //
 //
 
@@ -27,5 +27,6 @@ extension ForTasks {
     @NSManaged public var startDate: NSDate?
     @NSManaged public var title: String?
     @NSManaged public var totalTime: Int32
+    @NSManaged public var totalDoneTime: Int32
 
 }
