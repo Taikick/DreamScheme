@@ -121,7 +121,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             watchLabel.text = "00:00:00"
             insertTime()
             readTimeLogs()
-            
+            upDateTotalTime()
             
         }
     }
@@ -186,10 +186,14 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
         
-        let predicate = NSPredicate(format: "taskID = %d", passedIndex)
+        let predicate = NSPredicate(format: "id = %d", passedIndex)
         query.predicate = predicate
         do {
-
+            let fetchResult = try viewContext.fetch(query)
+            for result:AnyObject in fetchResult {
+                let record = result as! NSManagedObject
+                record.setValue(totalTime,forKey:"totalDoneTime")
+            }
             }
         catch {
             print("read失敗")

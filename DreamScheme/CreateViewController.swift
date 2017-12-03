@@ -499,6 +499,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         
                 newTask.setValue(Date(), forKey: "created_at")
                 newTask.setValue(purposeTime, forKey: "totalTime")
+                
+                newTask.setValue(0, forKey: "totalDoneTime")
                 //通知の設定
                 
                 do{
