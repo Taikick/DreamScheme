@@ -19,5 +19,6 @@ extension ForTimeLog {
     @NSManaged public var endTime: NSDate?
     @NSManaged public var startTime: NSDate?
     @NSManaged public var taskID: Int16
+    @NSManaged public var moveOrStop: Bool
 
 }
