@@ -16,12 +16,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     var selectedIndex = 0
     
-    
-    
     @IBOutlet weak var myButton: UIButton!
-    
-
-    
     
     var cardsDesign:[String] = []
     var hometitles:[String] = []
@@ -29,8 +24,6 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var homeLastTime:[String] = []
     var ids:[Int] = []
     var purposeTime:[Int] = []
-    //まだ
-    
     var totalDoneTime:[Int] = []
     
     
@@ -42,11 +35,6 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     override func viewDidLoad() {
         super.viewDidLoad()
         read()
-                print(totalDoneTime)
-        //        print("ホームタイトル\(hometitles.count)")
-        //        print("ホームラストタイム\(homeLastTime.count)")
-        //        print(cardsDesign)
-        //fontawesomeをボタンに使う
         myButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
         myButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
         myButton.setTitleColor(UIColor.blue, for: .normal)
@@ -63,18 +51,20 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
     }
     override func viewDidAppear(_ animated: Bool) {
-        
+        print(purposeTime)
         cardsDesign = []
         hometitles = []
         homeTime = []
         homeLastTime = []
+        totalDoneTime = []
+        purposeTime = []
         ids = []
         read()
         homeTableView.reloadData()
     }
     override func viewWillAppear(_ animated: Bool) {
-        homeTableView.reloadData()
-        read()
+//        homeTableView.reloadData()
+//        read()
         //        timer.invalidate()
     }
     

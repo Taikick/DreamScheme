@@ -69,10 +69,6 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(passedIndex)
-        readTitle()
-        read()
-        print(ProTitle)
         //fontawesomeをボタンに使う
         addProButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
         addProButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
@@ -94,6 +90,35 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     }
     
+    
+    @objc func timerCounter() {
+        // タイマー開始からのインターバル時間
+        
+        
+        let currentTime = Date().timeIntervalSince(startTime)
+        print(currentTime)
+        //timeHourを計算
+        let hour = (Int)(fmod((currentTime/3600), 60))
+        
+        // fmod() 余りを計算
+        let minute = (Int)(fmod((currentTime/60), 60))
+        // currentTime/60 の余り
+        let second = (Int)(fmod(currentTime, 60))
+        
+        // %02d：２桁表示、0で埋める
+        let sHour = String(format: "%02d", hour)
+        let sMin = String(format:"%02d", minute)
+        let sSecond = String(format:"%02d", second)
+        
+        watchLabel.text = "\(sHour):\(sMin):\(sSecond)"
+        
+    }
+    
+    //プロセス追加ボタンを押した時の処理
+    @IBAction func tapButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "toDProcess", sender: nil)
+    }
+    
     //    //ストップウォッチボタンが押された時の処理
     @IBAction func tapWatchButton(_ sender: UIButton) {
         
@@ -111,7 +136,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 userInfo: nil,
                 repeats: true)
             startTime = Date()
-            totalTime = 0
+            
             watchButton.setTitle("タスク終了", for: .normal)
             
         } else {
@@ -119,14 +144,17 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             timer.invalidate()
             endTime = Date()
             watchLabel.text = "00:00:00"
-            insertTime()
+            insertEndTime()
+            totalTime = 0
             readTimeLogs()
             upDateTotalTime()
+            DtitleTableView.reloadData()
+            ProcessTableView.reloadData()
             
         }
     }
     //時間をぶちこむ
-    func insertTime(){
+    func insertEndTime(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
         let viewContext = appDelegate.persistentContainer.viewContext
@@ -139,7 +167,6 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         newTimeLog.setValue(endTime, forKey: "endTime")
         newTimeLog.setValue(passedIndex, forKey: "taskID")
         
-        
         do{
             try viewContext.save()
         }catch {
@@ -147,6 +174,54 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
     
+    func readTitle(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+        
+        let predicate = NSPredicate(format: "id = %d",passedIndex)
+        query.predicate = predicate
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResult {
+                
+                var hometitle:String? = result.value(forKey: "title") as? String
+                
+                print(hometitle)
+                var forCard:String? = result.value(forKey: "cardDesign") as? String
+                print(forCard)
+                
+                forStart = (result.value(forKey: "startDate") as? Date)!
+                print(forStart)
+                
+                forEnd = (result.value(forKey: "endDate") as? Date)!
+                print(forEnd)
+                var id: Int = (result.value(forKey: "id") as? Int)!
+                
+                let df = DateFormatter()
+                df.dateFormat = "yyyy/MM/dd"
+                df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
+                //nilは入らないようにする
+                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil && id != nil {
+                    
+                    DTitle = hometitle!
+                    DcardDesing = forCard!
+                    DTitleTime = df.string(from: forStart)
+                    DtitleEnd = df.string(from: forEnd)
+                    titleID = id
+                    purposeTime = (result.value(forKey: "totalTime") as? Int)!
+                    totalTime = (result.value(forKey: "totalDoneTime") as? Int)!
+                }
+            }
+        }catch {
+            print("read失敗")
+        }
+    }
+    
+    //ウォッチボタン押されら時にタイムログ挿入
     func readTimeLogs(){
             let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
             
@@ -200,83 +275,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
 
-    
-    @objc func timerCounter() {
-        // タイマー開始からのインターバル時間
-        
-        
-        let currentTime = Date().timeIntervalSince(startTime)
-        print(currentTime)
-        //timeHourを計算
-        let hour = (Int)(fmod((currentTime/3600), 60))
-        
-        // fmod() 余りを計算
-        let minute = (Int)(fmod((currentTime/60), 60))
-        // currentTime/60 の余り
-        let second = (Int)(fmod(currentTime, 60))
-        
-        // %02d：２桁表示、0で埋める
-        let sHour = String(format: "%02d", hour)
-        let sMin = String(format:"%02d", minute)
-        let sSecond = String(format:"%02d", second)
-        
-        watchLabel.text = "\(sHour):\(sMin):\(sSecond)"
-        
-    }
 
-    
-    
-    //プロセス追加ボタンを押した時の処理
-    @IBAction func tapButton(_ sender: UIButton) {
-        performSegue(withIdentifier: "toDProcess", sender: nil)
-    }
 
-    
-    func readTitle(){
-        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        let viewContext = appDelegate.persistentContainer.viewContext
-        
-        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
-        
-        let predicate = NSPredicate(format: "id = %d",passedIndex)
-        query.predicate = predicate
-        do {
-            let fetchResult = try viewContext.fetch(query)
-            
-            for result:AnyObject in fetchResult {
-                
-                var hometitle:String? = result.value(forKey: "title") as? String
-                
-                print(hometitle)
-                var forCard:String? = result.value(forKey: "cardDesign") as? String
-                print(forCard)
-                
-                forStart = (result.value(forKey: "startDate") as? Date)!
-                print(forStart)
-                
-                forEnd = (result.value(forKey: "endDate") as? Date)!
-                print(forEnd)
-                var id: Int = (result.value(forKey: "id") as? Int)!
-                
-                let df = DateFormatter()
-                df.dateFormat = "yyyy/MM/dd"
-                df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
-                //nilは入らないようにする
-                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil && id != nil {
-                    
-                    DTitle = hometitle!
-                    DcardDesing = forCard!
-                    DTitleTime = df.string(from: forStart)
-                    DtitleEnd = df.string(from: forEnd)
-                    titleID = id
-                    purposeTime = (result.value(forKey: "totalTime") as? Int)!
-                }
-            }
-        }catch {
-            print("read失敗")
-        }
-    }
     
     
     func read(){
@@ -362,7 +362,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             rect.origin.y += 4
             rect.size.height -= 4
             let chartView = HorizontalBarChartView(frame: rect)
-            var entry = [BarChartDataEntry(x: 1, y: Double(totalTime / 3600))]
+            var entry = [BarChartDataEntry(x: 1, y: Double(totalTime) / 3600)]
             let set = BarChartDataSet(values: entry, label: "タスク時間")
             chartView.data = BarChartData(dataSet: set)
             chartView.drawBordersEnabled = false
