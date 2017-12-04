@@ -73,7 +73,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         addProButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
         addProButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
         addProButton.setTitleColor(UIColor.blue, for: .normal)
-        watchButton.titleLabel?.text = "タスク開始"
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -82,6 +82,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         ProTime = []
         readTitle()
         read()
+        onTheWay()
         DtitleTableView.reloadData()
         ProcessTableView.reloadData()
     }
@@ -136,6 +137,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 userInfo: nil,
                 repeats: true)
             startTime = Date()
+            insertStartTime()
             
             watchButton.setTitle("タスク終了", for: .normal)
             
@@ -153,6 +155,87 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             
         }
     }
+    
+    //スタート押したら読み込む
+    func insertStartTime(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let forTimeLog = NSEntityDescription.entity(forEntityName: "ForTimeLog", in: viewContext)
+        
+        let newStartTime = NSManagedObject(entity: forTimeLog!, insertInto: viewContext)
+        
+        newStartTime.setValue(startTime, forKey: "startTime")
+
+        newStartTime.setValue(true, forKey: "moveOrStop")
+        
+        newStartTime.setValue(passedIndex, forKey: "taskID")
+        
+        do{
+            try viewContext.save()
+        }catch {
+            print("接続失敗")
+        }
+    }
+    
+    //ウォッチボタン押されら時にエンドタイムログ挿入
+    func onTheWay(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTimeLog> = ForTimeLog.fetchRequest()
+        
+        let predicate = NSPredicate(format: "taskID = %d", passedIndex)
+        query.predicate = predicate
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResult {
+                
+                var start:Date = result.value(forKey: "startTime") as! Date
+                var isOntheWay:Bool? = result.value(forKey: "moveOrStop") as! Bool?
+                
+                if isOntheWay == true{
+                    watchButton.setTitle("タスク終了", for: .normal)
+                    var currentTime = Date().timeIntervalSince(start)
+                    
+                    //timeHourを計算
+                    let hour = (Int)(fmod((currentTime/3600), 60))
+                    
+                    // fmod() 余りを計算
+                    let minute = (Int)(fmod((currentTime/60), 60))
+                    // currentTime/60 の余り
+                    let second = (Int)(fmod(currentTime, 60))
+                    
+                    // %02d：２桁表示、0で埋める
+                    let sHour = String(format: "%02d", hour)
+                    let sMin = String(format:"%02d", minute)
+                    let sSecond = String(format:"%02d", second)
+                    currentTime = Date.timeIntervalSinceReferenceDate
+                    timer = Timer.scheduledTimer(
+                        timeInterval: 1,
+                        target: self,
+                        selector: #selector(self.timerCounter),
+                        userInfo: nil,
+                        repeats: true)
+                    startTime = Date()
+                    
+                    
+                    watchLabel.text = "\(sHour):\(sMin):\(sSecond)"
+                    
+                    
+                }
+            }
+            print(totalTime)
+        }catch {
+            print("read失敗")
+        }
+    }
+
+    
+    
     //時間をぶちこむ
     func insertEndTime(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
