@@ -213,16 +213,13 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     let sHour = String(format: "%02d", hour)
                     let sMin = String(format:"%02d", minute)
                     let sSecond = String(format:"%02d", second)
-                    currentTime = Date.timeIntervalSinceReferenceDate
                     timer = Timer.scheduledTimer(
                         timeInterval: 1,
                         target: self,
                         selector: #selector(self.timerCounter),
                         userInfo: nil,
                         repeats: true)
-                    startTime = Date()
-                    
-                    
+                    currentTime = Date.timeIntervalSinceReferenceDate
                     watchLabel.text = "\(sHour):\(sMin):\(sSecond)"
                     
                     
@@ -320,11 +317,11 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 for result:AnyObject in fetchResult {
                     
                     var startTime:Date = result.value(forKey: "startTime") as! Date
-                    
-                    var endTime:Date = result.value(forKey: "endTime") as! Date
-                    
-                    var getInterval = CFDateGetTimeIntervalSinceDate(endTime as CFDate, startTime as CFDate)
-                    var intDate = Int(getInterval)
+//                    
+//                    var endTime:Date = result.value(forKey: "endTime") as! Date
+//                    
+//                    var getInterval = CFDateGetTimeIntervalSinceDate(endTime as CFDate, startTime as CFDate)
+//                    var intDate = Int(getInterval)
                     
                     if intDate != nil {
                         print("fuck\(intDate)")
