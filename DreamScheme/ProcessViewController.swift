@@ -338,7 +338,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
             }
             
         }else {
-            if startTextFiled.text != "" || EndTextField.text != "" || titleTextField.text != "" ||  CardTextField.text != "" {
+            if startTextFiled.text != "" && EndTextField.text != "" && titleTextField.text != "" &&  CardTextField.text != "" {
                 read()
                 let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -369,7 +369,16 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
                 }
             //アラート出す
             } else {
+                let alert = UIAlertController(title: "Invailed", message: "空欄があります", preferredStyle: .alert)
                 
+                //アラートにOKボタンを追加
+                //handler : OKボタンが押された時に行いたい処理を指定する場所
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {action in print("OK押されました")}))
+                
+                //アラートを表示する処理
+                //completion : 動作が完了した後に発動するメソッド
+                //animated :
+                present(alert, animated: true, completion: {() -> Void in print("アラートが表示されました") })
             }
         }
     }

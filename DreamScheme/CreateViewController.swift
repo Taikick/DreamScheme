@@ -55,6 +55,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     //for文で回して値とってる
     var NTArray:[Int] = []
     
+    var startDay = ""
+    
+    var endDay = ""
     
     var cardArray = ["赤","青","黄色","緑"]
     
@@ -77,17 +80,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
         print(passedID)
         
-        myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
-        df.dateFormat = "yyyy/MM/dd"
-        df.locale = Locale(identifier: "ja_JP");
-        if passedID != -1 {
-            isData()
-        }else{
-            dayCountTextField.text = "00000時間"
-            cardTextField.text = cardArray[0]
-            noticeDayTextField.text = "\(NTArray[11])時"
-        }
-        
 
     }
     
@@ -102,8 +94,19 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             isData()
             addButton.titleLabel?.text = "更新"
         }else{
-            
+            dayCountTextField.text = "\(select1)\(select2)\(select3)\(select4)\(select5)時間"
             cardTextField.text = cardArray[0]
+            noticeDayTextField.text = "\(NTArray[11])時"
+            cardTextField.text = cardArray[0]
+            myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
+            df.dateFormat = "yyyy/MM/dd"
+            df.locale = Locale(identifier: "ja_JP")
+            myDatePicker.date = df.date(from: "2018/01/01")!
+            startDay = df.string(from: myDatePicker.date)
+            endDay = df.string(from: myDatePicker.date)
+            startTextField.text = startDay
+            endTextField.text = endDay
+            
             addButton.titleLabel?.text = "追加"
         }
     }
@@ -462,7 +465,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             
         //新規登録の場合
         }else {
-            if createTextFiled.text != nil || startTextField.text != nil || endTextField.text != nil || dayCountTextField.text != nil || cardTextField.text != nil {
+            if createTextFiled.text != "" && startTextField.text != "" && endTextField.text != "" && dayCountTextField.text != "" && cardTextField.text != "" {
                 print("追加ボタンが押されました")
                 read()
                 toInt()
@@ -510,7 +513,16 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 }
             //アラート出す
             }else {
+                let alert = UIAlertController(title: "Invailed", message: "空欄があります", preferredStyle: .alert)
                 
+                //アラートにOKボタンを追加
+                //handler : OKボタンが押された時に行いたい処理を指定する場所
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {action in print("OK押されました")}))
+                
+                //アラートを表示する処理
+                //completion : 動作が完了した後に発動するメソッド
+                //animated :
+                present(alert, animated: true, completion: {() -> Void in print("アラートが表示されました") })
             }
         }
     }
