@@ -21,6 +21,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var selectedTitle = -1
     
     @IBOutlet weak var addProButton: UIButton!
+    
     @IBOutlet weak var DtitleTableView: UITableView!
     
     @IBOutlet weak var ProcessTableView: UITableView!
@@ -80,22 +81,20 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         ProTitle = []
         ProEndTime = []
         ProTime = []
+        //タイトル読み込み用(タイマー関係ない)
         readTitle()
+        //プロセスの情報読み込み用(タイマー関係ない)
         read()
+        //時間処理↓
+        //タイマー起動中に別ページから飛んできた時発動
         onTheWay()
         DtitleTableView.reloadData()
         ProcessTableView.reloadData()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-
-    }
-    
-    
+    //Tタイマーをカウントしてるメソッド
     @objc func timerCounter() {
         // タイマー開始からのインターバル時間
-        
-        
         let currentTime = Date().timeIntervalSince(startTime)
         print(currentTime)
         //timeHourを計算
@@ -115,21 +114,13 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
     }
     
-    //プロセス追加ボタンを押した時の処理
-    @IBAction func tapButton(_ sender: UIButton) {
-        performSegue(withIdentifier: "toDProcess", sender: nil)
-    }
-    
-    //    //ストップウォッチボタンが押された時の処理
+    //Tストップウォッチボタンが押された時の処理　insertStartTimeとダブり
     @IBAction func tapWatchButton(_ sender: UIButton) {
-        
-        
         if watchButton.titleLabel?.text == "タスク開始" {
             if timer != nil{
                 // timerが起動中なら一旦破棄する
                 timer.invalidate()
             }
-
             timer = Timer.scheduledTimer(
                 timeInterval: 1,
                 target: self,
@@ -155,8 +146,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             
         }
     }
-    
-    //スタート押したら読み込む
+
+    //Tスタート押したら読み込む
     func insertStartTime(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -179,7 +170,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
     
-    //ウォッチボタン押されら時にエンドタイムログ挿入
+    //Tタイマー起動中に別ページから飛んできた時発動
     func onTheWay(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -231,9 +222,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
 
-    
-    
-    //時間をぶちこむ
+    //Tエンドタイムの挿入（ダブってる）
     func insertEndTime(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -254,6 +243,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
     
+    //このページの上のテーブル（タイトルを取得）
     func readTitle(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -355,10 +345,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
 
-
-
-    
-    
+    //プロセスの情報読み込み用(タイマー関係ない)
     func read(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -406,6 +393,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
 
+    
+    
     //行数の決定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView.tag == 1{
@@ -493,7 +482,9 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             return cell
         }
     }
-    //テーブルをスワイプし削除ボタンを出す
+    
+    
+    //セルをスワイプし削除ボタンを出す
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             if tableView.tag == 2 {
@@ -520,20 +511,37 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     }
     
+    //タイムログバタンが押された時の処理
+    @IBAction func tapToTimeLog(_ sender: UIButton) {
+        
+        performSegue(withIdentifier: "toTimeLog", sender: nil)
+    }
+    
+    //プロセス追加ボタンを押した時の処理
+    @IBAction func tapButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "toDProcess", sender: nil)
+    }
+    
+    
     //セグエを使って画面遷移している時発動
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //次の画面のインスタンス(オブジェクト)を取得
         //as!DetailViewControllerがダウンキャスト変換している箇所
         if segue.identifier == "toDProcess" {
-            
+            //プロセスタップ
             let toProcess: ProcessViewController = segue.destination as! ProcessViewController
             toProcess.passedProcess = selectedProcess
             toProcess.tasksID = passedIndex
         } else if segue.identifier == "moveCreate" {
-            
+            //タスクタップ
             let moveCreate: CreateViewController = segue.destination as! CreateViewController
             moveCreate.passedID = passedIndex
+        }else if segue.identifier == "toTimeLog"{
+            let toTimeLog: timeLogViewController = segue.destination as! timeLogViewController
+            toTimeLog.passedIndex = passedIndex
+            
         }
+        
         
         
     }

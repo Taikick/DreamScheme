@@ -238,6 +238,9 @@
                                 <rect key="frame" x="333" y="212" width="77" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="ログ一覧へ"/>
+                                <connections>
+                                    <action selector="tapToTimeLog:" destination="M4P-zI-hsf" eventType="touchUpInside" id="rx5-Ns-G6w"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z9K-04-LbG">
                                 <rect key="frame" x="142" y="174" width="130" height="39"/>
@@ -265,11 +268,66 @@
                         <outlet property="watchLabel" destination="Z9K-04-LbG" id="4L7-x6-iP5"/>
                         <segue destination="lLA-60-u6c" kind="show" identifier="toDProcess" id="UjD-n3-V15"/>
                         <segue destination="fKd-Rq-cmA" kind="show" identifier="moveCreate" id="E9u-QH-RWN"/>
+                        <segue destination="bgQ-bn-s5H" kind="show" identifier="toTimeLog" id="ulF-Kr-Ynt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iao-vd-Jpe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3005.7971014492755" y="482.60869565217394"/>
+        </scene>
+        <!--Time Log View Controller-->
+        <scene sceneID="CXB-Ec-X5g">
+            <objects>
+                <viewController id="bgQ-bn-s5H" customClass="timeLogViewController" customModule="DreamScheme" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1K1-80-SkD"/>
+                        <viewControllerLayoutGuide type="bottom" id="AHf-I3-xPd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="p6N-y8-ycW">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7fM-ga-usN">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="timeLogCell" id="Rd9-Qz-IVY" customClass="timeLogTableViewCell" customModule="DreamScheme" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rd9-Qz-IVY" id="Xy5-G6-w2M">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dtm-mj-H7x">
+                                                    <rect key="frame" x="260" y="-3" width="119" height="38"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="endTimeLabel" destination="dtm-mj-H7x" id="H5I-wd-fw8"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="bgQ-bn-s5H" id="nav-zA-lum"/>
+                                    <outlet property="delegate" destination="bgQ-bn-s5H" id="R4a-sw-GeC"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="logTableView" destination="7fM-ga-usN" id="H5v-TF-cau"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pSh-LI-kCw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3995.652173913044" y="482.60869565217394"/>
         </scene>
         <!--Create View Controller-->
         <scene sceneID="sgu-Vb-kkx">
@@ -835,7 +893,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="hAR-4V-ZRs" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Mhu-0v-9IL">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mhu-0v-9IL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

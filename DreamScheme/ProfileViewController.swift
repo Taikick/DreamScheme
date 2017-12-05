@@ -23,6 +23,7 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
     @IBOutlet weak var userName: UILabel!
     
     @IBOutlet weak var profileSettings: UITableView!
+    
     let Settings:[String] = ["未達成のやるべきこと","総合タスク時間"]
     
     let unReachTask = "3個"
