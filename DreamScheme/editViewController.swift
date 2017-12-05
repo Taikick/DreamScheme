@@ -61,6 +61,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var startTime = Date()
     var endTime = Date()
     var intDate = 0
+    var currentTime = TimeInterval()
 
     
     //ユーザーの目標時間
@@ -77,6 +78,14 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         addProButton.setTitleColor(UIColor.blue, for: .normal)
         
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        if timer != nil{
+            timer.invalidate()
+        }
+    }
+    
+
     
     override func viewDidAppear(_ animated: Bool) {
         ProTitle = []
@@ -96,8 +105,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     //Tタイマーをカウントしてるメソッド
     @objc func timerCounter() {
         // タイマー開始からのインターバル時間
-        let currentTime = Date().timeIntervalSince(startTime)
-        print(currentTime)
+        currentTime = Date().timeIntervalSince(startTime)
+        print("カレント（タイマー中）\(currentTime)")
         //timeHourを計算
         let hour = (Int)(fmod((currentTime/3600), 60))
         
@@ -135,9 +144,6 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             
         } else {
             
-            timer.invalidate()
-            endTime = Date()
-            watchLabel.text = "00:00:00"
             insertEndTime()
             totalTime = 0
             readTimeLogs()
@@ -150,6 +156,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     //Tスタート押したら読み込む
     func insertStartTime(){
+
+        
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
         let viewContext = appDelegate.persistentContainer.viewContext
@@ -173,6 +181,9 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     //Tタイマー起動中に別ページから飛んできた時発動
     func onTheWay(){
+        
+        
+
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
         let viewContext = appDelegate.persistentContainer.viewContext
@@ -190,60 +201,48 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 var isOntheWay:Bool? = result.value(forKey: "moveOrStop") as! Bool?
                 
                 if isOntheWay == true{
+                    
                     watchButton.setTitle("タスク終了", for: .normal)
-                    var currentTime = Date().timeIntervalSince(start)
-                    
-                    //timeHourを計算
-                    let hour = (Int)(fmod((currentTime/3600), 60))
-                    
-                    // fmod() 余りを計算
-                    let minute = (Int)(fmod((currentTime/60), 60))
-                    // currentTime/60 の余り
-                    let second = (Int)(fmod(currentTime, 60))
-                    
-                    // %02d：２桁表示、0で埋める
-                    let sHour = String(format: "%02d", hour)
-                    let sMin = String(format:"%02d", minute)
-                    let sSecond = String(format:"%02d", second)
-                    
+                    currentTime = Date().timeIntervalSince(start)
                     timer = Timer.scheduledTimer(
                         timeInterval: 1,
                         target: self,
                         selector: #selector(self.timerCounter),
                         userInfo: nil,
                         repeats: true)
-                    currentTime = Date.timeIntervalSinceReferenceDate
+
                     startTime = start
-//                    watchLabel.text = "\(sHour):\(sMin):\(sSecond)"
-                    
-                    
-                    
                 }
             }
-            print(totalTime)
+            print("おんざウェイと＾たる\(totalTime)")
         }catch {
             print("read失敗")
         }
     }
 
-    //Tエンドタイムの挿入（ダブってる）
+    //Tエンドタイムの挿入（ダブってる）アップデート
     func insertEndTime(){
+        
+        timer.invalidate()
+        endTime = Date()
+        watchLabel.text = "00:00:00"
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
         let viewContext = appDelegate.persistentContainer.viewContext
         
-        let forTimeLog = NSEntityDescription.entity(forEntityName: "ForTimeLog", in: viewContext)
+        let query:NSFetchRequest<ForTimeLog> = ForTimeLog.fetchRequest()
         
-        let newTimeLog = NSManagedObject(entity: forTimeLog!, insertInto: viewContext)
-        
-        newTimeLog.setValue(startTime, forKey: "startTime")
-        newTimeLog.setValue(endTime, forKey: "endTime")
-        newTimeLog.setValue(passedIndex, forKey: "taskID")
-        
-        do{
-            try viewContext.save()
+        let predicate = NSPredicate(format: "taskID = %d", passedIndex)
+        query.predicate = predicate
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            for result:AnyObject in fetchResult {
+                let record = result as! NSManagedObject
+                record.setValue(endTime,forKey:"endTime")
+                record.setValue(false, forKey: "moveOrStop")
+            }
         }catch {
-            print("接続失敗")
+            print("read失敗")
         }
     }
     
@@ -311,11 +310,11 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 for result:AnyObject in fetchResult {
                     
                     var startTime:Date = result.value(forKey: "startTime") as! Date
-//                    
-//                    var endTime:Date = result.value(forKey: "endTime") as! Date
-//                    
-//                    var getInterval = CFDateGetTimeIntervalSinceDate(endTime as CFDate, startTime as CFDate)
-//                    var intDate = Int(getInterval)
+                    
+                    var endTime:Date = result.value(forKey: "endTime") as! Date
+                    
+                    var getInterval = CFDateGetTimeIntervalSinceDate(endTime as CFDate, startTime as CFDate)
+                    var intDate = Int(getInterval)
                     
                     if intDate != nil {
                         print("fuck\(intDate)")
@@ -343,8 +342,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 let record = result as! NSManagedObject
                 record.setValue(totalTime,forKey:"totalDoneTime")
             }
-            }
-        catch {
+        }catch {
             print("read失敗")
         }
     }
