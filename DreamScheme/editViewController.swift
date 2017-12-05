@@ -41,6 +41,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var DTitleTime:String = ""
     
     var DtitleEnd:String = ""
+    //コアから受け取ったユーザーの勉強時間
+    var totalTime = 0
     
     var titleID = 0
     
@@ -59,8 +61,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     var startTime = Date()
     var endTime = Date()
     var intDate = 0
-    //コアから受け取ったユーザーの勉強時間
-    var totalTime = 0
+
     
     //ユーザーの目標時間
     
@@ -133,7 +134,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             watchButton.setTitle("タスク終了", for: .normal)
             
         } else {
-            watchButton.setTitle("タスク開始", for: .normal)
+            
             timer.invalidate()
             endTime = Date()
             watchLabel.text = "00:00:00"
@@ -143,7 +144,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             upDateTotalTime()
             DtitleTableView.reloadData()
             ProcessTableView.reloadData()
-            
+            watchButton.setTitle("タスク開始", for: .normal)
         }
     }
 
@@ -204,6 +205,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     let sHour = String(format: "%02d", hour)
                     let sMin = String(format:"%02d", minute)
                     let sSecond = String(format:"%02d", second)
+                    
                     timer = Timer.scheduledTimer(
                         timeInterval: 1,
                         target: self,
@@ -211,7 +213,9 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                         userInfo: nil,
                         repeats: true)
                     currentTime = Date.timeIntervalSinceReferenceDate
-                    watchLabel.text = "\(sHour):\(sMin):\(sSecond)"
+                    startTime = start
+//                    watchLabel.text = "\(sHour):\(sMin):\(sSecond)"
+                    
                     
                     
                 }
@@ -291,7 +295,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
     
-    //ウォッチボタン押されら時にタイムログ挿入
+    //Tウォッチボタン押されら時にタイムログ挿入
     func readTimeLogs(){
             let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
             
@@ -483,11 +487,40 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
     
-    
     //セルをスワイプし削除ボタンを出す
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            if tableView.tag == 2 {
+        if tableView.tag == 1 {
+            if editingStyle == .delete {
+                
+//                DTitle.remove(at:1)
+//                DTitleTime.remove(at: )
+//                DtitleEnd.remove(at: 1)
+//                DcardDesing.remove(at: 1)
+                ProcessTableView.deleteRows(at: [indexPath], with: .fade)
+                
+                let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                
+                let viewContext = appDelegate.persistentContainer.viewContext
+                
+                let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+                
+                let predicate = NSPredicate(format: "id = %d", passedIndex)
+                query.predicate = predicate
+                do{
+                    let fetchResults = try viewContext.fetch(query)
+                    for result: AnyObject in fetchResults{
+                        let record = result as! NSManagedObject
+                        
+                    }
+                    try viewContext.save()
+                }catch{
+                    
+                }
+            }
+            
+        }
+        if tableView.tag == 2 {
+            if editingStyle == .delete {
                 ProTitle.remove(at: indexPath.row)
                 ProTime.remove(at: indexPath.row)
                 ProcessTableView.deleteRows(at: [indexPath], with: .fade)
@@ -498,31 +531,16 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
 
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if tableView.tag == 1 {
-            performSegue(withIdentifier: "moveCreate", sender: nil)
-        } else if tableView.tag == 2 {
-            print(ProId[indexPath.row])
-            selectedProcess = ProId[indexPath.row]
-            performSegue(withIdentifier: "toDProcess", sender: nil)
-        }
-        //セグエに名前を指定して画面遷移処理を発動
-
-    }
-    
-    //タイムログバタンが押された時の処理
-    @IBAction func tapToTimeLog(_ sender: UIButton) {
-        
-        performSegue(withIdentifier: "toTimeLog", sender: nil)
-    }
-    
-    //プロセス追加ボタンを押した時の処理
-    @IBAction func tapButton(_ sender: UIButton) {
-        performSegue(withIdentifier: "toDProcess", sender: nil)
-    }
     
     
+    
+    
+    
+    
+    
+    
+    
+    //処理完結してる
     //セグエを使って画面遷移している時発動
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //次の画面のインスタンス(オブジェクト)を取得
@@ -541,10 +559,27 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             toTimeLog.passedIndex = passedIndex
             
         }
-        
-        
-        
     }
+    //タイムログバタンが押された時の処理（ただの移動）
+    @IBAction func tapToTimeLog(_ sender: UIButton) {
+        performSegue(withIdentifier: "toTimeLog", sender: nil)
+    }
+    
+    //プロセス追加ボタンを押した時の処理（ただの移動）
+    @IBAction func tapButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "toDProcess", sender: nil)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView.tag == 1 {
+            performSegue(withIdentifier: "moveCreate", sender: nil)
+        } else if tableView.tag == 2 {
+            selectedProcess = ProId[indexPath.row]
+            performSegue(withIdentifier: "toDProcess", sender: nil)
+        }
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
