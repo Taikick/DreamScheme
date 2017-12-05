@@ -30,8 +30,6 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     @IBOutlet weak var watchLabel: UILabel!
     
-    
-    
     var purposeTime = 0
     
     var cardsDesign:[String] = []
@@ -59,7 +57,6 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     //timerの変数
     var timer:Timer!
     var startTime = Date()
-    var endTime = Date()
     var intDate = 0
     var currentTime = TimeInterval()
 
@@ -82,12 +79,15 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     override func viewDidDisappear(_ animated: Bool) {
         if timer != nil{
             timer.invalidate()
+
         }
     }
     
-
-    
     override func viewDidAppear(_ animated: Bool) {
+        if timer != nil{
+            timer.invalidate()
+        }
+
         ProTitle = []
         ProEndTime = []
         ProTime = []
@@ -143,11 +143,14 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             watchButton.setTitle("タスク終了", for: .normal)
             
         } else {
-            
+            //終わり時間挿入
             insertEndTime()
+            //タイムログ取ってきて
             totalTime = 0
             readTimeLogs()
+            //トータルタイムアップデート
             upDateTotalTime()
+            //テーブルリロード
             DtitleTableView.reloadData()
             ProcessTableView.reloadData()
             watchButton.setTitle("タスク開始", for: .normal)
@@ -182,8 +185,6 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     //Tタイマー起動中に別ページから飛んできた時発動
     func onTheWay(){
         
-        
-
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
         let viewContext = appDelegate.persistentContainer.viewContext
@@ -210,11 +211,9 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                         selector: #selector(self.timerCounter),
                         userInfo: nil,
                         repeats: true)
-
                     startTime = start
                 }
             }
-            print("おんざウェイと＾たる\(totalTime)")
         }catch {
             print("read失敗")
         }
@@ -222,9 +221,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
     //Tエンドタイムの挿入（ダブってる）アップデート
     func insertEndTime(){
-        
+        var endTime = Date()
         timer.invalidate()
-        endTime = Date()
         watchLabel.text = "00:00:00"
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -279,7 +277,6 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
                 //nilは入らないようにする
                 if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil && id != nil {
-                    
                     DTitle = hometitle!
                     DcardDesing = forCard!
                     DTitleTime = df.string(from: forStart)
@@ -576,7 +573,6 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             performSegue(withIdentifier: "toDProcess", sender: nil)
         }
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

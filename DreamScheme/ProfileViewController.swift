@@ -42,7 +42,7 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
         // セルを取得
         let cell = profileTableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath) as! ProfileTableViewCell
 
-        cell.textLabel?.text = Settings[indexPath.row]
+        cell.userLabel.text = Settings[indexPath.row]
         switch indexPath.row {
         case 0:
             cell.userInfoLabel.text = unReachTask

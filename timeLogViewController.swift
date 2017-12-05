@@ -17,6 +17,8 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     var endTimes:[Date] = []
     
+    var moveOrStops:[Bool] = []
+    
     @IBOutlet weak var logTableView: UITableView!
     
     override func viewDidLoad() {
@@ -25,6 +27,9 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        startTimes = []
+        endTimes = []
+        moveOrStops = []
         read()
         logTableView.reloadData()
         print(startTimes)
@@ -46,14 +51,17 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
             
             for result:AnyObject in fetchResult {
                 var startTime:Date? = result.value(forKey: "startTime") as? Date
-                var endTime:Date? = result.value(forKey: "startTime") as? Date
-                var moveOrStop:Bool? = result.value(forKey: "moveOrStop") as? Bool
+                var endTime:Date? = result.value(forKey: "endTime") as? Date
+                var moveOrStop:Bool = result.value(forKey: "moveOrStop") as! Bool
                 
-                
-//                if startTime != nil && endTime != nil && moveOrStop != nil{
+                if moveOrStop == false{
                     startTimes.append(startTime!)
                     endTimes.append(endTime!)
-//                }
+                    moveOrStops.append(moveOrStop)
+                }else{
+                    startTimes.append(startTime!)
+                    moveOrStops.append(moveOrStop)
+                }
             }
             
         }catch {
@@ -75,8 +83,9 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
         let df = DateFormatter()
         df.dateFormat = "yyyy/MM/dd' 'HH:mm:ss"
         df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
-        cell.textLabel?.text = df.string(from: startTimes[indexPath.row])
-        if endTimes[indexPath.row] != nil{
+        cell.startTimeLabel.text = df.string(from: startTimes[indexPath.row])
+        
+        if moveOrStops[indexPath.row] == false {
             cell.endTimeLabel.text = df.string(from: endTimes[indexPath.row])
         }else {
             cell.endTimeLabel.text = "学習中"
