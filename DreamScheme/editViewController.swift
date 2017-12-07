@@ -142,7 +142,6 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             startTime = Date()
             readLogId()
             insertStartTime()
-            
             watchButton.setTitle("タスク終了", for: .normal)
             
         } else {
@@ -333,6 +332,12 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                         print("fuck\(intDate)")
                         totalTime += intDate
                     }
+                    
+                }
+                do{
+                    try viewContext.save()
+                }catch {
+                    print("接続失敗")
                 }
                 print(totalTime)
             }catch {
@@ -408,6 +413,32 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
 
+    
+    //データの読み込み処理
+    func readLogId(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTimeLog> = ForTimeLog.fetchRequest()
+        
+        do {
+            
+            let fetchResults = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResults {
+                
+                logId = (result.value(forKey:"id") as? Int)!
+                
+            }
+            
+        } catch {
+            print("read失敗")
+        }
+        print("あい\(logId)")
+    }
+    
+    
     
     
     //行数の決定
@@ -540,31 +571,6 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
 
-    //データの読み込み処理
-    func readLogId(){
-        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        let viewContext = appDelegate.persistentContainer.viewContext
-        
-        let query:NSFetchRequest<ForTimeLog> = ForTimeLog.fetchRequest()
-        
-        do {
-            
-            let fetchResults = try viewContext.fetch(query)
-            
-            for result:AnyObject in fetchResults {
-                
-                logId = (result.value(forKey:"id") as? Int)!
-                
-            }
-            
-        } catch {
-            print("read失敗")
-        }
-        print("あい\(logId)")
-    }
-    
-    
     
     
     
