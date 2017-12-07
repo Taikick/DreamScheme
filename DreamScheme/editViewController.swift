@@ -30,6 +30,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     @IBOutlet weak var watchLabel: UILabel!
     
+    var logId = 0
+    
     var purposeTime = 0
     
     var cardsDesign:[String] = []
@@ -138,6 +140,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 userInfo: nil,
                 repeats: true)
             startTime = Date()
+            readLogId()
             insertStartTime()
             
             watchButton.setTitle("タスク終了", for: .normal)
@@ -154,6 +157,10 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             DtitleTableView.reloadData()
             ProcessTableView.reloadData()
             watchButton.setTitle("タスク開始", for: .normal)
+            if timer != nil{
+                // timerが起動中なら一旦破棄する
+                timer.invalidate()
+            }
         }
     }
 
@@ -174,6 +181,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         newStartTime.setValue(true, forKey: "moveOrStop")
         
         newStartTime.setValue(passedIndex, forKey: "taskID")
+        newStartTime.setValue(logId + 1, forKey: "id")
         
         do{
             try viewContext.save()
@@ -184,6 +192,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     //Tタイマー起動中に別ページから飛んできた時発動
     func onTheWay(){
+
         
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -212,6 +221,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                         userInfo: nil,
                         repeats: true)
                     startTime = start
+                } else{
+                    
                 }
             }
         }catch {
@@ -238,6 +249,11 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 let record = result as! NSManagedObject
                 record.setValue(endTime,forKey:"endTime")
                 record.setValue(false, forKey: "moveOrStop")
+            }
+            do{
+                try viewContext.save()
+            }catch {
+                print("接続失敗")
             }
         }catch {
             print("read失敗")
@@ -524,7 +540,29 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     }
 
-
+    //データの読み込み処理
+    func readLogId(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTimeLog> = ForTimeLog.fetchRequest()
+        
+        do {
+            
+            let fetchResults = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResults {
+                
+                logId = (result.value(forKey:"id") as? Int)!
+                
+            }
+            
+        } catch {
+            print("read失敗")
+        }
+        print("あい\(logId)")
+    }
     
     
     
