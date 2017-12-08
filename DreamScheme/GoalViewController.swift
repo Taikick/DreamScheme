@@ -44,6 +44,7 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         
         read()
         addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
+        self.navigationItem.title = "達成済タスク"
     }
 
     override func viewWillAppear(_ animated: Bool) {

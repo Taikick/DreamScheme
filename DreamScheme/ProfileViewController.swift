@@ -31,6 +31,7 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
     override func viewDidLoad() {
         super.viewDidLoad()
         addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
+        self.navigationItem.title = "プロフィール"
     }
     /// セルの個数指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

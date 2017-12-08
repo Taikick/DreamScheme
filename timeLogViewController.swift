@@ -27,6 +27,7 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        self.navigationItem.title = "タイムログ一覧"
         startTimes = []
         endTimes = []
         moveOrStops = []

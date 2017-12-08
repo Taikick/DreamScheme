@@ -48,7 +48,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         navigationController?.navigationBar.tintColor = UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1)
         //バーの左側にボタンを配置します(ライブラリ特有)
         addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
-        
+        self.navigationItem.title = "ホーム"
     }
     override func viewDidAppear(_ animated: Bool) {
         print(purposeTime)

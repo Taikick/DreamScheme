@@ -75,6 +75,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         addProButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 30)
         addProButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
         addProButton.setTitleColor(UIColor.blue, for: .normal)
+        navigationItem.title = "タスク詳細"
         
     }
     

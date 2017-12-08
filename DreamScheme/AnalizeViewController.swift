@@ -26,6 +26,7 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         super.viewDidLoad()
         addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
         
+        self.navigationItem.title = "時間分析"
         AnalizeTableView.layer.cornerRadius = 10.0;
         AnalizeTableView.clipsToBounds = true
     }

@@ -79,6 +79,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             NTArray.append(i)
         }
         print(passedID)
+        self.navigationItem.title = "タスク設定"
         
 
     }
@@ -244,6 +245,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         case 3:
             return 0
         case 4:
+            if component == 5{
+                return 1
+            }
             return 10
         case 5:
             return NTArray.count

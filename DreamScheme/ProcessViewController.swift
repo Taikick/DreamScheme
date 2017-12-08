@@ -56,6 +56,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         }else{
             CardTextField.text = cardArray[0]
         }
+        self.navigationItem.title = "プロセス設定"
 
     }
     
