@@ -80,6 +80,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
         print(passedID)
         self.navigationItem.title = "タスク設定"
+        self.navigationController?.navigationBar.titleTextAttributes
+            = [NSFontAttributeName: UIFont(name: "Times New Roman", size: 15)!]
         
 
     }

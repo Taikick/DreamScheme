@@ -518,8 +518,9 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let cell = ProcessTableView.dequeueReusableCell(withIdentifier: "ProcessCell", for: indexPath) as! ProcessTableViewCell
             cell.ProLabel.text = ProTitle[indexPath.row]
             cell.ProTimeLabel.text = "\(ProTime[indexPath.row]) - \(ProEndTime[indexPath.row])"
+            cell.ProTimeLabel.alpha = 0
             cell.ProIDLabel.text = String(ProId[indexPath.row])
-            cell.ProIDLabel.alpha = 0
+            cell.ProIDLabel.alpha = 1
             //色系
             if cardsDesign[indexPath.row] == "青"{
                 cell.backgroundColor = UIColor(colorLiteralRed: 149/255, green: 191/255, blue: 220/255, alpha: 1)
@@ -536,44 +537,46 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             return cell
         }
     }
-    
     //セルをスワイプし削除ボタンを出す
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if tableView.tag == 1 {
-            if editingStyle == .delete {
-                
-//                DTitle.remove(at:1)
-//                DTitleTime.remove(at: )
-//                DtitleEnd.remove(at: 1)
-//                DcardDesing.remove(at: 1)
-                ProcessTableView.deleteRows(at: [indexPath], with: .fade)
-                
-                let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-                
-                let viewContext = appDelegate.persistentContainer.viewContext
-                
-                let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
-                
-                let predicate = NSPredicate(format: "id = %d", passedIndex)
-                query.predicate = predicate
-                do{
-                    let fetchResults = try viewContext.fetch(query)
-                    for result: AnyObject in fetchResults{
-                        let record = result as! NSManagedObject
-                        
-                    }
-                    try viewContext.save()
-                }catch{
-                    
-                }
-            }
-            
+
         }
         if tableView.tag == 2 {
             if editingStyle == .delete {
-                ProTitle.remove(at: indexPath.row)
-                ProTime.remove(at: indexPath.row)
-                ProcessTableView.deleteRows(at: [indexPath], with: .fade)
+
+                print("\(indexPath.row)行目が削除されました")
+                        
+                let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                        
+                let viewContext = appDelegate.persistentContainer.viewContext
+                
+                let query:NSFetchRequest<ForProcess> = ForProcess.fetchRequest()
+                
+                let predicate = NSPredicate(format: "id = %d", ProId[indexPath.row])
+                print(ProId[indexPath.row])
+                query.predicate = predicate
+                do {
+                    let fetchResult = try viewContext.fetch(query)
+                            
+                    for result:AnyObject in fetchResult {
+                        
+                        let record = result as! NSManagedObject
+                        viewContext.delete(record)
+                                
+                    }
+                    try viewContext.save()
+                            
+                    ProcessTableView.reloadData()
+                    print("消えたよ")
+                    ProTitle.remove(at: indexPath.row)
+                    ProTime.remove(at: indexPath.row)
+                    ProId.remove(at: indexPath.row)
+                    ProcessTableView.deleteRows(at: [indexPath], with: .fade)
+                    
+                }catch {
+                    print("read失敗")
+                }
             }
             
         }

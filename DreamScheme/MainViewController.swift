@@ -243,6 +243,32 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             hometitles.remove(at: indexPath.row)
             homeTime.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                
+            let viewContext = appDelegate.persistentContainer.viewContext
+                
+            let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+                
+            let predicate = NSPredicate(format: "id = %d", ids[indexPath.row])
+                query.predicate = predicate
+            do {
+                let fetchResult = try viewContext.fetch(query)
+                    
+                for result:AnyObject in fetchResult {
+                    let record = result as! NSManagedObject
+                    viewContext.delete(record)
+                    
+                }
+                try viewContext.save()
+                homeTableView.reloadData()
+            
+            }catch {
+                print("read失敗")
+            }
+        
+
+            
         }
     }
     override func didReceiveMemoryWarning() {
