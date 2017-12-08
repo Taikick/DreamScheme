@@ -111,6 +111,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             endTextField.text = endDay
             
             addButton.titleLabel?.text = "追加"
+            pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: pickerView.bounds.size.height)
+            myDatePicker.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: myDatePicker.bounds.size.height)
+            
         }
     }
     

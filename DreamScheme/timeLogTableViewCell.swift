@@ -13,6 +13,11 @@ class timeLogTableViewCell: UITableViewCell {
     @IBOutlet weak var startTimeLabel: UILabel!
     
     @IBOutlet weak var endTimeLabel: UILabel!
+    
+    @IBOutlet weak var idLabel: UILabel!
+
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -19,12 +19,20 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     var moveOrStops:[Bool] = []
     
+    var ids:[Int] = []
+    
     @IBOutlet weak var logTableView: UITableView!
+    
+    
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "タイムログ一覧"
-        
+        var rightBarButtonItem:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: "barButtonTapped")
+
+        self.navigationItem.setRightBarButton(rightBarButtonItem, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -32,6 +40,7 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
         startTimes = []
         endTimes = []
         moveOrStops = []
+        ids = []
         read()
         logTableView.reloadData()
         print(startTimes)
@@ -55,14 +64,12 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 var startTime:Date? = result.value(forKey: "startTime") as? Date
                 var endTime:Date? = result.value(forKey: "endTime") as? Date
                 var moveOrStop:Bool = result.value(forKey: "moveOrStop") as! Bool
-                
+                var id:Int? = result.value(forKey: "id") as! Int
+                startTimes.append(startTime!)
+                ids.append(id!)
+                moveOrStops.append(moveOrStop)
                 if moveOrStop == false{
-                    startTimes.append(startTime!)
                     endTimes.append(endTime!)
-                    moveOrStops.append(moveOrStop)
-                }else{
-                    startTimes.append(startTime!)
-                    moveOrStops.append(moveOrStop)
                 }
             }
             
@@ -86,6 +93,8 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
         df.dateFormat = "yyyy/MM/dd' 'HH:mm:ss"
         df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
         cell.startTimeLabel.text = df.string(from: startTimes[indexPath.row])
+        cell.idLabel.text = "\(ids[indexPath.row])"
+        cell.idLabel.alpha = 0
         
         if moveOrStops[indexPath.row] == false {
             cell.endTimeLabel.text = df.string(from: endTimes[indexPath.row])
@@ -96,7 +105,9 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
         return cell
     }
     
-    
+    func barButtonTapped() {
+        
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
