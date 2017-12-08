@@ -21,6 +21,8 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     var ids:[Int] = []
     
+    let df = DateFormatter()
+    
     @IBOutlet weak var logTableView: UITableView!
     
     
@@ -89,7 +91,7 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // セルを取得
         let cell = logTableView.dequeueReusableCell(withIdentifier: "timeLogCell", for: indexPath) as! timeLogTableViewCell
-        let df = DateFormatter()
+        
         df.dateFormat = "yyyy/MM/dd' 'HH:mm:ss"
         df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
         cell.startTimeLabel.text = df.string(from: startTimes[indexPath.row])
@@ -106,7 +108,39 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     
     func barButtonTapped() {
+        df.dateFormat = "yyyy/MM/dd' 'HH:mm:ss"
+        df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
         
+        //let date = Date(fromISO8601: dateString)
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTimeLog> = ForTimeLog.fetchRequest()
+        
+        let predicate = NSPredicate(format: "taskID = %d", passedIndex)
+        query.predicate = predicate
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            var timeLogCell = timeLogTableViewCell()
+            logTableView.reloadData()
+            
+            for result:AnyObject in fetchResult {
+                var record = result as! NSManagedObject
+                
+                record.setValue(df.date(from: timeLogCell.endTimeLabel.text!), forKey: "endTime")
+                record.setValue(df.date(from: timeLogCell.startTimeLabel.text!), forKey: "startTime")
+                
+            }
+            do{
+                try viewContext.save()
+            }catch {
+                print("接続失敗")
+            }
+        }catch {
+            print("read失敗")
+        }
+
     }
     
     override func didReceiveMemoryWarning() {
