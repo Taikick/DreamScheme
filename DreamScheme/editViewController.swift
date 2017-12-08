@@ -245,9 +245,16 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         do {
             let fetchResult = try viewContext.fetch(query)
             for result:AnyObject in fetchResult {
-                let record = result as! NSManagedObject
-                record.setValue(endTime,forKey:"endTime")
-                record.setValue(false, forKey: "moveOrStop")
+                
+                var ending = result.value(forKey: "endTime")
+                
+                if ending == nil {
+                    //値を更新
+                    let record = result as! NSManagedObject
+                    record.setValue(endTime,forKey:"endTime")
+                    record.setValue(false, forKey: "moveOrStop")
+
+                }
             }
             do{
                 try viewContext.save()
