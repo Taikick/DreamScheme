@@ -760,6 +760,15 @@
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oO7-Mg-bkN" customClass="BarChartView" customModule="Charts">
                                                     <rect key="frame" x="-2" y="46.333333333333329" width="414" height="50"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9jw-7J-07S">
+                                                            <rect key="frame" x="250" y="-1" width="42" height="21"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
@@ -768,6 +777,7 @@
                                             <outlet property="BarView" destination="oO7-Mg-bkN" id="4lp-Y8-jem"/>
                                             <outlet property="DateLabel" destination="dFG-rC-AnG" id="GUT-Om-Ix6"/>
                                             <outlet property="TasksLabel" destination="yIP-gm-pY1" id="8jz-vt-pfn"/>
+                                            <outlet property="idLabel" destination="9jw-7J-07S" id="PsQ-BO-QyV"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -909,7 +919,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="hAR-4V-ZRs" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mhu-0v-9IL">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Mhu-0v-9IL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -931,7 +941,7 @@
         <image name="sinkan2.jpg" width="1478" height="1108"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="G3g-WO-XHh"/>
+        <segue reference="sMw-PW-TYe"/>
         <segue reference="E9u-QH-RWN"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -11,6 +11,7 @@ import Charts
 import CoreData
 
 class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
+ 
 
     @IBOutlet weak var goalTableView: UITableView!
     
@@ -24,6 +25,12 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
     var homeTime:[String] = []
     
     var homeLastTime:[String] = []
+    
+    var ids:[Int] = []
+    //処理まだ
+    var totalDoneTime:[Int] = []
+    //処理まだ
+    var purposeTime:[Int] = []
 
     
     var entry = [
@@ -53,7 +60,15 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        cardsDesign = []
+        hometitles = []
+        homeTime = []
+        homeLastTime = []
+        totalDoneTime = []
+        purposeTime = []
+        ids = []
         read()
+        goalTableView.reloadData()
     }
     //行数の決定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -73,11 +88,14 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         cell.TasksLabel.textColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         cell.DateLabel.text = "\(homeTime[indexPath.row]) - \(homeLastTime[indexPath.row])"
         cell.DateLabel.textColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
+        cell.idLabel.text = "\(ids[indexPath.row])"
         var rect = cell.BarView.bounds
         rect.origin.y += 4
         rect.size.height -= 4
         let chartView = HorizontalBarChartView(frame: rect)
-        let set = BarChartDataSet(values: entry[indexPath.row], label: "")
+        
+        var entry:[BarChartDataEntry] = [BarChartDataEntry(x: 1, y: Double(totalDoneTime[indexPath.row]) / 3600)]
+        let set = BarChartDataSet(values: entry, label: "")
         chartView.data = BarChartData(dataSet: set)
         chartView.drawBordersEnabled = false
         chartView.minOffset = CGFloat(0)
@@ -93,9 +111,12 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         chartView.borderLineWidth = 1.0
         //y軸の設定
         chartView.leftAxis.enabled = false
+        chartView.leftAxis.axisMinimum = 0
+        chartView.leftAxis.axisMaximum = Double(purposeTime[indexPath.row] / 3600)
+        chartView.leftAxis.labelCount = 5
         chartView.rightAxis.labelCount = 5
         chartView.rightAxis.axisMinimum = 0
-        chartView.rightAxis.axisMaximum = 100.0
+        chartView.rightAxis.axisMaximum = Double(purposeTime[indexPath.row] / 3600)
         chartView.accessibilityLabel = ""
         cell.BarView.noDataText = ""
         chartView.xAxis.drawLabelsEnabled = true
@@ -151,6 +172,12 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
                 var forEnd:Date? = result.value(forKey: "endDate") as? Date
                 print(forEnd)
                 
+                var id: Int? = result.value(forKey: "id") as? Int
+                
+                var totalTime = result.value(forKey: "totalTime") as? Int
+                
+                var doneTime = result.value(forKey: "totalDoneTime") as? Int
+                
                 let df = DateFormatter()
                 df.dateFormat = "yyyy/MM/dd"
                 df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
@@ -161,7 +188,9 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
                     cardsDesign.append(forCard!)
                     homeTime.append(df.string(from: forStart!))
                     homeLastTime.append(df.string(from: forEnd!))
-                    
+                    ids.append(id!)
+                    purposeTime.append(totalTime!)
+                    totalDoneTime.append(doneTime!)
                 }
             }
             
@@ -194,9 +223,43 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            hometitles.remove(at: indexPath.row)
-            homeTime.remove(at: indexPath.row)
-            goalTableView.deleteRows(at: [indexPath], with: .fade)
+            
+                if editingStyle == .delete {
+                    
+                    print("\(indexPath.row)行目が削除されました")
+                    
+                    let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                    
+                    let viewContext = appDelegate.persistentContainer.viewContext
+                    
+                    let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+                    
+                    let predicate = NSPredicate(format: "id = %d", ids[indexPath.row])
+                    print(ids[indexPath.row])
+                    query.predicate = predicate
+                    do {
+                        let fetchResult = try viewContext.fetch(query)
+                        
+                        for result:AnyObject in fetchResult {
+                            
+                            let record = result as! NSManagedObject
+                            viewContext.delete(record)
+                            
+                        }
+                        try viewContext.save()
+                        
+                        goalTableView.reloadData()
+                        print("消えたよ")
+                        hometitles.remove(at: indexPath.row)
+                        homeTime.remove(at: indexPath.row)
+                        ids.remove(at: indexPath.row)
+                        goalTableView.deleteRows(at: [indexPath], with: .fade)
+                        
+                        
+                    }catch {
+                        print("read失敗")
+                    }
+                }
         }
     }
 

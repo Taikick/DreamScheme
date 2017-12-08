@@ -581,14 +581,6 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             
         }
     }
-
-    
-    
-    
-    
-    
-    
-    
     
     //処理完結してる
     //セグエを使って画面遷移している時発動
