@@ -108,8 +108,7 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     
     func barButtonTapped() {
-        df.dateFormat = "yyyy/MM/dd' 'HH:mm:ss"
-        df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
+
         
         //let date = Date(fromISO8601: dateString)
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -123,8 +122,10 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
         do {
             let fetchResult = try viewContext.fetch(query)
             var timeLogCell = timeLogTableViewCell()
-            logTableView.reloadData()
             
+            df.dateFormat = "yyyy/MM/dd' 'HH:mm:ss"
+            df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
+            logTableView.reloadData()
             for result:AnyObject in fetchResult {
                 var record = result as! NSManagedObject
                 
