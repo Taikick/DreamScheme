@@ -292,6 +292,36 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         
     }
     
+    func pickerView(pickerView: UIPickerView, widthForComponent component:Int) -> CGFloat {
+        
+        //サンプル
+        switch pickerView.tag {
+        case 1:
+            return 100
+        case 2:
+            return 100
+        case 3:
+            return 100
+        case 4:
+            if component == 0{
+                return 5
+            }else if component == 1{
+                return 5
+            }else if component == 2{
+                return 5
+            }else if component == 3{
+                return 5
+            }else if component == 4{
+                return 5
+            } else{
+                return 5
+            }
+            return 10
+        default:
+            return 100
+        }
+    }
+    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         
         vi.removeFromSuperview()
