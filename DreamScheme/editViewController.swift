@@ -107,7 +107,11 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         onTheWay()
         if doneId == false {
             GoalButton.setTitle("タスク完了！",for: .normal)
+            watchLabel.alpha = 1
+            watchButton.alpha = 1
         } else if doneId == true {
+            watchLabel.alpha = 0
+            watchButton.alpha = 0
             GoalButton.setTitle("未達成に戻す",for: .normal)
         }
         DtitleTableView.reloadData()
@@ -468,9 +472,39 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         query.predicate = predicate
 
         if GoalButton.titleLabel?.text == "タスク完了！"{
-            
+            do {
+                let fetchResult = try viewContext.fetch(query)
+                for result:AnyObject in fetchResult {
+                    let record = result as! NSManagedObject
+                    record.setValue(true, forKey: "doneID")
+                }
+                GoalButton.setTitle("未達成に戻す", for: .normal)
+                do{
+                    try viewContext.save()
+                }catch {
+                    print("接続失敗")
+                }
+            }catch {
+                print("read失敗")
+            }
         } else if GoalButton.titleLabel?.text == "未達成に戻す"{
-        
+            do {
+                let fetchResult = try viewContext.fetch(query)
+                for result:AnyObject in fetchResult {
+                    let record = result as! NSManagedObject
+                    record.setValue(false, forKey: "doneID")
+                }
+                GoalButton.setTitle("未達成に戻す", for: .normal)
+                do{
+                    try viewContext.save()
+                }catch {
+                    print("接続失敗")
+                }
+            }catch {
+                print("read失敗")
+            }
+            
+            GoalButton.setTitle("タスク完了", for: .normal)
         }
     }
     

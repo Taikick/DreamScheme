@@ -89,6 +89,7 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         cell.DateLabel.text = "\(homeTime[indexPath.row]) - \(homeLastTime[indexPath.row])"
         cell.DateLabel.textColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         cell.idLabel.text = "\(ids[indexPath.row])"
+        cell.idLabel.alpha = 0
         var rect = cell.BarView.bounds
         rect.origin.y += 4
         rect.size.height -= 4
@@ -153,7 +154,7 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         
         let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
         
-        let predicate = NSPredicate(format: "doneID = %@",NSNumber(value: false) as CVarArg)
+        let predicate = NSPredicate(format: "doneID = %@",NSNumber(value: true) as CVarArg)
         query.predicate = predicate
         do {
             let fetchResult = try viewContext.fetch(query)

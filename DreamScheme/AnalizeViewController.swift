@@ -72,7 +72,7 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         radarChartView.noDataText = "You need to provide data for the chart."
         var dataEntries: [ChartDataEntry] = []
         for i in 0..<dataPoints.count {
-            let dataEntry = ChartDataEntry(x:Double(i) , y: values[i])
+            let dataEntry = ChartDataEntry(x:Double(i) , y: values[i] / 3600)
             dataEntries.append(dataEntry)
             print(dataEntries)
         }
@@ -86,7 +86,7 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         //ここから軸の設定。表示範囲は0から100までとし、20刻みでグリッド線を入れる
         radarChartView.yAxis.labelCount = 5
         radarChartView.yAxis.axisMinimum = 0
-        radarChartView.yAxis.axisMaximum = 80.0
+        radarChartView.yAxis.axisMaximum = 5.0
         radarChartView.yAxis.drawZeroLineEnabled = true
         radarChartView.yAxis.forceLabelsEnabled = false
         radarChartView.yAxis.drawTopYLabelEntryEnabled = true;
@@ -94,6 +94,8 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         radarChartView.innerWebColor = UIColor.white
         radarChartView.xAxis.axisLineColor = UIColor.white
         radarChartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 7)
+        //radarChartView.xAxis.labelTextColor = UIColor.clear
+        radarChartView.yAxis.labelTextColor = UIColor.clear
         
         //ここまで軸の設定
         radarChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values:titles)
