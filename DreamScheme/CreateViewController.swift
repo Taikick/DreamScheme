@@ -73,13 +73,33 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     //editからもらったタスクID
     var passedID = -1
     let df = DateFormatter()
-    var vi = UIView()
+    
+    
+    
+    var vi = UIView(frame: CGRect(x: 0, y: 720, width: 200, height: 250))
+    let mySystemButton:UIButton = UIButton(type: .system)
+    let baseView:UIView = UIView(frame: CGRect(x: 0, y: 720, width: 200, height: 250))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         for i in 0...23{
             NTArray.append(i)
         }
+        // イベントの追加
+        myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
+        baseView.addSubview(myDatePicker)
+        mySystemButton.frame = CGRect(x: self.view.frame.width-60, y: 0, width: 50, height: 20)
+        mySystemButton.setTitle("Close", for: .normal)
+        mySystemButton.addTarget(self, action: #selector(closeDatePickerView(sender:)), for: .touchUpInside)
+        baseView.addSubview(mySystemButton)
+        //下にピッタリ配置、横幅ピッタリの大きさにしておく
+        baseView.frame.origin = CGPoint(x: 0, y: self.view.frame.size.height)
+        
+        baseView.frame.size = CGSize(width: self.view.frame.width, height: baseView.frame.height)
+        
+        
+        baseView.backgroundColor = UIColor.gray
+        self.view.addSubview(baseView)
         print(passedID)
         self.navigationItem.title = "タスク設定"
         self.navigationController?.navigationBar.titleTextAttributes
@@ -307,7 +327,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
         
     }
-    
+    //列の幅
     func pickerView(pickerView: UIPickerView, widthForComponent component:Int) -> CGFloat {
         
         //サンプル
@@ -351,13 +371,18 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         case 0:
             return true
         case 1:
-            forDatePicker(textField:startTextField)
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                
+                self.baseView.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height - self.baseView.frame.height)
+            }, completion: {finished in print("上に現れました")})
             return false
         case 2:
-            forDatePicker(textField:endTextField)
+            UIView.animate(withDuration: 0.5, animations: { () -> Void in
+                
+                self.baseView.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height - self.baseView.frame.height)
+            }, completion: {finished in print("上に現れました")})
             return false
-        case 3:
-            return false
+
         case 4:
             forPickerView(textField: dayCountTextField)
             return false
@@ -435,7 +460,45 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             
         }
     }
+    
+    //baseViewを隠す
+    func hideBaseView(){
+        self.baseView.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height)
+    }
+    
+    //DatePickerが載っているViewを閉じる
+    func closeDatePickerView(sender: UIButton){
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.baseView.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height)
+        }, completion: {finished in print("下に隠れました")})
+    }
+    
 
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     //繰り返し処理を行うスイッチ
     @IBAction func tapForSwitch(_ sender: UISwitch) {
         if sender.isOn {
