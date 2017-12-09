@@ -56,6 +56,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         // イベントの追加
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
         //選択可能な最大値(2017/12/31)
+        
         myDatePicker.maximumDate = df.date(from: "2030/12/31")
         baseView.addSubview(myDatePicker)
         mySystemButton.frame = CGRect(x: self.view.frame.width-60, y: 0, width: 50, height: 20)
@@ -81,6 +82,9 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     override func viewDidAppear(_ animated: Bool) {
         if passedProcess != -1 {
             processRead()
+            myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
+            df.dateFormat = "yyyy/MM/dd"
+            df.locale = Locale(identifier: "ja_JP");
         }else{
             CardTextField.text = cardArray[0]
         }
@@ -120,14 +124,16 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     
     //DatePickerで、選択している日付を変えた時、日付用のTextFieldに値を表示
     func showDateSelected(sender:UIDatePicker){
+        df.dateFormat = "yyyy/MM/dd"
+        df.locale = Locale(identifier: "ja_JP");
         print(df.string(from: sender.date))
         // フォーマットを設定
-        if myDatePicker.tag == 1 {
+        if myDatePicker.tag == 0 {
             print("スタート\(df.string(from: sender.date))")
             startTextFiled.text = df.string(from: sender.date)
             startPicker = myDatePicker.date
             
-        } else if myDatePicker.tag == 2{
+        } else if myDatePicker.tag == 1{
             print("エンド\(df.string(from: sender.date))")
             EndTextField.text = df.string(from: sender.date)
             endPicker = myDatePicker.date
@@ -199,6 +205,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         myDatePicker.tag = textField.tag
+        pickerView.tag = textField.tag
         hideBaseView()
         hidePicker()
         startTextFiled.resignFirstResponder()
