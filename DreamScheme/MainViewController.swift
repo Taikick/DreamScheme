@@ -160,6 +160,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         let set = BarChartDataSet(values: entry, label: "")
         chartView.data = BarChartData(dataSet: set)
         chartView.drawBordersEnabled = false
+
         chartView.minOffset = CGFloat(0)
         chartView.sizeToFit()
         //x軸の設
@@ -183,6 +184,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         cell.BarChrats.noDataText = ""
         chartView.xAxis.drawLabelsEnabled = true
         chartView.descriptionTextPosition = nil
+        chartView.drawBarShadowEnabled = false
         chartView.highlightPerTapEnabled = false
         chartView.drawGridBackgroundEnabled = false
         set.formLineWidth = 1

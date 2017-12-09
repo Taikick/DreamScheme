@@ -521,6 +521,13 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             chartView.xAxis.drawGridLinesEnabled = false
             chartView.xAxis.forceLabelsEnabled = false
             chartView.xAxis.drawLabelsEnabled = false
+            chartView.drawBordersEnabled = false
+            chartView.xAxis.drawGridLinesEnabled = false
+            chartView.drawBarShadowEnabled = false
+            chartView.highlightPerTapEnabled = false
+            chartView.drawGridBackgroundEnabled = false
+            chartView.leftAxis.enabled = false
+            chartView.descriptionTextPosition = nil
             chartView.accessibilityLabel = ""
             chartView.chartDescription?.text = ""
             chartView.animate(yAxisDuration: 2.0)
@@ -536,6 +543,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             chartView.leftAxis.axisMinimum = 0
             set.formLineWidth = 3
             set.formSize = 10
+            set.valueTextColor = UIColor.clear
+
             cell.DTitleChart.noDataText = ""
             cell.DTitleChart.addSubview(chartView)
             return cell
