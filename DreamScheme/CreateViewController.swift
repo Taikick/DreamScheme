@@ -32,8 +32,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     @IBOutlet weak var noticeDayTextField: UITextField!
     
-    var textField = UITextField()
-    
     
     let pickerView = UIPickerView()
     var myDatePicker = UIDatePicker()
@@ -87,6 +85,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
         // イベントの追加
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
+        //選択可能な最大値(2017/12/31)
+        myDatePicker.maximumDate = df.date(from: "2030/12/31")
         baseView.addSubview(myDatePicker)
         mySystemButton.frame = CGRect(x: self.view.frame.width-60, y: 0, width: 50, height: 20)
         mySystemButton.setTitle("Close", for: .normal)
@@ -96,7 +96,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         baseView.frame.origin = CGPoint(x: 0, y: self.view.frame.size.height)
         
         baseView.frame.size = CGSize(width: self.view.frame.width, height: baseView.frame.height)
-        
         
         baseView.backgroundColor = UIColor.gray
         self.view.addSubview(baseView)
@@ -209,10 +208,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
         toolBar.tintColor = UIColor.black
-        let doneButton   = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(CreateViewController.donePressed))
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(CreateViewController.cancelPressed))
         let spaceButton  = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
         textField.inputAccessoryView = toolBar
@@ -225,20 +221,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         //DateFormatterを使って文字型から日付型に変更する
         
         df.dateFormat = "yyyy/MM/dd"
-        
-        //選択可能な最小値を決定(2017/01/01)
-        
-        //選択可能な最大値(2017/12/31)
-        myDatePicker.maximumDate = df.date(from: "2030/12/31")
-        
-        //初期値を設定
-        
-        myDatePicker.date = df.date(from: "2018/01/01")!
-        myDatePicker.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: myDatePicker.bounds.size.height)
-        
-        vi.backgroundColor = UIColor.white
-        vi.addSubview(myDatePicker)
-        
+
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
@@ -359,7 +342,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        
+        myDatePicker.tag = textField.tag
+        pickerView.tag = textField.tag
+
         vi.removeFromSuperview()
         startTextField.resignFirstResponder()
         endTextField.resignFirstResponder()
@@ -445,17 +430,16 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     //DatePickerで、選択している日付を変えた時、日付用のTextFieldに値を表示
     func showDateSelected(sender:UIDatePicker){
-        
-        // フォーマットを設定
         print(df.string(from: sender.date))
-        
-        var strSelectedDate = df.string(from: sender.date)
-        if myDatePicker.tag == 1{
-            startTextField.text = strSelectedDate
+        // フォーマットを設定
+        if myDatePicker.tag == 1 {
+            print("スタート\(df.string(from: sender.date))")
+            startTextField.text = df.string(from: sender.date)
             startPicker = myDatePicker.date
             
-        } else if myDatePicker.tag == 2 {
-            endTextField.text = strSelectedDate
+        } else if myDatePicker.tag == 2{
+            print("エンド\(df.string(from: sender.date))")
+            endTextField.text = df.string(from: sender.date)
             endPicker = myDatePicker.date
             
         }
