@@ -23,6 +23,8 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     let df = DateFormatter()
     
+    var totalTime = 0
+    
     @IBOutlet weak var logTableView: UITableView!
     
     
@@ -41,6 +43,7 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
         moveOrStops = []
         ids = []
         read()
+        
         logTableView.reloadData()
         print(startTimes)
         print(endTimes)
@@ -137,10 +140,70 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
             }catch {
                 print("接続失敗")
             }
+            readTimeLogs()
+            upDateTotalTime()
         }catch {
             print("read失敗")
         }
 
+    }
+    
+    //Tウォッチボタン押されら時にタイムログ挿入
+    func readTimeLogs(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTimeLog> = ForTimeLog.fetchRequest()
+        
+        let predicate = NSPredicate(format: "taskID = %d", passedIndex)
+        query.predicate = predicate
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResult {
+                
+                var startTime:Date = result.value(forKey: "startTime") as! Date
+                
+                var endTime:Date = result.value(forKey: "endTime") as! Date
+                
+                var getInterval = CFDateGetTimeIntervalSinceDate(endTime as CFDate, startTime as CFDate)
+                var intDate = Int(getInterval)
+                
+                if intDate != nil {
+                    print("fuck\(intDate)")
+                    totalTime += intDate
+                }
+                
+            }
+            do{
+                try viewContext.save()
+            }catch {
+                print("接続失敗")
+            }
+            print(totalTime)
+        }catch {
+            print("read失敗")
+        }
+    }
+    func upDateTotalTime(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+        
+        let predicate = NSPredicate(format: "id = %d", passedIndex)
+        query.predicate = predicate
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            for result:AnyObject in fetchResult {
+                let record = result as! NSManagedObject
+                record.setValue(totalTime,forKey:"totalDoneTime")
+            }
+        }catch {
+            print("read失敗")
+        }
     }
     
     override func didReceiveMemoryWarning() {
