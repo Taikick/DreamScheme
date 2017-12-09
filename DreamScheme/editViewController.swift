@@ -94,7 +94,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         if timer != nil{
             timer.invalidate()
         }
-
+        selectedProcess = -1
         ProTitle = []
         ProEndTime = []
         ProTime = []

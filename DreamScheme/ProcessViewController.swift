@@ -51,13 +51,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     override func viewDidLoad() {
         super.viewDidLoad()
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
-        if passedProcess != -1 {
-            processRead()
-        }else{
-            CardTextField.text = cardArray[0]
-        }
         self.navigationItem.title = "プロセス設定"
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -66,11 +60,14 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         }else{
             CardTextField.text = cardArray[0]
         }
-        if passedProcess != -1{
-            addButton.titleLabel?.text = "更新"
-        } else {
-            addButton.titleLabel?.text = "追加"
+        if passedProcess != -1 {
+            addButton.setTitle("更新", for: .normal)
+            processRead()
+        }else{
+            addButton.setTitle("追加", for: .normal)
+            CardTextField.text = cardArray[0]
         }
+        
     }
     func forTextFiled(textField:UITextField){
         pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: pickerView.bounds.size.height)
@@ -307,7 +304,6 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
     @IBAction func tapAdd(_ sender: UIButton) {
         print("追加ボタンが押されました")
         
-    
         if passedProcess != -1 {
             let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
             let viewContext = appDelegate.persistentContainer.viewContext

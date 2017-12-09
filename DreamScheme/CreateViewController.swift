@@ -51,6 +51,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     var select4 = 0
     var select5 = 0
     
+    
+    
     var purposeTime = 0
     //for文で回して値とってる
     var NTArray:[Int] = []
@@ -87,6 +89,11 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        select1 = 0
+        select2 = 0
+        select3 = 0
+        select4 = 0
+        select5 = 0
         toInt()
         print(passedID)
         
@@ -98,9 +105,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             addButton.titleLabel?.text = "更新"
         }else{
             dayCountTextField.text = "\(select1)\(select2)\(select3)\(select4)\(select5)時間"
-            cardTextField.text = cardArray[0]
             noticeDayTextField.text = "\(NTArray[11])時"
             cardTextField.text = cardArray[0]
+            dayCountTextField.text = "\(purposeTime)時間"
             myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
             df.dateFormat = "yyyy/MM/dd"
             df.locale = Locale(identifier: "ja_JP")
@@ -138,9 +145,11 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 var forCard:String? = result.value(forKey: "cardDesign") as! String
                 var forStart:Date? = result.value(forKey: "startDate") as! Date
                 var forEnd:Date? = result.value(forKey: "endDate") as! Date
+                var totalTime = result.value(forKey: "totalTime") as! Int?
+                var noticeTime:Int? = result.value(forKey:"noticeDay") as! Int?
                 var switchDecide:Bool? = result.value(forKey: "forSwitch") as! Bool?
                 var forDecide:Bool? = result.value(forKey:"forNotice" ) as! Bool?
-                
+                 
                 
                 
                 //nilは入らないようにする
@@ -150,8 +159,12 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     cardTextField.text = forCard!
                     startTextField.text = df.string(from: forStart!)
                     endTextField.text = df.string(from: forEnd!)
+                    dayCountTextField.text = "\(totalTime!)時間"
                     forSwitch.isOn = switchDecide!
                     noticeSwitch.isOn = forDecide!
+                    if noticeTime != nil && noticeSwitch.isOn == true{
+                        noticeDayTextField.text = "\(noticeTime!)時"
+                    }
                     
                 }
             }
@@ -438,9 +451,11 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     @IBAction func AlertSwitch(_ sender: UISwitch) {
         if sender.isOn {
             noticeSwitch.isOn = true
+            
         }else{
             print("通知スイッチオフ")
             noticeSwitch.isOn = false
+            
         }
         
     }
@@ -482,13 +497,11 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     record.setValue(startPicker,forKey:"startDate")
                     record.setValue(endPicker,forKey:"endDate")
                     record.setValue(cardTextField.text, forKey: "cardDesign")
-                    
                     record.setValue(noticeSwitch.isOn, forKey: "forNotice")
                     //通知の日時
-                    
+                    //record.setValue(, forKey: )
                     //目標時間の設定
                     record.setValue(purposeTime, forKey: "totalTime")
-                    
                     record.setValue(forSwitch.isOn, forKey: "forSwitch")
                 }
                 do{
