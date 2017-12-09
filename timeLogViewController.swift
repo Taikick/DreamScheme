@@ -26,9 +26,6 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
     @IBOutlet weak var logTableView: UITableView!
     
     
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "タイムログ一覧"
@@ -125,13 +122,15 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
             
             df.dateFormat = "yyyy/MM/dd' 'HH:mm:ss"
             df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
-            logTableView.reloadData()
+            //logTableView.reloadData()
+            var i = 0
             for result:AnyObject in fetchResult {
                 var record = result as! NSManagedObject
-                
+                timeLogCell = logTableView.visibleCells[i] as! timeLogTableViewCell
                 record.setValue(df.date(from: timeLogCell.endTimeLabel.text!), forKey: "endTime")
                 record.setValue(df.date(from: timeLogCell.startTimeLabel.text!), forKey: "startTime")
                 
+                i += 1
             }
             do{
                 try viewContext.save()
