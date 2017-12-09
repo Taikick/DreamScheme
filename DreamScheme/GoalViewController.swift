@@ -204,7 +204,7 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         print("\(indexPath.row)が行目")
         //セグウェを使って移動する時に値を渡す
         selectedIndex = 0
-        selectedProcess = indexPath.row
+        selectedProcess = ids[indexPath.row]
         //選択された行番号をほぞん
         performSegue(withIdentifier: "GoalToDetail", sender: nil)
         //セグエに名前を指定して画面遷移処理を発動
@@ -216,7 +216,7 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         if segue.identifier == "GoalToDetail" {
             
             let toEdit: editViewController = segue.destination as! editViewController
-            toEdit.passedIndex = selectedIndex
+            toEdit.passedIndex = selectedProcess
         }
         
     }

@@ -170,7 +170,7 @@
                                 </connections>
                             </tableView>
                             <tableView clipsSubviews="YES" tag="2" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" minimumZoomScale="8" dataMode="prototypes" style="plain" rowHeight="62" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AO3-CD-Jyz">
-                                <rect key="frame" x="59" y="265" width="297" height="390"/>
+                                <rect key="frame" x="59" y="265" width="297" height="369"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -249,12 +249,21 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nLb-AV-ahs">
-                                <rect key="frame" x="318" y="178" width="77" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0aw-Wc-mpK">
+                                <rect key="frame" x="325" y="183" width="77" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="タスク開始"/>
                                 <connections>
-                                    <action selector="tapWatchButton:" destination="M4P-zI-hsf" eventType="touchUpInside" id="Sb1-a5-Foi"/>
+                                    <action selector="tapWatchButton:" destination="M4P-zI-hsf" eventType="touchUpInside" id="wHo-eB-TOG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPX-eO-OHr">
+                                <rect key="frame" x="59" y="642" width="297" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="タスク完了！"/>
+                                <connections>
+                                    <action selector="tapGoalButton:" destination="M4P-zI-hsf" eventType="touchUpInside" id="pGB-W1-gYs"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -262,9 +271,10 @@
                     </view>
                     <connections>
                         <outlet property="DtitleTableView" destination="kwb-le-xGj" id="HbS-1p-Jo3"/>
+                        <outlet property="GoalButton" destination="fPX-eO-OHr" id="7fi-wU-o29"/>
                         <outlet property="ProcessTableView" destination="AO3-CD-Jyz" id="Q9D-4f-lyv"/>
                         <outlet property="addProButton" destination="c7X-eg-my9" id="lnA-ab-nTd"/>
-                        <outlet property="watchButton" destination="nLb-AV-ahs" id="OIA-YD-7QT"/>
+                        <outlet property="watchButton" destination="0aw-Wc-mpK" id="9R8-Jc-B6t"/>
                         <outlet property="watchLabel" destination="Z9K-04-LbG" id="4L7-x6-iP5"/>
                         <segue destination="lLA-60-u6c" kind="show" identifier="toDProcess" id="UjD-n3-V15"/>
                         <segue destination="fKd-Rq-cmA" kind="show" identifier="moveCreate" id="E9u-QH-RWN"/>
@@ -927,7 +937,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="hAR-4V-ZRs" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mhu-0v-9IL">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Mhu-0v-9IL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -949,7 +959,7 @@
         <image name="sinkan2.jpg" width="1478" height="1108"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="G3g-WO-XHh"/>
-        <segue reference="eH3-mH-nfz"/>
+        <segue reference="sMw-PW-TYe"/>
+        <segue reference="E9u-QH-RWN"/>
     </inferredMetricsTieBreakers>
 </document>

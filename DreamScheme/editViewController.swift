@@ -30,6 +30,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     @IBOutlet weak var watchLabel: UILabel!
     
+    @IBOutlet weak var GoalButton: UIButton!
+    
     var logId = 0
     
     var purposeTime = 0
@@ -69,6 +71,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     var ProId:[Int] = []
     
+    var doneId:Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //fontawesomeをボタンに使う
@@ -101,6 +105,11 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         //時間処理↓
         //タイマー起動中に別ページから飛んできた時発動
         onTheWay()
+        if doneId == false {
+            GoalButton.setTitle("タスク完了！",for: .normal)
+        } else if doneId == true {
+            GoalButton.setTitle("未達成に戻す",for: .normal)
+        }
         DtitleTableView.reloadData()
         ProcessTableView.reloadData()
     }
@@ -307,6 +316,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                     titleID = id
                     purposeTime = (result.value(forKey: "totalTime") as? Int)!
                     totalTime = (result.value(forKey: "totalDoneTime") as? Int)!
+                    doneId = result.value(forKey:"doneID") as! Bool
                 }
             }
         }catch {
@@ -367,6 +377,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             for result:AnyObject in fetchResult {
                 let record = result as! NSManagedObject
                 record.setValue(totalTime,forKey:"totalDoneTime")
+                
             }
         }catch {
             print("read失敗")
@@ -446,7 +457,22 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         print("あい\(logId)")
     }
     
-    
+    @IBAction func tapGoalButton(_ sender: UIButton) {
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+        
+        let predicate = NSPredicate(format: "id = %d", passedIndex)
+        query.predicate = predicate
+
+        if GoalButton.titleLabel?.text == "タスク完了！"{
+            
+        } else if GoalButton.titleLabel?.text == "未達成に戻す"{
+        
+        }
+    }
     
     
     //行数の決定
