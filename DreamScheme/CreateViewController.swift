@@ -24,8 +24,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     @IBOutlet weak var cardTextField: UITextField!
     
-    
-    
     @IBOutlet weak var noticeSwitch: UISwitch!
     
     @IBOutlet weak var dayCountTextField: UITextField!
@@ -132,7 +130,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         df.locale = Locale(identifier: "ja_JP");
         if passedID != -1 {
             isData()
-            addButton.titleLabel?.text = "更新"
+            addButton.setTitle("更新", for: .normal)
         }else{
             dayCountTextField.text = "\(select1)\(select2)\(select3)\(select4)\(select5)時間"
             noticeDayTextField.text = "\(NTArray[11])時"
@@ -147,7 +145,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             startTextField.text = startDay
             endTextField.text = endDay
             
-            addButton.titleLabel?.text = "追加"
+            addButton.setTitle("追加", for: .normal)
             pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: pickerView.bounds.size.height)
             myDatePicker.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: myDatePicker.bounds.size.height)
             
@@ -191,7 +189,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     cardTextField.text = forCard!
                     startTextField.text = df.string(from: forStart!)
                     endTextField.text = df.string(from: forEnd!)
-                    dayCountTextField.text = "\(totalTime!)時間"
+                    dayCountTextField.text = "\(totalTime! / 3600)時間"
                     noticeSwitch.isOn = forDecide!
                     if noticeTime != nil && noticeSwitch.isOn == true{
                         noticeDayTextField.text = "\(noticeTime!)時"
