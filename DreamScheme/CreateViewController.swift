@@ -24,7 +24,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     @IBOutlet weak var cardTextField: UITextField!
     
-    @IBOutlet weak var forSwitch: UISwitch!
+    
     
     @IBOutlet weak var noticeSwitch: UISwitch!
     
@@ -33,7 +33,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     @IBOutlet weak var noticeDayTextField: UITextField!
     
     
-    let pickerView = UIPickerView()
+    let pickerView:UIPickerView! = UIPickerView()
     var myDatePicker = UIDatePicker()
     
     
@@ -74,9 +74,11 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     
     
-    var vi = UIView(frame: CGRect(x: 0, y: 720, width: 200, height: 250))
+    
     let mySystemButton:UIButton = UIButton(type: .system)
     let baseView:UIView = UIView(frame: CGRect(x: 0, y: 720, width: 200, height: 250))
+    let pickerBase:UIView = UIView(frame: CGRect(x: 0, y: 720, width: 200, height: 250))
+    let pickerSystemButton:UIButton = UIButton(type: .system)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +101,16 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         
         baseView.backgroundColor = UIColor.gray
         self.view.addSubview(baseView)
+        
+        //ピッカービューの設定
+        pickerView.delegate   = self
+        pickerView.dataSource = self
+        pickerBase.addSubview(pickerView)
+        pickerSystemButton.frame = CGRect(x: self.view.frame.width-60, y: 0, width: 50, height: 20)
+
+        
+        
+        
         print(passedID)
         self.navigationItem.title = "タスク設定"
         self.navigationController?.navigationBar.titleTextAttributes
@@ -106,7 +118,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         
 
     }
-    
     override func viewDidAppear(_ animated: Bool) {
         select1 = 0
         select2 = 0
@@ -146,6 +157,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     override func viewWillAppear(_ animated: Bool) {
         
     }
+
+
     func isData(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -166,7 +179,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 var forEnd:Date? = result.value(forKey: "endDate") as! Date
                 var totalTime = result.value(forKey: "totalTime") as! Int?
                 var noticeTime:Int? = result.value(forKey:"noticeDay") as! Int?
-                var switchDecide:Bool? = result.value(forKey: "forSwitch") as! Bool?
+                
                 var forDecide:Bool? = result.value(forKey:"forNotice" ) as! Bool?
                  
                 
@@ -179,7 +192,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     startTextField.text = df.string(from: forStart!)
                     endTextField.text = df.string(from: forEnd!)
                     dayCountTextField.text = "\(totalTime!)時間"
-                    forSwitch.isOn = switchDecide!
                     noticeSwitch.isOn = forDecide!
                     if noticeTime != nil && noticeSwitch.isOn == true{
                         noticeDayTextField.text = "\(noticeTime!)時"
@@ -192,60 +204,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
     }
 
-    func forPickerView(textField:UITextField){
-        
-        pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: pickerView.bounds.size.height)
-        pickerView.delegate   = self
-        pickerView.dataSource = self
-        
-        vi = UIView(frame: pickerView.bounds)
-        vi.backgroundColor = UIColor.white
-        vi.addSubview(pickerView)
-        
-        textField.inputView = vi
-        
-        let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.default
-        toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor.black
-        let spaceButton  = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        toolBar.isUserInteractionEnabled = true
-        toolBar.sizeToFit()
-        textField.inputAccessoryView = toolBar
-        pickerView.tag = textField.tag
-        self.view.addSubview(vi)
-        vi.addSubview(toolBar)
-    }
+ 
     
-    func forDatePicker(textField:UITextField) {
-        //DateFormatterを使って文字型から日付型に変更する
-        
-        df.dateFormat = "yyyy/MM/dd"
 
-        let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.default
-        toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor.black
-        let doneButton   = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(ProcessViewController.donePressed))
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ProcessViewController.cancelPressed))
-        let spaceButton  = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        toolBar.sizeToFit()
-        textField.inputAccessoryView = toolBar
-        myDatePicker.tag = textField.tag
-        self.view.addSubview(vi)
-        vi.addSubview(toolBar)
-    }
-    
-    func donePressed() {
-        vi.removeFromSuperview()
-    }
-    
-    // Cancel
-    func cancelPressed() {
-        vi.removeFromSuperview()
-    }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         switch  pickerView.tag{
@@ -262,8 +223,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         case 1:
             return 0
         case 2:
-            return 0
-        case 3:
             return 0
         case 4:
             if component == 5{
@@ -319,8 +278,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             return 100
         case 2:
             return 100
-        case 3:
-            return 100
         case 4:
             if component == 0{
                 return 5
@@ -342,10 +299,12 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        
         myDatePicker.tag = textField.tag
         pickerView.tag = textField.tag
 
-        vi.removeFromSuperview()
+        hideBaseView()
+        hidePicker()
         startTextField.resignFirstResponder()
         endTextField.resignFirstResponder()
         dayCountTextField.resignFirstResponder()
@@ -375,7 +334,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             forPickerView(textField: noticeDayTextField)
             return false
         case 6:
-
             return false
         case 7:
             forPickerView(textField: cardTextField)
@@ -384,6 +342,31 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             return true
         }
     }
+    
+    func forPickerView(textField:UITextField){
+        pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: pickerView.bounds.size.height)
+        pickerView.delegate   = self
+        pickerView.dataSource = self
+        
+        pickerBase.backgroundColor = UIColor.white
+        pickerBase.addSubview(pickerView)
+        
+        textField.inputView = pickerBase
+        pickerSystemButton.setTitle("Close", for: .normal)
+        pickerSystemButton.addTarget(self, action: #selector(closePickerView(sender:)), for: .touchUpInside)
+        pickerBase.addSubview(pickerSystemButton)
+        //下にピッタリ配置、横幅ピッタリの大きさにしておく
+        pickerBase.frame.origin = CGPoint(x: 0, y: self.view.frame.size.height)
+        pickerBase.frame.size = CGSize(width: self.view.frame.width, height: baseView.frame.height)
+        pickerBase.backgroundColor = UIColor.gray
+        self.view.addSubview(pickerBase)
+
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            
+            self.pickerBase.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height - self.pickerBase.frame.height)
+        }, completion: {finished in print("上に現れました")})
+    }
+    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         switch pickerView.tag {
@@ -444,10 +427,14 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             
         }
     }
-    
+  
     //baseViewを隠す
     func hideBaseView(){
         self.baseView.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height)
+    }
+    //
+    func hidePicker(){
+        self.pickerBase.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height)
     }
     
     //DatePickerが載っているViewを閉じる
@@ -457,42 +444,14 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }, completion: {finished in print("下に隠れました")})
     }
     
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //繰り返し処理を行うスイッチ
-    @IBAction func tapForSwitch(_ sender: UISwitch) {
-        if sender.isOn {
-            print("繰り返しスイッチオン")
-            forSwitch.isOn = true
-        }else{
-            print("繰り返しスイッチオフ")
-            forSwitch.isOn = false
-        }
+    //PickerViewが載っているViewを閉じる
+    func closePickerView(sender: UIButton){
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            self.pickerBase.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height)
+        }, completion: {finished in print("下に隠れました")})
     }
+
+
     
     //通知用のスイッチ
     @IBAction func AlertSwitch(_ sender: UISwitch) {
@@ -549,7 +508,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     //record.setValue(, forKey: )
                     //目標時間の設定
                     record.setValue(purposeTime, forKey: "totalTime")
-                    record.setValue(forSwitch.isOn, forKey: "forSwitch")
                 }
                 do{
                     try viewContext.save()
@@ -594,8 +552,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 print(id)
         
                 newTask.setValue(cardTextField.text, forKey: "cardDesign")
-                //繰り返しスイッチの値を入れる
-                newTask.setValue(forSwitch.isOn, forKey: "forSwitch")
                 //通知スイッチの値を入れる
                 newTask.setValue(noticeSwitch.isOn, forKey: "forNotice")
         
