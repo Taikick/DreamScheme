@@ -48,8 +48,13 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
     ]
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        read()
+        //NavigationBarが半透明かどうか
+        navigationController?.navigationBar.isTranslucent = false
+        //NavigationBarの色を変更します
+        navigationController?.navigationBar.barTintColor = UIColor(colorLiteralRed: 247/255, green: 247/255, blue: 247/255, alpha: 1)
+        //NavigationBarに乗っている部品の色を変更します
+        navigationController?.navigationBar.tintColor = UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1)
+        //バーの左側にボタンを配置します(ライブラリ特有)
         addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
         self.navigationItem.title = "達成済タスク"
     }
