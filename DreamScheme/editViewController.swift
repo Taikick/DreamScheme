@@ -546,8 +546,18 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             rect.origin.y += 4
             rect.size.height -= 4
             let chartView = HorizontalBarChartView(frame: rect)
+            chartView.notifyDataSetChanged()
+            chartView.data = nil
+            
+            chartView.data?.notifyDataChanged()
             var entry = [BarChartDataEntry(x: 1, y: Double(totalTime) / 3600)]
             let set = BarChartDataSet(values: entry, label: "タスク時間")
+            //y軸の設定
+            
+            chartView.leftAxis.axisMaximum = Double(purposeTime / 3600)
+            chartView.rightAxis.axisMaximum = Double(purposeTime / 3600)
+            chartView.leftAxis.axisMinimum = 0
+            chartView.rightAxis.axisMinimum = 0
             
             
             chartView.data = BarChartData(dataSet: set)
@@ -570,19 +580,16 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             chartView.animate(yAxisDuration: 2.0)
             //        chartView.xAxis.labelCount = 100
             //        chartView.xAxis.axisMinimum = 1
-            //y軸の設定
+
             
-            chartView.leftAxis.axisMaximum = Double(purposeTime / 3600)
-            chartView.rightAxis.axisMaximum = Double(purposeTime / 3600)
+////////////バグ
             chartView.leftAxis.labelCount = 5
-            chartView.leftAxis.axisMinimum = 0
             chartView.rightAxis.labelCount = 5
-            chartView.rightAxis.axisMinimum = 0
-            chartView.leftAxis.axisMinimum = 0
+            
+            
             set.formLineWidth = 3
             set.formSize = 10
             set.valueTextColor = UIColor.clear
-
             cell.DTitleChart.noDataText = ""
             cell.DTitleChart.addSubview(chartView)
             return cell
