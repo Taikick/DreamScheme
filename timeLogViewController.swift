@@ -25,6 +25,8 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     var totalTime = 0
     
+    var countIndex = 0
+    
     @IBOutlet weak var logTableView: UITableView!
     
     
@@ -84,6 +86,7 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     /// セルの個数指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        countIndex = startTimes.count
         return startTimes.count
     }
     
@@ -108,9 +111,7 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     
     func barButtonTapped() {
-
         
-        //let date = Date(fromISO8601: dateString)
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
         let viewContext = appDelegate.persistentContainer.viewContext
@@ -119,6 +120,7 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
         let predicate = NSPredicate(format: "taskID = %d", passedIndex)
         query.predicate = predicate
+        
         do {
             let fetchResult = try viewContext.fetch(query)
             var timeLogCell = timeLogTableViewCell()
@@ -126,29 +128,96 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
             df.dateFormat = "yyyy/MM/dd' 'HH:mm:ss"
             df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
             //logTableView.reloadData()
+            
             var i = 0
-            for result:AnyObject in fetchResult {
-                var record = result as! NSManagedObject
-                timeLogCell = logTableView.visibleCells[i] as! timeLogTableViewCell
-                record.setValue(df.date(from: timeLogCell.endTimeLabel.text!), forKey: "endTime")
-                record.setValue(df.date(from: timeLogCell.startTimeLabel.text!), forKey: "startTime")
+            var error:[Int] = []
+            
+            if startTimes.count > 2{
+                for i in 0...startTimes.count - 2 {
+                    timeLogCell = logTableView.visibleCells[i] as! timeLogTableViewCell
+                    if let start = df.date(from: timeLogCell.endTimeLabel.text!), let end = df.date(from: timeLogCell.endTimeLabel.text!){
+                        print("最後から二番目までバグなし")
+                    }else {
+                        timeLogCell = logTableView.visibleCells[i] as! timeLogTableViewCell
+                        error.append(i)
+                        print(error)
+                    }
+                }
+            } else if startTimes.count == 2{
+                for i in 0...1 {
+                    timeLogCell = logTableView.visibleCells[i] as! timeLogTableViewCell
+                    if let start = df.date(from: timeLogCell.endTimeLabel.text!), let end = df.date(from: timeLogCell.endTimeLabel.text!){
+                        print("最後から二番目までバグなし")
+                    }else {
+                        timeLogCell = logTableView.visibleCells[i] as! timeLogTableViewCell
+                        error.append(i)
+                        print(error)
+                    }
+                }
+            }
+        
+            timeLogCell = logTableView.visibleCells[0] as! timeLogTableViewCell
+            if timeLogCell.endTimeLabel.text == "学習中" {
+                if let start = df.date(from: timeLogCell.endTimeLabel.text!){
+                    print("最後バグなし")
+                }else {
+                    error.append(i)
+                    print(error)
+                }
+            } else if timeLogCell.endTimeLabel.text != "学習中" {
+                if let start = df.date(from: timeLogCell.endTimeLabel.text!), let end = df.date(from: timeLogCell.endTimeLabel.text!){
+                    print("最後までバグなし")
+                }else {
+                    timeLogCell = logTableView.visibleCells[i] as! timeLogTableViewCell
+                    error.append(i)
+                    print(error)
+                }
+            }
+
+            
+            if error == [] {
+                i = 0
+                for result:AnyObject in fetchResult {
+                    
+                    var record = result as! NSManagedObject
+                    timeLogCell = logTableView.visibleCells[i] as! timeLogTableViewCell
+                    record.setValue(df.date(from: timeLogCell.endTimeLabel.text!), forKey: "endTime")
+                    record.setValue(df.date(from: timeLogCell.startTimeLabel.text!), forKey: "startTime")
+                    
+                    i += 1
+                }
+                do{
+                    try viewContext.save()
+                }catch {
+                    print("接続失敗")
+                }
+                totalTime = 0
+                readTimeLogs()
+                upDateTotalTime()
+ 
+            } else{
+                print("エラー")
+                let alert = UIAlertController(title: "警告", message: "「yyyy/MM/dd HH:mm:ss」の形式で記述してください", preferredStyle: .alert)
                 
-                i += 1
+                //アラートにOKボタンを追加
+                //handler : OKボタンが押された時に行いたい処理を指定する場所
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {action in print("OK押されました")}))
+                
+                //アラートを表示する処理
+                //completion : 動作が完了した後に発動するメソッド
+                //animated :
+                present(alert, animated: true, completion: {() -> Void in print("アラートが表示されました") })
+
             }
-            do{
-                try viewContext.save()
-            }catch {
-                print("接続失敗")
-            }
-            readTimeLogs()
-            upDateTotalTime()
+            
+
         }catch {
             print("read失敗")
         }
 
     }
     
-    //Tウォッチボタン押されら時にタイムログ挿入
+    
     func readTimeLogs(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -171,7 +240,6 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 var intDate = Int(getInterval)
                 
                 if intDate != nil {
-                    print("fuck\(intDate)")
                     totalTime += intDate
                 }
                 
@@ -181,7 +249,7 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
             }catch {
                 print("接続失敗")
             }
-            print(totalTime)
+            
         }catch {
             print("read失敗")
         }
@@ -199,6 +267,7 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
             let fetchResult = try viewContext.fetch(query)
             for result:AnyObject in fetchResult {
                 let record = result as! NSManagedObject
+                print(totalTime)
                 record.setValue(totalTime,forKey:"totalDoneTime")
             }
         }catch {
