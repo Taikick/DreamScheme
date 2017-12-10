@@ -16,6 +16,8 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
     @IBOutlet weak var AnalizeTableView: UITableView!
     @IBOutlet weak var radarChartView: RadarChartView!
     
+    
+    
     var titles:[String] = []
     
     var totalDoneTime:[Int] = []
@@ -44,6 +46,7 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         }
         
         setChart(dataPoints: titles, values: DtotalDoneTime)
+        AnalizeTableView.reloadData()
     }
     
     
@@ -131,7 +134,8 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     /// セルに値を設定するデータソースメソッド（必須）
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let tasksCell = tableView.dequeueReusableCell(withIdentifier: "AnalizeCell") as! AnalizeTableViewCell
+        let tasksCell = AnalizeTableView.dequeueReusableCell(withIdentifier: "AnalizeCell") as! AnalizeTableViewCell
+        print(titles[indexPath.row])
         tasksCell.AnaizeListLabel.text = titles[indexPath.row]
         
         return tasksCell

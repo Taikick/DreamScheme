@@ -20,7 +20,6 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     @IBOutlet weak var myImageView: UIImageView!
     
-    @IBOutlet weak var userName: UILabel!
     
     @IBOutlet weak var profileSettings: UITableView!
     
