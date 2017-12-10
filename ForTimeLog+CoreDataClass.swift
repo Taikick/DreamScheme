@@ -2,7 +2,7 @@
 //  ForTimeLog+CoreDataClass.swift
 //  
 //
-//  Created by 加藤　大起 on 2017/12/06.
+//  Created by 加藤　大起 on 2017/12/10.
 //
 //
 

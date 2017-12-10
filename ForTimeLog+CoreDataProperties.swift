@@ -2,7 +2,7 @@
 //  ForTimeLog+CoreDataProperties.swift
 //  
 //
-//  Created by 加藤　大起 on 2017/12/06.
+//  Created by 加藤　大起 on 2017/12/10.
 //
 //
 
@@ -17,9 +17,9 @@ extension ForTimeLog {
     }
 
     @NSManaged public var endTime: NSDate?
+    @NSManaged public var id: Int16
     @NSManaged public var moveOrStop: Bool
     @NSManaged public var startTime: NSDate?
     @NSManaged public var taskID: Int16
-    @NSManaged public var id: Int16
 
 }

@@ -36,6 +36,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     let pickerView:UIPickerView! = UIPickerView()
     var myDatePicker = UIDatePicker()
     
+    var homeTitle = ""
     
     var Time1:[Int] = [0,1,2,3,4,5,6,7,8,9]
     var Time2:[Int] = [0,1,2,3,4,5,6,7,8,9]
@@ -182,28 +183,30 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             df.locale = Locale(identifier:"ja_jp")
             for result:AnyObject in fetchResult {
                 
-                var hometitle:String? = result.value(forKey: "title") as! String
+                homeTitle = result.value(forKey: "title") as! String
                 var forCard:String? = result.value(forKey: "cardDesign") as! String
                 var forStart:Date? = result.value(forKey: "startDate") as! Date
                 var forEnd:Date? = result.value(forKey: "endDate") as! Date
                 var totalTime = result.value(forKey: "totalTime") as! Int?
-                var noticeHour:Int? = result.value(forKey:"noticeDay") as! Int?
+                noticeHour = result.value(forKey:"noticeHour") as! Int
+                
+                noticeMinute = result.value(forKey:"noticeMinute") as! Int
                 
                 var forDecide:Bool? = result.value(forKey:"forNotice" ) as! Bool?
                  
                 
                 
                 //nilは入らないようにする
-                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil {
+                if forStart != nil && forEnd != nil && homeTitle != nil && forCard != nil {
                     
-                    createTextFiled.text = hometitle!
+                    createTextFiled.text = homeTitle
                     cardTextField.text = forCard!
                     startTextField.text = df.string(from: forStart!)
                     endTextField.text = df.string(from: forEnd!)
                     dayCountTextField.text = "\(totalTime! / 3600)時間"
                     noticeSwitch.isOn = forDecide!
-                    if noticeHour != nil && noticeSwitch.isOn == true{
-                        noticeDayTextField.text = "\(noticeHour!)時"
+                    if noticeHour != nil && noticeSwitch.isOn == true && noticeMinute != nil{
+                        noticeDayTextField.text = "\(noticeHour)時\(noticeMinute)分"
                     }
                     
                 }
@@ -364,29 +367,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
     }
     
-    func forPickerView(textField:UITextField){
-        pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: pickerView.bounds.size.height)
-        pickerView.delegate   = self
-        pickerView.dataSource = self
-        
-        pickerBase.backgroundColor = UIColor.white
-        pickerBase.addSubview(pickerView)
-        
-        textField.inputView = pickerBase
-        pickerSystemButton.setTitle("Close", for: .normal)
-        pickerSystemButton.addTarget(self, action: #selector(closePickerView(sender:)), for: .touchUpInside)
-        pickerBase.addSubview(pickerSystemButton)
-        //下にピッタリ配置、横幅ピッタリの大きさにしておく
-        pickerBase.frame.origin = CGPoint(x: 0, y: self.view.frame.size.height)
-        pickerBase.frame.size = CGSize(width: self.view.frame.width, height: baseView.frame.height)
-        pickerBase.backgroundColor = UIColor.gray
-        self.view.addSubview(pickerBase)
-
-        UIView.animate(withDuration: 0.5, animations: { () -> Void in
-            
-            self.pickerBase.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height - self.pickerBase.frame.height)
-        }, completion: {finished in print("上に現れました")})
-    }
+    
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
@@ -472,7 +453,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }, completion: {finished in print("下に隠れました")})
     }
     
-    //PickerViewが載っているViewを閉じる
     func closePickerView(sender: UIButton){
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
             self.pickerBase.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height)
@@ -490,10 +470,10 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             let content = UNMutableNotificationContent()
             
             // タイトル設定
-            content.title = "！！"
+            content.title = "\(homeTitle)の時間です！"
             
             // 本文設定
-            content.body = ""
+            content.body = "今日も一日頑張りましょう！"
             
             // 音設定
             content.sound = UNNotificationSound.default()
@@ -517,6 +497,30 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
         
     }
+    func forPickerView(textField:UITextField){
+        pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: pickerView.bounds.size.height)
+        pickerView.delegate   = self
+        pickerView.dataSource = self
+        
+        pickerBase.backgroundColor = UIColor.white
+        pickerBase.addSubview(pickerView)
+        
+        textField.inputView = pickerBase
+        pickerSystemButton.setTitle("Close", for: .normal)
+        pickerSystemButton.addTarget(self, action: #selector(closePickerView(sender:)), for: .touchUpInside)
+        pickerBase.addSubview(pickerSystemButton)
+        //下にピッタリ配置、横幅ピッタリの大きさにしておく
+        pickerBase.frame.origin = CGPoint(x: 0, y: self.view.frame.size.height)
+        pickerBase.frame.size = CGSize(width: self.view.frame.width, height: baseView.frame.height)
+        pickerBase.backgroundColor = UIColor.gray
+        self.view.addSubview(pickerBase)
+        
+        UIView.animate(withDuration: 0.5, animations: { () -> Void in
+            
+            self.pickerBase.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height - self.pickerBase.frame.height)
+        }, completion: {finished in print("上に現れました")})
+    }
+    
     func read(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
@@ -557,7 +561,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     record.setValue(cardTextField.text, forKey: "cardDesign")
                     record.setValue(noticeSwitch.isOn, forKey: "forNotice")
                     //通知の日時
-                    //record.setValue(, forKey: )
+                    record.setValue(noticeHour, forKey: "noticeHour")
+                    record.setValue(noticeMinute, forKey: "noticeMinute")
                     //目標時間の設定
                     record.setValue(purposeTime, forKey: "totalTime")
                 }
@@ -606,6 +611,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 newTask.setValue(cardTextField.text, forKey: "cardDesign")
                 //通知スイッチの値を入れる
                 newTask.setValue(noticeSwitch.isOn, forKey: "forNotice")
+                
+                newTask.setValue(noticeHour, forKey: "noticeHour")
+                newTask.setValue(noticeMinute, forKey: "noticeMinute")
         
                 newTask.setValue(Date(), forKey: "created_at")
                 newTask.setValue(purposeTime, forKey: "totalTime")
