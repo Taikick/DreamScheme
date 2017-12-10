@@ -94,6 +94,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         if timer != nil{
             timer.invalidate()
         }
+        
         selectedProcess = -1
         ProTitle = []
         ProEndTime = []
@@ -547,6 +548,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let chartView = HorizontalBarChartView(frame: rect)
             var entry = [BarChartDataEntry(x: 1, y: Double(totalTime) / 3600)]
             let set = BarChartDataSet(values: entry, label: "タスク時間")
+            
+            
             chartView.data = BarChartData(dataSet: set)
             chartView.drawBordersEnabled = false
             chartView.minOffset = CGFloat(0)
@@ -568,12 +571,13 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             //        chartView.xAxis.labelCount = 100
             //        chartView.xAxis.axisMinimum = 1
             //y軸の設定
+            
+            chartView.leftAxis.axisMaximum = Double(purposeTime / 3600)
+            chartView.rightAxis.axisMaximum = Double(purposeTime / 3600)
             chartView.leftAxis.labelCount = 5
             chartView.leftAxis.axisMinimum = 0
-            chartView.leftAxis.axisMaximum = Double(purposeTime / 3600)
             chartView.rightAxis.labelCount = 5
             chartView.rightAxis.axisMinimum = 0
-            chartView.rightAxis.axisMaximum = Double(purposeTime / 3600)
             chartView.leftAxis.axisMinimum = 0
             set.formLineWidth = 3
             set.formSize = 10

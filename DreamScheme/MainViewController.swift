@@ -270,7 +270,32 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }catch {
                 print("read失敗")
             }
+            
+            let Delegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            let Context = appDelegate.persistentContainer.viewContext
+            
+            let queryL:NSFetchRequest<ForTimeLog> = ForTimeLog.fetchRequest()
+            
+            let predicateL = NSPredicate(format: "taskID = %d", selectedIndex)
+            queryL.predicate = predicateL
+            do {
+                let fetchResult = try Context.fetch(queryL)
+                
+                for result:AnyObject in fetchResult {
+                    let record = result as! NSManagedObject
+                    Context.delete(record)
+                    
+                }
+                try viewContext.save()
+                
+                homeTableView.reloadData()
+                
+            }catch {
+                print("read失敗")
+            }
         
+            
 
             
         }
