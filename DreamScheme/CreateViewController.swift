@@ -55,6 +55,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     //for文で回して値とってる
     var NTArray:[Int] = []
     
+    var NTMArray:[Int] = []
+    
     var startDay = ""
     
     var endDay = ""
@@ -74,7 +76,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     var noticeHour = 0
     
-    var noticeminute = 0
+    var noticeMinute = 0
     
     let mySystemButton:UIButton = UIButton(type: .system)
     let baseView:UIView = UIView(frame: CGRect(x: 0, y: 720, width: 200, height: 250))
@@ -85,6 +87,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         super.viewDidLoad()
         for i in 0...23{
             NTArray.append(i)
+        }
+        for i in 0...59{
+            NTMArray.append(i)
         }
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert,.sound]){(granted,error) in }
@@ -182,7 +187,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 var forStart:Date? = result.value(forKey: "startDate") as! Date
                 var forEnd:Date? = result.value(forKey: "endDate") as! Date
                 var totalTime = result.value(forKey: "totalTime") as! Int?
-                var noticeTime:Int? = result.value(forKey:"noticeDay") as! Int?
+                var noticeHour:Int? = result.value(forKey:"noticeDay") as! Int?
                 
                 var forDecide:Bool? = result.value(forKey:"forNotice" ) as! Bool?
                  
@@ -197,8 +202,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     endTextField.text = df.string(from: forEnd!)
                     dayCountTextField.text = "\(totalTime! / 3600)時間"
                     noticeSwitch.isOn = forDecide!
-                    if noticeTime != nil && noticeSwitch.isOn == true{
-                        noticeDayTextField.text = "\(noticeTime!)時"
+                    if noticeHour != nil && noticeSwitch.isOn == true{
+                        noticeDayTextField.text = "\(noticeHour!)時"
                     }
                     
                 }
@@ -210,13 +215,15 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
 
  
     
-
-    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         switch  pickerView.tag{
         case 4:
             return 6
+            
+        case 5:
+            return 2
         default:
+        
             return 1
         }
         
@@ -234,7 +241,12 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             }
             return 10
         case 5:
-            return NTArray.count
+            if component == 0{
+                return NTArray.count
+            }
+            return NTMArray.count
+
+            
         case 7:
             return cardArray.count
         default:
@@ -265,7 +277,12 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             }
             
         case 5:
-            return "\(NTArray[row])時"
+            if component == 0{
+                return "\(NTArray[row])時"
+            }else {
+                return "\(NTMArray[row])分"
+            }
+            
         case 7:
             return cardArray[row]
         default:
@@ -393,7 +410,14 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             }
             dayCountTextField.text = "\(select1)\(select2)\(select3)\(select4)\(select5)時間"
         case 5:
-            noticeDayTextField.text = "\(NTArray[row])時"
+            if component == 0 {
+                // 1桁のピッカーの設定
+                noticeHour = NTArray[row]
+            }else if component == 1{
+                // 2桁のピッカーの設定
+                noticeMinute = NTMArray[row]
+            }
+            noticeDayTextField.text = "\(noticeHour)時\(noticeMinute)分"
         case 7:
             cardTextField.text! = cardArray[row]
             print(cardTextField.text!)
@@ -474,7 +498,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             // 音設定
             content.sound = UNNotificationSound.default()
             
-            let date = DateComponents(hour:8, minute:30)
+            let date = DateComponents(hour:noticeHour, minute:noticeMinute)
             // トリガー設定（いつ発火するかの設定。今回は10秒後)
             let trigger = UNCalendarNotificationTrigger.init(dateMatching: date, repeats: true)
             
