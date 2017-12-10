@@ -42,6 +42,7 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         for toDouble in totalDoneTime{
             DtotalDoneTime.append(Double(toDouble))
         }
+        
         setChart(dataPoints: titles, values: DtotalDoneTime)
     }
     
@@ -53,8 +54,6 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
         let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
         
-        let predicate = NSPredicate(format: "doneID = %@",NSNumber(value: false) as CVarArg)
-        query.predicate = predicate
         do {
             let fetchResult = try viewContext.fetch(query)
             
@@ -133,7 +132,7 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
     /// セルに値を設定するデータソースメソッド（必須）
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tasksCell = tableView.dequeueReusableCell(withIdentifier: "AnalizeCell") as! AnalizeTableViewCell
-        tasksCell.setCell(titleText: titles[indexPath.row])
+        tasksCell.AnaizeListLabel.text = titles[indexPath.row]
         
         return tasksCell
     }
@@ -143,14 +142,5 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

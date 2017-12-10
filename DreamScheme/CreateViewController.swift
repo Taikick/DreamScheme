@@ -10,6 +10,8 @@ import UIKit
 import CoreData
 import Photos
 import MobileCoreServices
+import UserNotifications    //ローカル通知に必要なフレームワーク
+
 
 class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     
@@ -70,8 +72,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     var passedID = -1
     let df = DateFormatter()
     
+    var noticeHour = 0
     
-    
+    var noticeminute = 0
     
     let mySystemButton:UIButton = UIButton(type: .system)
     let baseView:UIView = UIView(frame: CGRect(x: 0, y: 720, width: 200, height: 250))
@@ -83,6 +86,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         for i in 0...23{
             NTArray.append(i)
         }
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert,.sound]){(granted,error) in }
+
         // イベントの追加
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
         //選択可能な最大値(2017/12/31)
@@ -456,9 +462,33 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         if sender.isOn {
             noticeSwitch.isOn = true
             
+            // Notificationのインスタンス作成
+            let content = UNMutableNotificationContent()
+            
+            // タイトル設定
+            content.title = "！！"
+            
+            // 本文設定
+            content.body = ""
+            
+            // 音設定
+            content.sound = UNNotificationSound.default()
+            
+            let date = DateComponents(hour:8, minute:30)
+            // トリガー設定（いつ発火するかの設定。今回は10秒後)
+            let trigger = UNCalendarNotificationTrigger.init(dateMatching: date, repeats: true)
+            
+            // リクエストの生成（通知IDをセット）
+            let request = UNNotificationRequest.init(identifier: "ID_TenSecond", content: content, trigger: trigger)
+            
+            // 通知のセット
+            let center = UNUserNotificationCenter.current()
+            center.add(request){(error) in }
+            
         }else{
             print("通知スイッチオフ")
             noticeSwitch.isOn = false
+            
             
         }
         

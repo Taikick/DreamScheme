@@ -8,16 +8,21 @@
 
 import UIKit
 import SlideMenuControllerSwift
+import FontAwesome_swift
 
 class LeftViewController: UIViewController, UITableViewDelegate,UITableViewDataSource{
     
-    var moveList = ["ホーム","プロフィール","達成済タスク","時間分析"]
+    
+    @IBOutlet var userIcon:UIImageView!
+    
+    var moveList = ["ホーム","タスク状況","達成済タスク","時間分析"]
     
     var selectedPage = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        userIcon.image = UIImage.fontAwesomeIcon(name: .user, textColor: UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1), size: CGSize(width: 150.0, height: 130.0))
+
     }
     
     //行数の決定

@@ -30,6 +30,8 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
     let totalTime = "hogehoge"
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        myImageView.image = UIImage.fontAwesomeIcon(name: .user, textColor: UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1), size: CGSize(width: 300.0, height: 300.0))
         //NavigationBarが半透明かどうか
         navigationController?.navigationBar.isTranslucent = false
         //NavigationBarの色を変更します
@@ -38,7 +40,7 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
         navigationController?.navigationBar.tintColor = UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1)
         //バーの左側にボタンを配置します(ライブラリ特有)
         addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
-        self.navigationItem.title = "プロフィール"
+        self.navigationItem.title = "タスク状況"
     }
     /// セルの個数指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
