@@ -69,6 +69,8 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 titles.append(hometitle!)
                 totalDoneTime.append(doneTime!)
                 
+                
+                
             }
             
         }catch {
@@ -136,6 +138,7 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tasksCell = AnalizeTableView.dequeueReusableCell(withIdentifier: "AnalizeCell") as! AnalizeTableViewCell
         print(titles[indexPath.row])
+        tasksCell.analizeTimeLabel.text = "\(totalDoneTime[indexPath.row] / 3600)時間"
         tasksCell.AnaizeListLabel.text = titles[indexPath.row]
         
         return tasksCell
