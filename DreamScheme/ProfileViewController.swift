@@ -22,10 +22,15 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     @IBOutlet weak var profileSettings: UITableView!
     
-    let Settings:[String] = ["未達成のやるべきこと","総合タスク時間"]
+    let Settings:[String] = ["未達成のタスク","達成済のタスク","総合タスク数","総合タスク時間"]
     
     let unReachTask = "3個"
     let totalTime = "hogehoge"
+    
+    var countUnreach = -1
+    var countFin = -1
+    var countAllTime = -1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,9 +48,93 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     
     override func viewDidAppear(_ animated: Bool) {
+        CountUnreachTasks()
+        CountFinTasks()
+        CountAllTime()
+        profileTableView.reloadData()
+    }
+    //未達成のタスクの数を取る
+    func CountUnreachTasks(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+        
+        let predicate = NSPredicate(format: "doneID = %@",NSNumber(value: false) as CVarArg)
+        query.predicate = predicate
+        
+        
+		
+        var tasksCount:[String] = []
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResult {
+                var forTask:String? = result.value(forKey: "title") as! String?
+            tasksCount.append(forTask!)
+            }
+            
+            countUnreach = tasksCount.count
+        }catch {
+            print("read失敗")
+        }
     }
     
+    
+    //未達成のタスクの数を取る
+    func CountFinTasks(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+        
+        let predicate = NSPredicate(format: "doneID = %@",NSNumber(value: true) as CVarArg)
+        query.predicate = predicate
+        
+        
+        
+        var tasksCount:[String] = []
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResult {
+                var forTask:String? = result.value(forKey: "title") as! String?
+                tasksCount.append(forTask!)
+            }
+            
+            countFin = tasksCount.count
+        }catch {
+            print("read失敗")
+        }
+    }
+    
+    //全部の時間を数える
+    func CountAllTime(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+    
+        var tasksCount:[String] = []
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResult {
+                
+                var forTask:Int? = result.value(forKey: "totalDoneTime") as! Int?
+                
+                if forTask != nil {
+                    countAllTime += forTask!
+                }
+            }
+        }catch {
+            print("read失敗")
+        }
+    }
+
     
     /// セルの個数指定
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -60,9 +149,13 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
         cell.userLabel.text = Settings[indexPath.row]
         switch indexPath.row {
         case 0:
-            cell.userInfoLabel.text = unReachTask
+            cell.userInfoLabel.text = "\(countUnreach)個"
+        case 1:
+            cell.userInfoLabel.text = "\(countFin)個"
+        case 2:
+            cell.userInfoLabel.text = "\(countUnreach + countFin)個"
         default:
-            cell.userInfoLabel.text = totalTime
+            cell.userInfoLabel.text = "\(countAllTime / 3600)時間"
         }
         return cell
     }

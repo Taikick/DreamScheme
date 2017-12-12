@@ -532,15 +532,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             cell.DTitleDate.text = DTitleTime
             cell.DtitleIDLabel.text = String(passedIndex)
             cell.DtitleIDLabel.alpha = 0
-            if DcardDesing == "青"{
-                cell.backgroundColor = UIColor(colorLiteralRed: 149/255, green: 191/255, blue: 220/255, alpha: 1)
-            } else if DcardDesing == "赤"{
-                cell.backgroundColor = UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1)
-            } else if DcardDesing == "黄色"{
-                cell.backgroundColor = UIColor(colorLiteralRed: 239/255, green: 212/255, blue: 102/255, alpha: 1)
-            } else {
-                cell.backgroundColor = UIColor(colorLiteralRed: 86/255, green: 186/255, blue: 154/255, alpha: 1)
-            }
+
             
             var rect = cell.DTitleChart.bounds
             rect.origin.y += 4
@@ -582,6 +574,19 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             //        chartView.xAxis.axisMinimum = 1
 
             
+            if DcardDesing == "青"{
+                cell.backgroundColor = UIColor(colorLiteralRed: 149/255, green: 191/255, blue: 220/255, alpha: 1)
+            set.colors = [UIColor(colorLiteralRed: 159/255, green: 152/255, blue: 201/255, alpha: 1)]
+            } else if DcardDesing == "赤"{
+                cell.backgroundColor = UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1)
+            set.colors = [UIColor(colorLiteralRed: 228/255, green: 182/255, blue: 136/255, alpha: 1)]
+            } else if DcardDesing == "黄色"{
+                cell.backgroundColor = UIColor(colorLiteralRed: 239/255, green: 212/255, blue: 102/255, alpha: 1)
+            set.colors = [UIColor(colorLiteralRed: 216/255, green: 194/255, blue: 39/255, alpha: 1)]
+            } else {
+                cell.backgroundColor = UIColor(colorLiteralRed: 86/255, green: 186/255, blue: 154/255, alpha: 1)
+                            set.colors = [UIColor(colorLiteralRed: 77/255, green: 122/255, blue: 113/255, alpha: 1)]
+            }
 ////////////バグ
             chartView.leftAxis.labelCount = 5
             chartView.rightAxis.labelCount = 5

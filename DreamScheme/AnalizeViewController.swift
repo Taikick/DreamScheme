@@ -68,9 +68,6 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 
                 titles.append(hometitle!)
                 totalDoneTime.append(doneTime!)
-                
-                
-                
             }
             
         }catch {
@@ -98,7 +95,7 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         radarChartView.yAxis.axisMinimum = 0
         radarChartView.yAxis.axisMaximum = 5.0
         radarChartView.yAxis.drawZeroLineEnabled = true
-        radarChartView.yAxis.forceLabelsEnabled = false
+        radarChartView.yAxis.forceLabelsEnabled = true
         radarChartView.yAxis.drawTopYLabelEntryEnabled = true;
         radarChartView.xAxis.drawAxisLineEnabled = true
         radarChartView.innerWebColor = UIColor.white
