@@ -598,9 +598,10 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let cell = ProcessTableView.dequeueReusableCell(withIdentifier: "ProcessCell", for: indexPath) as! ProcessTableViewCell
             cell.ProLabel.text = ProTitle[indexPath.row]
             cell.ProTimeLabel.text = "\(ProTime[indexPath.row]) - \(ProEndTime[indexPath.row])"
-            cell.ProTimeLabel.alpha = 0
+            print(ProTime[indexPath.row])
+            cell.ProTimeLabel.alpha = 1
             cell.ProIDLabel.text = String(ProId[indexPath.row])
-            cell.ProIDLabel.alpha = 1
+            cell.ProIDLabel.alpha = 0
             //色系
             if cardsDesign[indexPath.row] == "青"{
                 cell.backgroundColor = UIColor(colorLiteralRed: 149/255, green: 191/255, blue: 220/255, alpha: 1)
