@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import Photos
 import MobileCoreServices
-import UserNotifications    //ローカル通知に必要なフレームワーク
+import UserNotifications  //ローカル通知に必要なフレームワーク
 
 
 class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
@@ -53,6 +53,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     
     var purposeTime = 0
+    
     //for文で回して値とってる
     var NTArray:[Int] = []
     
@@ -117,11 +118,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         pickerView.dataSource = self
         pickerBase.addSubview(pickerView)
         pickerSystemButton.frame = CGRect(x: self.view.frame.width-60, y: 0, width: 50, height: 20)
-
-        
-        
-        
-        print(passedID)
         self.navigationItem.title = "タスク設定"
         self.navigationController?.navigationBar.titleTextAttributes
             = [NSFontAttributeName: UIFont(name: "Times New Roman", size: 15)!]
@@ -134,7 +130,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         select3 = 0
         select4 = 0
         select5 = 0
-        toInt()
+        
+        //toInt()
         print(passedID)
         
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
@@ -142,12 +139,15 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         df.locale = Locale(identifier: "ja_JP");
         if passedID != -1 {
             isData()
+            
+            print("\(purposeTime)時間")
             addButton.setTitle("更新", for: .normal)
         }else{
             dayCountTextField.text = "\(select1)\(select2)\(select3)\(select4)\(select5)時間"
             noticeDayTextField.text = "\(NTArray[11])時"
             cardTextField.text = cardArray[0]
             dayCountTextField.text = "\(purposeTime)時間"
+            
             myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
             df.dateFormat = "yyyy/MM/dd"
             df.locale = Locale(identifier: "ja_JP")
@@ -187,14 +187,13 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 var forCard:String? = result.value(forKey: "cardDesign") as! String
                 var forStart:Date? = result.value(forKey: "startDate") as! Date
                 var forEnd:Date? = result.value(forKey: "endDate") as! Date
-                var totalTime = result.value(forKey: "totalTime") as! Int?
                 noticeHour = result.value(forKey:"noticeHour") as! Int
                 
                 noticeMinute = result.value(forKey:"noticeMinute") as! Int
                 
-                var forDecide:Bool? = result.value(forKey:"forNotice" ) as! Bool?
-                 
+                purposeTime = result.value(forKey:"totalTime") as! Int
                 
+                var forDecide:Bool? = result.value(forKey:"forNotice" ) as! Bool?
                 
                 //nilは入らないようにする
                 if forStart != nil && forEnd != nil && homeTitle != nil && forCard != nil {
@@ -203,7 +202,15 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     cardTextField.text = forCard!
                     startTextField.text = df.string(from: forStart!)
                     endTextField.text = df.string(from: forEnd!)
-                    dayCountTextField.text = "\(totalTime! / 3600)時間"
+                    toUpdateSelect()
+                    print("1:\(select1)")
+                    print("2:\(select2)")
+                    print("3:\(select3)")
+                    print("4:\(select4)")
+                    print("5:\(select5)")
+                    dayCountTextField.text = "\(purposeTime / 3600)時間"
+                    
+                    
                     noticeSwitch.isOn = forDecide!
                     if noticeHour != nil && noticeSwitch.isOn == true && noticeMinute != nil{
                         noticeDayTextField.text = "\(noticeHour)時\(noticeMinute)分"
@@ -216,6 +223,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
     }
 
+    
  
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -416,10 +424,22 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         var ten = select4 * 10
         var one = select5
         
-        var purposeHour = tenThou + thou + hund + ten + one
-        purposeTime = purposeHour * 3600
+        var purposeSec = tenThou + thou + hund + ten + one
+        purposeTime = purposeSec * 3600
     }
     
+    func toUpdateSelect(){
+        print("これ\(purposeTime)")
+        select1 =  purposeTime / 10000 / 3600
+        var option1 = purposeTime % 10000 / 3600
+        select2 = option1 / 1000
+        var option2 = option1 % 1000
+        select3 = option2 / 100
+        var option3 = option2 % 100
+        select4 = option3 / 10
+        var option4 = option3 % 10
+        select5 = option4
+    }
     //DatePickerで、選択している日付を変えた時、日付用のTextFieldに値を表示
     func showDateSelected(sender:UIDatePicker){
         print(df.string(from: sender.date))
@@ -493,7 +513,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             print("通知スイッチオフ")
             noticeSwitch.isOn = false
             
-            
         }
         
     }
@@ -542,10 +561,13 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     
     //追加ボタンが押された時にコアデータにデータを挿入する
     @IBAction func taskAddButton(_ sender: UIButton) {
+        print(passedID)
         //すでにデータが存在する場合
         if passedID != -1 {
             print("更新ボタンが押されました")
+            
             toInt()
+
             let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
             let viewContext = appDelegate.persistentContainer.viewContext
             let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
@@ -563,7 +585,17 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     //通知の日時
                     record.setValue(noticeHour, forKey: "noticeHour")
                     record.setValue(noticeMinute, forKey: "noticeMinute")
+                    print("1:\(select1)")
+                    print("2:\(select2)")
+                    print("3:\(select3)")
+                    print("4:\(select4)")
+                    print("5:\(select5)")
                     //目標時間の設定
+                    print("パーパス")
+                    
+                    
+                    print(purposeTime)
+                    
                     record.setValue(purposeTime, forKey: "totalTime")
                 }
                 do{
@@ -595,7 +627,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         
                 newTask.setValue(createTextFiled.text!,forKey:"title")
         
-                print(createTextFiled.text)
                 newTask.setValue(false, forKey: "doneID")
         
                 newTask.setValue(startPicker,forKey:"startDate")

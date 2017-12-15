@@ -331,41 +331,42 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     //Tウォッチボタン押されら時にタイムログ挿入
     func readTimeLogs(){
-            let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
             
-            let viewContext = appDelegate.persistentContainer.viewContext
+        let viewContext = appDelegate.persistentContainer.viewContext
             
-            let query:NSFetchRequest<ForTimeLog> = ForTimeLog.fetchRequest()
+        let query:NSFetchRequest<ForTimeLog> = ForTimeLog.fetchRequest()
             
-            let predicate = NSPredicate(format: "taskID = %d", passedIndex)
-            query.predicate = predicate
-            do {
-                let fetchResult = try viewContext.fetch(query)
+        let predicate = NSPredicate(format: "taskID = %d", passedIndex)
+        query.predicate = predicate
+        do {
+            let fetchResult = try viewContext.fetch(query)
                 
-                for result:AnyObject in fetchResult {
+            for result:AnyObject in fetchResult {
+                
+                var startTime:Date = result.value(forKey: "startTime") as! Date
                     
-                    var startTime:Date = result.value(forKey: "startTime") as! Date
+                var endTime:Date = result.value(forKey: "endTime") as! Date
                     
-                    var endTime:Date = result.value(forKey: "endTime") as! Date
+                var getInterval = CFDateGetTimeIntervalSinceDate(endTime as CFDate, startTime as CFDate)
+                var intDate = Int(getInterval)
                     
-                    var getInterval = CFDateGetTimeIntervalSinceDate(endTime as CFDate, startTime as CFDate)
-                    var intDate = Int(getInterval)
-                    
-                    if intDate != nil {
-                        print("fuck\(intDate)")
-                        totalTime += intDate
-                    }
-                    
+                if intDate != nil {
+                    print("fuck\(intDate)")
+                    totalTime += intDate
                 }
-                do{
-                    try viewContext.save()
-                }catch {
-                    print("接続失敗")
-                }
-                print(totalTime)
-            }catch {
-                print("read失敗")
+                    
             }
+            
+            do{
+                try viewContext.save()
+            }catch {
+                print("接続失敗")
+            }
+            print(totalTime)
+        }catch {
+            print("read失敗")
+        }
     }
     
     func upDateTotalTime(){
@@ -591,11 +592,14 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             chartView.leftAxis.labelCount = 5
             chartView.rightAxis.labelCount = 5
             
-            
             set.formLineWidth = 3
             set.formSize = 10
             set.valueTextColor = UIColor.clear
             cell.DTitleChart.noDataText = ""
+            var subviews = cell.DTitleChart.subviews
+            for subview in subviews {
+                subview.removeFromSuperview()
+            }
             cell.DTitleChart.addSubview(chartView)
             return cell
             
@@ -623,6 +627,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             return cell
         }
     }
+    
+    
     //セルをスワイプし削除ボタンを出す
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if tableView.tag == 1 {
