@@ -84,6 +84,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     let baseView:UIView = UIView(frame: CGRect(x: 0, y: 720, width: 200, height: 250))
     let pickerBase:UIView = UIView(frame: CGRect(x: 0, y: 720, width: 200, height: 250))
     let pickerSystemButton:UIButton = UIButton(type: .system)
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,6 +125,8 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         
 
     }
+
+    
     override func viewDidAppear(_ animated: Bool) {
         select1 = 0
         select2 = 0
@@ -167,7 +170,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     override func viewWillAppear(_ animated: Bool) {
         
     }
-
 
     func isData(){
         let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -223,9 +225,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
     }
 
-    
- 
-    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         switch  pickerView.tag{
         case 4:
@@ -265,7 +264,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
     }
     
-    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch pickerView.tag {
         case 1:
@@ -301,6 +299,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
         
     }
+    
     //列の幅
     func pickerView(pickerView: UIPickerView, widthForComponent component:Int) -> CGFloat {
         
@@ -375,13 +374,13 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
     }
     
-    
-    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         switch pickerView.tag {
+            
         case 4:
             if component == 0 {
+                
                 // 1桁のピッカーの設定
                 select1 = Time1[row]
             }else if component == 1{
@@ -414,24 +413,29 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         default:
             print("それ以外")
         }
+        
     }
+    
     
     //ピッカーの中の数を計算してINTにぶち込む
     func toInt() {
+        
         var tenThou = select1 * 10000
         var thou = select2 * 1000
         var hund = select3 * 100
         var ten = select4 * 10
         var one = select5
-        
         var purposeSec = tenThou + thou + hund + ten + one
         purposeTime = purposeSec * 3600
+        
     }
     
     func toUpdateSelect(){
-        print("これ\(purposeTime)")
-        select1 =  purposeTime / 10000 / 3600
-        var option1 = purposeTime % 10000 / 3600
+        
+        print("これ\(purposeTime / 3600)")
+        var puroposeHour = purposeTime / 3600
+        select1 =  puroposeHour / 10000
+        var option1 = puroposeHour % 10000
         select2 = option1 / 1000
         var option2 = option1 % 1000
         select3 = option2 / 100
@@ -439,7 +443,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         select4 = option3 / 10
         var option4 = option3 % 10
         select5 = option4
+        
     }
+    
     //DatePickerで、選択している日付を変えた時、日付用のTextFieldに値を表示
     func showDateSelected(sender:UIDatePicker){
         print(df.string(from: sender.date))
@@ -461,6 +467,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     func hideBaseView(){
         self.baseView.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height)
     }
+    
     //
     func hidePicker(){
         self.pickerBase.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height)
@@ -479,8 +486,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }, completion: {finished in print("下に隠れました")})
     }
 
-
-    
     //通知用のスイッチ
     @IBAction func AlertSwitch(_ sender: UISwitch) {
         if sender.isOn {
@@ -503,7 +508,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             let trigger = UNCalendarNotificationTrigger.init(dateMatching: date, repeats: true)
             
             // リクエストの生成（通知IDをセット）
-            let request = UNNotificationRequest.init(identifier: "ID_TenSecond", content: content, trigger: trigger)
+            let request = UNNotificationRequest.init(identifier: "\(homeTitle)", content: content, trigger: trigger)
             
             // 通知のセット
             let center = UNUserNotificationCenter.current()
@@ -516,6 +521,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         }
         
     }
+    
     func forPickerView(textField:UITextField){
         pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: pickerView.bounds.size.height)
         pickerView.delegate   = self
@@ -551,13 +557,16 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
             
             let fetchResults = try viewContext.fetch(query)
             for result:AnyObject in fetchResults {
-                id = (result.value(forKey:"id") as? Int)!
+                var vId:Int = (result.value(forKey:"id") as? Int)!
+                if vId > id {
+                    id = vId
+                }
             }
+                
         }catch {
             print("read失敗")
         }
     }
-    
     
     //追加ボタンが押された時にコアデータにデータを挿入する
     @IBAction func taskAddButton(_ sender: UIButton) {
@@ -591,13 +600,9 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                     print("4:\(select4)")
                     print("5:\(select5)")
                     //目標時間の設定
-                    print("パーパス")
-                    
-                    
-                    print(purposeTime)
-                    
                     record.setValue(purposeTime, forKey: "totalTime")
                 }
+                
                 do{
                     try viewContext.save()
                 }catch {
@@ -608,70 +613,59 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
                 print("接続失敗")
             }
             
-            
         //新規登録の場合
         }else {
             if createTextFiled.text != "" && startTextField.text != "" && endTextField.text != "" && dayCountTextField.text != "" && cardTextField.text != "" {
+                
                 print("追加ボタンが押されました")
                 read()
                 toInt()
+                
                 let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
                 let viewContext = appDelegate.persistentContainer.viewContext
         
                 let forTask = NSEntityDescription.entity(forEntityName: "ForTasks", in: viewContext)
         
-        
-        
                 let newTask = NSManagedObject(entity: forTask!, insertInto: viewContext)
         
                 newTask.setValue(createTextFiled.text!,forKey:"title")
-        
                 newTask.setValue(false, forKey: "doneID")
-        
                 newTask.setValue(startPicker,forKey:"startDate")
-                print(startPicker)
-        
                 newTask.setValue(endPicker,forKey:"endDate")
-                print(endPicker)
-
                 //あとid入れる
                 newTask.setValue(id + 1,forKey:"id")
                 print(id)
-        
                 newTask.setValue(cardTextField.text, forKey: "cardDesign")
                 //通知スイッチの値を入れる
                 newTask.setValue(noticeSwitch.isOn, forKey: "forNotice")
-                
                 newTask.setValue(noticeHour, forKey: "noticeHour")
                 newTask.setValue(noticeMinute, forKey: "noticeMinute")
-        
                 newTask.setValue(Date(), forKey: "created_at")
                 newTask.setValue(purposeTime, forKey: "totalTime")
-                
                 newTask.setValue(0, forKey: "totalDoneTime")
-                //通知の設定
                 
                 do{
                     try viewContext.save()
                 }catch {
                     print("接続失敗")
                 }
+                
             //アラート出す
             }else {
                 let alert = UIAlertController(title: "Invailed", message: "空欄があります", preferredStyle: .alert)
-                
                 //アラートにOKボタンを追加
                 //handler : OKボタンが押された時に行いたい処理を指定する場所
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: {action in print("OK押されました")}))
-                
                 //アラートを表示する処理
                 //completion : 動作が完了した後に発動するメソッド
                 //animated :
                 present(alert, animated: true, completion: {() -> Void in print("アラートが表示されました") })
+                
             }
         }
     }
+    
     //キーボードを出た時に下がる処理
     @IBAction func returnFinish(_ sender: UITextField) {
     }
@@ -680,4 +674,5 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
 }

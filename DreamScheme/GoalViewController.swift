@@ -93,7 +93,7 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         cell.TasksLabel.textColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
         cell.DateLabel.text = "\(homeTime[indexPath.row]) - \(homeLastTime[indexPath.row])"
         cell.DateLabel.textColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 1)
-        cell.idLabel.text = "\(ids[indexPath.row])"
+        cell.idLabel.text = String(ids[indexPath.row])
         cell.idLabel.alpha = 0
         var rect = cell.BarView.bounds
         rect.origin.y += 4
@@ -149,6 +149,10 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
         chartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 0)
         set.valueTextColor = UIColor.clear
         chartView.xAxis.labelTextColor = UIColor.clear
+        var subviews = cell.BarView.subviews
+        for subview in subviews {
+            subview.removeFromSuperview()
+        }
         cell.BarView.addSubview(chartView)
         return cell
     }
@@ -179,7 +183,7 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
                 print(forEnd)
                 
                 var id: Int? = result.value(forKey: "id") as? Int
-                
+                print(id!)
                 var totalTime = result.value(forKey: "totalTime") as? Int
                 
                 var doneTime = result.value(forKey: "totalDoneTime") as? Int
@@ -188,7 +192,7 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
                 df.dateFormat = "yyyy/MM/dd"
                 df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
                 //nilは入らないようにする
-                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil {
+                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil && id != nil{
                     
                     hometitles.append(hometitle!)
                     cardsDesign.append(forCard!)

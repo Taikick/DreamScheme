@@ -103,7 +103,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 df.dateFormat = "yyyy/MM/dd"
                 df.locale = NSLocale(localeIdentifier:"ja_jp") as Locale!
                 //nilは入らないようにする
-                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil && totalTime != nil{
+                if forStart != nil && forEnd != nil && hometitle != nil && forCard != nil && totalTime != nil && id != nil{
 
                     hometitles.append(hometitle!)
                     cardsDesign.append(forCard!)
@@ -207,6 +207,10 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         chartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 0)
         set.valueTextColor = UIColor.clear
         chartView.xAxis.labelTextColor = UIColor.clear
+        var subviews = cell.BarChrats.subviews
+        for subview in subviews {
+            subview.removeFromSuperview()
+        }
         cell.BarChrats.addSubview(chartView)
         return cell
     }
@@ -226,7 +230,6 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     //セグエを使って画面遷移している時発動
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //次の画面のインスタンス(オブジェクト)を取得
-        //as!DetailViewControllerがダウンキャスト変換している箇所
         if segue.identifier == "toEdit"{
             let toCreate: CreateViewController = segue.destination as! CreateViewController
             //次の画面のプロパティ（メンバ変数）passedIndexに選択された行番号を渡す
@@ -236,27 +239,68 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         if segue.identifier == "toCreate" {
             
             let toEdit: editViewController = segue.destination as! editViewController
+            print(selectedIndex)
             toEdit.passedIndex = selectedIndex
         }
         
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
         if editingStyle == .delete {
             
             let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-                
+            
             let viewContext = appDelegate.persistentContainer.viewContext
-                
-            let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
-                
-            let predicate = NSPredicate(format: "id = %d", ids[indexPath.row])
-                query.predicate = predicate
+            
+            let queryL:NSFetchRequest<ForTimeLog> = ForTimeLog.fetchRequest()
+            
+            let predicateL = NSPredicate(format: "taskID = %d", ids[indexPath.row])
+            queryL.predicate = predicateL
             do {
-                let fetchResult = try viewContext.fetch(query)
-                    
+                let fetchResult = try viewContext.fetch(queryL)
+                
                 for result:AnyObject in fetchResult {
                     let record = result as! NSManagedObject
                     viewContext.delete(record)
+                    
+                }
+                try viewContext.save()
+                
+            }catch {
+                print("read失敗")
+            }
+            
+            let queryP:NSFetchRequest<ForProcess> = ForProcess.fetchRequest()
+            
+            let predicateP = NSPredicate(format: "forTaskID = %d", ids[indexPath.row])
+            queryP.predicate = predicateP
+            do {
+                let fetchResult = try viewContext.fetch(queryL)
+                
+                for result:AnyObject in fetchResult {
+                    let record = result as! NSManagedObject
+                    viewContext.delete(record)
+                }
+                
+                try viewContext.save()
+                
+                
+            }catch {
+                print("read失敗")
+            }
+
+            
+            let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+            
+            let predicate = NSPredicate(format: "id = %d", ids[indexPath.row])
+            query.predicate = predicate
+            do {
+                let fetchResult = try viewContext.fetch(query)
+                
+                for result:AnyObject in fetchResult {
+                    let record = result as! NSManagedObject
+                    viewContext.delete(record)
+                    print(record)
                     
                 }
                 try viewContext.save()
@@ -264,39 +308,11 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 homeTime.remove(at: indexPath.row)
                 ids.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
-
-                homeTableView.reloadData()
-            
-            }catch {
-                print("read失敗")
-            }
-            
-            let Delegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-            
-            let Context = appDelegate.persistentContainer.viewContext
-            
-            let queryL:NSFetchRequest<ForTimeLog> = ForTimeLog.fetchRequest()
-            
-            let predicateL = NSPredicate(format: "taskID = %d", selectedIndex)
-            queryL.predicate = predicateL
-            do {
-                let fetchResult = try Context.fetch(queryL)
-                
-                for result:AnyObject in fetchResult {
-                    let record = result as! NSManagedObject
-                    Context.delete(record)
-                    
-                }
-                try viewContext.save()
-                
                 homeTableView.reloadData()
                 
             }catch {
                 print("read失敗")
             }
-        
-            
-
             
         }
     }

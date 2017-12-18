@@ -20,6 +20,8 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     var titles:[String] = []
     
+    var entryValue = 0
+    
     var totalDoneTime:[Int] = []
     var DtotalDoneTime:[Double] = []
     
@@ -40,6 +42,10 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        entryValue = 0
+        titles = []
+        totalDoneTime = []
+        DtotalDoneTime = []
         read()
         for toDouble in totalDoneTime{
             DtotalDoneTime.append(Double(toDouble))
@@ -82,6 +88,10 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
             let dataEntry = ChartDataEntry(x:Double(i) , y: values[i] / 3600)
             dataEntries.append(dataEntry)
             print(dataEntries)
+            if values[i] / 3600 > Double(entryValue) {
+                entryValue = Int(values[i]) / 3600
+                print(entryValue)
+            }
         }
         let chartDataSet = RadarChartDataSet(values: dataEntries, label: "Units Sold")
         let chartData = RadarChartData(dataSet: chartDataSet)
@@ -91,26 +101,25 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         radarChartView.descriptionText = ""
         
         //ここから軸の設定。表示範囲は0から100までとし、20刻みでグリッド線を入れる
-        radarChartView.yAxis.labelCount = 5
+        radarChartView.yAxis.labelCount = 6
         radarChartView.yAxis.axisMinimum = 0
-        radarChartView.yAxis.axisMaximum = 5.0
+        radarChartView.yAxis.axisMaximum = Double(entryValue)
         radarChartView.yAxis.drawZeroLineEnabled = true
-        radarChartView.yAxis.forceLabelsEnabled = true
-        radarChartView.yAxis.drawTopYLabelEntryEnabled = true;
-        radarChartView.xAxis.drawAxisLineEnabled = true
-        radarChartView.innerWebColor = UIColor.white
-        radarChartView.xAxis.axisLineColor = UIColor.white
-        radarChartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 7)
-        //radarChartView.xAxis.labelTextColor = UIColor.clear
-        radarChartView.yAxis.labelTextColor = UIColor.clear
+        radarChartView.yAxis.forceLabelsEnabled = false
+        radarChartView.yAxis.drawTopYLabelEntryEnabled = true
+
+        radarChartView.xAxis.drawAxisLineEnabled = false
+        radarChartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 15)
         
         //ここまで軸の設定
         radarChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values:titles)
         radarChartView.xAxis.granularity = 1
+        //
         radarChartView.rotationEnabled = false
         chartDataSet.drawFilledEnabled = true
         radarChartView.descriptionTextPosition = nil
-        radarChartView.innerWebLineWidth = 0
+        chartDataSet.valueTextColor = .clear
+        radarChartView.innerWebLineWidth = 1
         
         //値は整数で表示
         let numberFormatter = NumberFormatter()
@@ -119,7 +128,7 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         radarChartView.yAxis.valueFormatter = numberFormatter as? IAxisValueFormatter
         //その他のオプション!
         radarChartView.legend.enabled = false
-        radarChartView.yAxis.gridAntialiasEnabled = true
+        radarChartView.yAxis.gridAntialiasEnabled = false
         radarChartView.animate(yAxisDuration: 2.0)
         radarChartView.data = chartData
     }

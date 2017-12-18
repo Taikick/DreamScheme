@@ -298,15 +298,15 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 
                 var hometitle:String? = result.value(forKey: "title") as? String
                 
-                print(hometitle)
+                
                 var forCard:String? = result.value(forKey: "cardDesign") as? String
-                print(forCard)
+                
                 
                 forStart = (result.value(forKey: "startDate") as? Date)!
-                print(forStart)
+                
                 
                 forEnd = (result.value(forKey: "endDate") as? Date)!
-                print(forEnd)
+                
                 var id: Int = (result.value(forKey: "id") as? Int)!
                 
                 let df = DateFormatter()
@@ -607,7 +607,6 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let cell = ProcessTableView.dequeueReusableCell(withIdentifier: "ProcessCell", for: indexPath) as! ProcessTableViewCell
             cell.ProLabel.text = ProTitle[indexPath.row]
             cell.ProTimeLabel.text = "\(ProTime[indexPath.row]) - \(ProEndTime[indexPath.row])"
-            print(ProTime[indexPath.row])
             cell.ProTimeLabel.alpha = 1
             cell.ProIDLabel.text = String(ProId[indexPath.row])
             cell.ProIDLabel.alpha = 0
@@ -691,7 +690,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }else if segue.identifier == "toTimeLog"{
             let toTimeLog: timeLogViewController = segue.destination as! timeLogViewController
             toTimeLog.passedIndex = passedIndex
-            
+            print(passedIndex)
         }
     }
     //タイムログバタンが押された時の処理（ただの移動）

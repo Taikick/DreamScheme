@@ -47,8 +47,7 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
         read()
         
         logTableView.reloadData()
-        print(startTimes)
-        print(endTimes)
+        
     }
 
     
@@ -58,7 +57,7 @@ class timeLogViewController: UIViewController,UITableViewDelegate,UITableViewDat
         let viewContext = appDelegate.persistentContainer.viewContext
         
         let query:NSFetchRequest<ForTimeLog> = ForTimeLog.fetchRequest()
-        
+        print(passedIndex)
         let predicate = NSPredicate(format: "taskID = %d",passedIndex)
         query.predicate = predicate
         do {

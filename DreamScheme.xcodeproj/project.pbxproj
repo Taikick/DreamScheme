@@ -349,6 +349,7 @@
 				TargetAttributes = {
 					6D321F941FBBE94600C22BA1 = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = E8JB34R6BT;
 						ProvisioningStyle = Automatic;
 					};
 					6D321FA81FBBE94700C22BA1 = {
@@ -742,7 +743,7 @@
 			baseConfigurationReference = 9A5809E5B309EB716787A6F7 /* Pods-DreamScheme.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = E8JB34R6BT;
 				INFOPLIST_FILE = DreamScheme/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -757,7 +758,7 @@
 			baseConfigurationReference = 8E9800BE7A8B641A364E57E5 /* Pods-DreamScheme.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = E8JB34R6BT;
 				INFOPLIST_FILE = DreamScheme/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
