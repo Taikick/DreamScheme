@@ -33,7 +33,7 @@ class ProfileViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.automaticallyAdjustsScrollViewInsets = false
         myImageView.image = UIImage.fontAwesomeIcon(name: .user, textColor: UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1), size: CGSize(width: 300.0, height: 300.0))
         //NavigationBarが半透明かどうか
         navigationController?.navigationBar.isTranslucent = false
