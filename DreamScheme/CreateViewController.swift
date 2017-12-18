@@ -98,6 +98,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         center.requestAuthorization(options: [.alert,.sound]){(granted,error) in }
 
         // イベントの追加
+        myDatePicker.datePickerMode = UIDatePickerMode.date
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
         //選択可能な最大値(2017/12/31)
         myDatePicker.maximumDate = df.date(from: "2030/12/31")
@@ -113,6 +114,7 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
         
         baseView.backgroundColor = UIColor.gray
         self.view.addSubview(baseView)
+        
         
         //ピッカービューの設定
         pickerView.delegate   = self

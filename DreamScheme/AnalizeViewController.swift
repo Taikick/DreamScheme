@@ -106,13 +106,13 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         radarChartView.yAxis.axisMaximum = Double(entryValue)
         radarChartView.yAxis.drawZeroLineEnabled = true
         radarChartView.yAxis.forceLabelsEnabled = false
-        radarChartView.yAxis.drawTopYLabelEntryEnabled = true
+        radarChartView.yAxis.drawTopYLabelEntryEnabled = false
 
         radarChartView.xAxis.drawAxisLineEnabled = false
         radarChartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 15)
         
         //ここまで軸の設定
-        radarChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values:titles)
+        radarChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values:[""])
         radarChartView.xAxis.granularity = 1
         //
         radarChartView.rotationEnabled = false

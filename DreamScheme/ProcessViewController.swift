@@ -56,7 +56,7 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
         // イベントの追加
         myDatePicker.addTarget(self, action: #selector(showDateSelected(sender:)), for: .valueChanged)
         //選択可能な最大値(2017/12/31)
-        
+        myDatePicker.datePickerMode = UIDatePickerMode.date
         myDatePicker.maximumDate = df.date(from: "2030/12/31")
         baseView.addSubview(myDatePicker)
         mySystemButton.frame = CGRect(x: self.view.frame.width-60, y: 0, width: 50, height: 20)

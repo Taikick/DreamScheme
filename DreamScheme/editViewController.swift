@@ -631,6 +631,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     //セルをスワイプし削除ボタンを出す
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if tableView.tag == 1 {
+            DtitleTableView.isEditing = false
 
         }
         if tableView.tag == 2 {
