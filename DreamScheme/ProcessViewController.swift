@@ -361,18 +361,14 @@ class ProcessViewController: UIViewController ,UIPickerViewDelegate, UIPickerVie
                 let newProcess = NSManagedObject(entity: forProcess!, insertInto: viewContext)
 
                 newProcess.setValue(titleTextField.text!, forKey: "title")
-                print(titleTextField.text!)
                 newProcess.setValue(startPicker, forKey: "processSrart")
-                print(startPicker)
                 newProcess.setValue(endPicker, forKey: "processEnd")
-                print(endPicker)
         
                 newProcess.setValue(CardTextField.text, forKey: "processCard")
-                print(CardTextField.text)
 
                 newProcess.setValue(id + 1,forKey:"id")
-                print(id)
                 //タスクIDの指定
+                print(tasksID)
                 newProcess.setValue(tasksID, forKey: "forTaskID")
                 do{
                     try viewContext.save()

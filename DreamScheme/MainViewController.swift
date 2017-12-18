@@ -275,11 +275,12 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let predicateP = NSPredicate(format: "forTaskID = %d", ids[indexPath.row])
             queryP.predicate = predicateP
             do {
-                let fetchResult = try viewContext.fetch(queryL)
+                let fetchResult = try viewContext.fetch(queryP)
                 
                 for result:AnyObject in fetchResult {
                     let record = result as! NSManagedObject
                     viewContext.delete(record)
+                    print(record)
                 }
                 
                 try viewContext.save()
@@ -299,8 +300,9 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 
                 for result:AnyObject in fetchResult {
                     let record = result as! NSManagedObject
+                    
                     viewContext.delete(record)
-                    print(record)
+                    
                     
                 }
                 try viewContext.save()
