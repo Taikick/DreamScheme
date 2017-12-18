@@ -99,6 +99,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         ProTitle = []
         ProEndTime = []
         ProTime = []
+        cardsDesign = []
         //タイトル読み込み用(タイマー関係ない)
         readTitle()
         //プロセスの情報読み込み用(タイマー関係ない)
@@ -406,15 +407,13 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             for result:AnyObject in fetchResult {
                 var protitle:String? = result.value(forKey: "title") as? String
                 
-                print(protitle)
                 var forCard:String? = result.value(forKey: "processCard") as? String
+                
                 print(forCard)
                 
                 var forStart:Date? = result.value(forKey: "processSrart") as? Date
-                print(forStart)
                 
                 var forEnd:Date? = result.value(forKey: "processEnd") as? Date
-                print(forEnd)
                 var id: Int = (result.value(forKey: "id") as? Int)!
                 
                 let df = DateFormatter()
@@ -530,7 +529,9 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         if tableView.tag == 1 {
             let cell = DtitleTableView.dequeueReusableCell(withIdentifier: "DTitleCell", for: indexPath) as! DTitleTableViewCell
             cell.DTitleLabel.text = DTitle
-            cell.DTitleDate.text = DTitleTime
+            cell.DTitleDate.text = "\(DTitleTime) - \(DtitleEnd)"
+            cell.DTitleLabel.textColor = .white
+            cell.DTitleDate.textColor = .white
             cell.DtitleIDLabel.text = String(passedIndex)
             cell.DtitleIDLabel.alpha = 0
 
@@ -608,6 +609,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             cell.ProLabel.text = ProTitle[indexPath.row]
             cell.ProTimeLabel.text = "\(ProTime[indexPath.row]) - \(ProEndTime[indexPath.row])"
             cell.ProTimeLabel.alpha = 1
+            cell.ProLabel.textColor = .white
+            cell.ProTimeLabel.textColor = .white
             cell.ProIDLabel.text = String(ProId[indexPath.row])
             cell.ProIDLabel.alpha = 0
             //色系
