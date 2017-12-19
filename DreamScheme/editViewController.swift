@@ -80,6 +80,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         addProButton.setTitle(String.fontAwesomeIcon(name: .plusCircle), for: .normal)
         addProButton.setTitleColor(UIColor.blue, for: .normal)
         navigationItem.title = "タスク詳細"
+        DtitleTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0)
         
     }
     
@@ -574,7 +575,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             chartView.accessibilityLabel = ""
             chartView.chartDescription?.text = ""
             chartView.animate(yAxisDuration: 2.0)
-            chartView.setExtraOffsets(left: 5, top: 10, right: 5, bottom: 5)
+            chartView.setExtraOffsets(left: 5, top: 0, right: 5, bottom: 15)
+            
             
             if DcardDesing == "青"{
                 cell.backgroundColor = UIColor(colorLiteralRed: 149/255, green: 191/255, blue: 220/255, alpha: 1)
