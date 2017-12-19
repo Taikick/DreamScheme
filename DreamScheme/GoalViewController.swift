@@ -48,6 +48,7 @@ class GoalViewController: UIViewController,UITableViewDataSource,UITableViewDele
     ]
     override func viewDidLoad() {
         super.viewDidLoad()
+        read()
         //NavigationBarが半透明かどうか
         navigationController?.navigationBar.isTranslucent = false
         //NavigationBarの色を変更します

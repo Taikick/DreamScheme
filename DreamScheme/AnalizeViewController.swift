@@ -101,6 +101,7 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         radarChartView.descriptionText = ""
         
         //ここから軸の設定。表示範囲は0から100までとし、20刻みでグリッド線を入れる
+        radarChartView.setExtraOffsets(left: 5, top: 0, right: 5, bottom: 0)
         radarChartView.yAxis.labelCount = 6
         radarChartView.yAxis.axisMinimum = 0
         radarChartView.yAxis.axisMaximum = Double(entryValue)
