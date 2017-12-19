@@ -543,11 +543,11 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             rect.size.height -= 4
             let chartView = HorizontalBarChartView(frame: rect)
             chartView.notifyDataSetChanged()
-            chartView.data = nil
             
             chartView.data?.notifyDataChanged()
             var entry = [BarChartDataEntry(x: 1, y: Double(totalTime) / 3600)]
-            let set = BarChartDataSet(values: entry, label: "タスク時間")
+            print(entry)
+            let set = BarChartDataSet(values: entry, label: "")
             //y軸の設定
             
             chartView.leftAxis.axisMaximum = Double(purposeTime / 3600)
@@ -564,18 +564,16 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             chartView.xAxis.drawGridLinesEnabled = false
             chartView.xAxis.forceLabelsEnabled = false
             chartView.xAxis.drawLabelsEnabled = false
-            chartView.drawBordersEnabled = false
-            chartView.xAxis.drawGridLinesEnabled = false
             chartView.drawBarShadowEnabled = false
+            chartView.legend.enabled = false
             chartView.highlightPerTapEnabled = false
             chartView.drawGridBackgroundEnabled = false
             chartView.leftAxis.enabled = false
+            set.drawValuesEnabled = false
             chartView.descriptionTextPosition = nil
             chartView.accessibilityLabel = ""
             chartView.chartDescription?.text = ""
             chartView.animate(yAxisDuration: 2.0)
-            //        chartView.xAxis.labelCount = 100
-            //        chartView.xAxis.axisMinimum = 1
             chartView.setExtraOffsets(left: 5, top: 10, right: 5, bottom: 5)
             
             if DcardDesing == "青"{
