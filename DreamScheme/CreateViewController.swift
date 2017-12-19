@@ -469,7 +469,6 @@ class CreateViewController: UIViewController ,UIPickerViewDelegate,UIPickerViewD
     func hideBaseView(){
         self.baseView.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height)
     }
-    
     //
     func hidePicker(){
         self.pickerBase.frame.origin = CGPoint(x: 0, y:self.view.frame.size.height)

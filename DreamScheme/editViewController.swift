@@ -116,6 +116,8 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             watchButton.alpha = 0
             GoalButton.setTitle("未達成に戻す",for: .normal)
         }
+        print("これ")
+        print(totalTime)
         DtitleTableView.reloadData()
         ProcessTableView.reloadData()
     }
