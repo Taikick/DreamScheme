@@ -44,33 +44,53 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="89.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rfg-bB-1za">
-                                                    <rect key="frame" x="21" y="32" width="216" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rfg-bB-1za">
+                                                    <rect key="frame" x="21" y="29" width="216" height="16.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="16.5" id="e41-dk-xy8"/>
+                                                        <constraint firstAttribute="width" constant="216" id="p4F-uN-g3b"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XNM-Fx-PH0" customClass="BarChartView" customModule="Charts">
-                                                    <rect key="frame" x="8" y="50" width="312" height="38"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XNM-Fx-PH0" customClass="BarChartView" customModule="Charts">
+                                                    <rect key="frame" x="8" y="47" width="312" height="38"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="38" id="GLq-0x-Nnh"/>
+                                                    </constraints>
                                                 </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="加藤 Label ぬでいおあ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ur6-gM-Oji">
+                                                    <rect key="frame" x="12" y="2" width="304" height="26"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="26" id="ofm-cs-5Be"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="20"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9mw-P1-coV">
-                                                    <rect key="frame" x="186" y="40" width="42" height="21"/>
+                                                    <rect key="frame" x="260" y="47" width="42" height="6"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="加藤 Label ぬでいおあ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ur6-gM-Oji">
-                                                    <rect key="frame" x="12" y="8" width="304" height="31"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="20"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="XNM-Fx-PH0" firstAttribute="top" secondItem="Rfg-bB-1za" secondAttribute="bottom" constant="1.5" id="4nT-0Z-HKS"/>
+                                                <constraint firstItem="Ur6-gM-Oji" firstAttribute="leading" secondItem="X2Z-ag-jBk" secondAttribute="leading" constant="12" id="BZz-53-KDM"/>
+                                                <constraint firstItem="XNM-Fx-PH0" firstAttribute="top" secondItem="Rfg-bB-1za" secondAttribute="bottom" constant="1.5" id="Ism-BS-tgx"/>
+                                                <constraint firstItem="Rfg-bB-1za" firstAttribute="top" secondItem="Ur6-gM-Oji" secondAttribute="bottom" constant="1" id="dvU-Gn-UuT"/>
+                                                <constraint firstItem="Ur6-gM-Oji" firstAttribute="top" secondItem="X2Z-ag-jBk" secondAttribute="top" constant="2" id="eAB-EB-b7A"/>
+                                                <constraint firstAttribute="trailing" secondItem="XNM-Fx-PH0" secondAttribute="trailing" id="gnI-co-quC"/>
+                                                <constraint firstItem="Rfg-bB-1za" firstAttribute="leading" secondItem="X2Z-ag-jBk" secondAttribute="leading" constant="21" id="hsf-QU-0MX"/>
+                                                <constraint firstAttribute="trailing" secondItem="Ur6-gM-Oji" secondAttribute="trailing" constant="4" id="kXE-cN-icw"/>
+                                                <constraint firstItem="Rfg-bB-1za" firstAttribute="top" secondItem="Ur6-gM-Oji" secondAttribute="bottom" constant="1" id="kZN-T1-Raf"/>
+                                                <constraint firstAttribute="bottom" secondItem="XNM-Fx-PH0" secondAttribute="bottom" constant="4.5" id="vWR-YJ-6wT"/>
+                                                <constraint firstItem="XNM-Fx-PH0" firstAttribute="leading" secondItem="X2Z-ag-jBk" secondAttribute="leading" constant="8" id="y9Z-FD-MTC"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.25549021440000003" green="0.48102149820000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
