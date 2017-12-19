@@ -574,7 +574,7 @@ class editViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             chartView.animate(yAxisDuration: 2.0)
             //        chartView.xAxis.labelCount = 100
             //        chartView.xAxis.axisMinimum = 1
-
+            chartView.setExtraOffsets(left: 5, top: 10, right: 5, bottom: 5)
             
             if DcardDesing == "青"{
                 cell.backgroundColor = UIColor(colorLiteralRed: 149/255, green: 191/255, blue: 220/255, alpha: 1)

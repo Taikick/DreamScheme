@@ -163,6 +163,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
 
         chartView.minOffset = CGFloat(0)
         chartView.sizeToFit()
+        chartView.setExtraOffsets(left: 5, top: 10, right: 5, bottom: 5)
         //x軸の設
         chartView.xAxis.drawGridLinesEnabled = false
         chartView.xAxis.forceLabelsEnabled = false
