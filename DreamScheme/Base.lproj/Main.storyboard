@@ -141,10 +141,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" minimumZoomScale="8" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="kwb-le-xGj">
+                            <tableView clipsSubviews="YES" tag="1" contentMode="scaleToFill" alwaysBounceVertical="YES" minimumZoomScale="8" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="kwb-le-xGj">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="Gyh-C6-z0A"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" tag="1" contentMode="scaleToFill" selectionStyle="default" indentationLevel="38" indentationWidth="10" shouldIndentWhileEditing="NO" reuseIdentifier="DTitleCell" rowHeight="100" id="H88-zZ-ePT" customClass="DTitleTableViewCell" customModule="DreamScheme" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="1" width="320" height="100"/>
@@ -236,9 +238,8 @@
                                     <action selector="tapWatchButton:" destination="M4P-zI-hsf" eventType="touchUpInside" id="wHo-eB-TOG"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="プロセス" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RZg-Jk-eS0">
-                                <rect key="frame" x="212" y="101" width="70" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="プロセス" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RZg-Jk-eS0">
+                                <rect key="frame" x="212" y="101" width="70" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -313,6 +314,12 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="kwb-le-xGj" firstAttribute="top" secondItem="hdC-yY-nYh" secondAttribute="top" id="J5l-Ma-avx"/>
+                            <constraint firstAttribute="trailing" secondItem="kwb-le-xGj" secondAttribute="trailing" id="XIo-Tb-lno"/>
+                            <constraint firstItem="RZg-Jk-eS0" firstAttribute="top" secondItem="kwb-le-xGj" secondAttribute="bottom" constant="1" id="bSE-fO-dQh"/>
+                            <constraint firstItem="kwb-le-xGj" firstAttribute="leading" secondItem="hdC-yY-nYh" secondAttribute="leading" id="dN0-FG-GXC"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
