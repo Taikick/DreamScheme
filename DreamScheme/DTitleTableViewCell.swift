@@ -16,6 +16,7 @@ class DTitleTableViewCell: UITableViewCell {
     @IBOutlet weak var DTitleChart: BarChartView!
     
     
+    @IBOutlet weak var DtitleIDLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -9,22 +9,19 @@
 import UIKit
 
 class ProfileTableViewCell: UITableViewCell {
+    
     @IBOutlet weak var userInfoLabel: UILabel!
     
+    
+    @IBOutlet weak var userLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     /// 画像・タイトル・説明文を設定するメソッド
     func setCell(titleText: String) {
         
         userInfoLabel.text = titleText
     }
-
 }

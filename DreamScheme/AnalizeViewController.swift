@@ -8,34 +8,90 @@
 
 import UIKit
 import Charts
+import CoreData
 
 class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
-    var userTasks:[String] = ["英語でナンパ","プログラミング"]
     
+    @IBOutlet weak var AnalizeTableView: UITableView!
     @IBOutlet weak var radarChartView: RadarChartView!
-
-
-    var subjects = [
-        "ナンパ", "金", "女", "XX", "プログラミング"
-    ]
-    //点数
-    let array = [10.0, 50.0, 80.0, 100.0, 100.0]
+    
+    
+    
+    var titles:[String] = []
+    
+    var entryValue = 0
+    
+    var totalDoneTime:[Int] = []
+    var DtotalDoneTime:[Double] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setChart(dataPoints: subjects, values: array)
-        print("array:")
-        print(array)
+        //NavigationBarが半透明かどうか
+        navigationController?.navigationBar.isTranslucent = false
+        //NavigationBarの色を変更します
+        navigationController?.navigationBar.barTintColor = UIColor(colorLiteralRed: 247/255, green: 247/255, blue: 247/255, alpha: 1)
+        //NavigationBarに乗っている部品の色を変更します
+        navigationController?.navigationBar.tintColor = UIColor(colorLiteralRed: 225/255, green: 95/255, blue: 95/255, alpha: 1)
+        //バーの左側にボタンを配置します(ライブラリ特有)
+        addLeftBarButtonWithImage(UIImage.fontAwesomeIcon(name: .user, textColor: .blue, size: CGSize(width: 40.0, height: 40.0)))
+        self.navigationItem.title = "時間分析"
+        AnalizeTableView.layer.cornerRadius = 10.0;
+        AnalizeTableView.clipsToBounds = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        entryValue = 0
+        titles = []
+        totalDoneTime = []
+        DtotalDoneTime = []
+        read()
+        for toDouble in totalDoneTime{
+            DtotalDoneTime.append(Double(toDouble))
+        }
+        
+        setChart(dataPoints: titles, values: DtotalDoneTime)
+        AnalizeTableView.reloadData()
+    }
+    
+    
+    func read(){
+        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let query:NSFetchRequest<ForTasks> = ForTasks.fetchRequest()
+        
+        do {
+            let fetchResult = try viewContext.fetch(query)
+            
+            for result:AnyObject in fetchResult {
+                
+                var hometitle:String? = result.value(forKey: "title") as? String
+                
+                var doneTime = result.value(forKey: "totalDoneTime") as? Int
+                
+                titles.append(hometitle!)
+                totalDoneTime.append(doneTime!)
+            }
+            
+        }catch {
+            print("read失敗")
+        }
     }
     
     func setChart(dataPoints: [String], values: [Double]) {
         radarChartView.noDataText = "You need to provide data for the chart."
         var dataEntries: [ChartDataEntry] = []
         for i in 0..<dataPoints.count {
-            let dataEntry = ChartDataEntry(x:Double(i) , y: values[i])
+            let dataEntry = ChartDataEntry(x:Double(i) , y: values[i] / 3600)
             dataEntries.append(dataEntry)
             print(dataEntries)
+            if values[i] / 3600 > Double(entryValue) {
+                entryValue = Int(values[i]) / 3600
+                print(entryValue)
+            }
         }
         let chartDataSet = RadarChartDataSet(values: dataEntries, label: "Units Sold")
         let chartData = RadarChartData(dataSet: chartDataSet)
@@ -45,14 +101,27 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         radarChartView.descriptionText = ""
         
         //ここから軸の設定。表示範囲は0から100までとし、20刻みでグリッド線を入れる
-        radarChartView.yAxis.labelCount = 2
-        radarChartView.yAxis.axisMinValue = 0
-        radarChartView.yAxis.axisMaxValue = 100.0
+        radarChartView.setExtraOffsets(left: 5, top: 0, right: 5, bottom: 0)
+        radarChartView.yAxis.labelCount = 6
+        radarChartView.yAxis.axisMinimum = 0
+        radarChartView.yAxis.axisMaximum = Double(entryValue)
+        radarChartView.yAxis.drawZeroLineEnabled = true
+        radarChartView.yAxis.forceLabelsEnabled = false
+        radarChartView.yAxis.drawTopYLabelEntryEnabled = false
+
+        radarChartView.xAxis.drawAxisLineEnabled = false
+        radarChartView.xAxis.labelFont = UIFont.boldSystemFont(ofSize: 15)
+        
         //ここまで軸の設定
-        radarChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values:subjects)
+        radarChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values:[""])
         radarChartView.xAxis.granularity = 1
+        //
         radarChartView.rotationEnabled = false
         chartDataSet.drawFilledEnabled = true
+        radarChartView.descriptionTextPosition = nil
+        chartDataSet.valueTextColor = .clear
+        radarChartView.innerWebLineWidth = 1
+        
         //値は整数で表示
         let numberFormatter = NumberFormatter()
         numberFormatter.generatesDecimalNumbers = false
@@ -60,8 +129,8 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
         radarChartView.yAxis.valueFormatter = numberFormatter as? IAxisValueFormatter
         //その他のオプション!
         radarChartView.legend.enabled = false
-        radarChartView.yAxis.gridAntialiasEnabled = true
-        radarChartView.animate(yAxisDuration: 1.0)
+        radarChartView.yAxis.gridAntialiasEnabled = false
+        radarChartView.animate(yAxisDuration: 2.0)
         radarChartView.data = chartData
     }
 
@@ -69,13 +138,15 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
 
     /// セルの個数を指定するデリゲートメソッド（必須）
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userTasks.count
+        return titles.count
     }
     
     /// セルに値を設定するデータソースメソッド（必須）
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let tasksCell = tableView.dequeueReusableCell(withIdentifier: "AnalizeCell") as! AnalizeTableViewCell
-        tasksCell.setCell(titleText: userTasks[indexPath.row])
+        let tasksCell = AnalizeTableView.dequeueReusableCell(withIdentifier: "AnalizeCell") as! AnalizeTableViewCell
+        print(titles[indexPath.row])
+        tasksCell.analizeTimeLabel.text = "\(totalDoneTime[indexPath.row] / 3600)時間"
+        tasksCell.AnaizeListLabel.text = titles[indexPath.row]
         
         return tasksCell
     }
@@ -85,14 +156,5 @@ class AnalizeViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

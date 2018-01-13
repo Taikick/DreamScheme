@@ -17,6 +17,9 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var tasksLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
+    @IBOutlet weak var forIdLabel: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         

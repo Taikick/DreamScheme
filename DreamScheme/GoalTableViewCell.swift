@@ -16,6 +16,9 @@ class GoalTableViewCell: UITableViewCell {
     @IBOutlet weak var TasksLabel: UILabel!
     @IBOutlet weak var DateLabel: UILabel!
     
+    @IBOutlet weak var idLabel: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

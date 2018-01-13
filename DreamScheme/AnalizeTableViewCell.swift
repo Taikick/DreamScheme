@@ -12,6 +12,7 @@ class AnalizeTableViewCell: UITableViewCell {
 
     @IBOutlet weak var AnaizeListLabel: UILabel!
     
+    @IBOutlet weak var analizeTimeLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
